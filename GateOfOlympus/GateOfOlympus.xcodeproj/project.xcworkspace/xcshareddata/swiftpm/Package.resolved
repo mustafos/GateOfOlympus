@@ -1,0 +1,15 @@
+{
+  "originHash" : "4bad6932b1f51d80031b4447a1ef4d0378b81fcba355cd94b8bb9593f8000522",
+  "pins" : [
+    {
+      "identity" : "fortunewheel",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sameersyd/FortuneWheel.git",
+      "state" : {
+        "revision" : "900461e1c22ca70ee0b0e15cf97e3cef4132d84b",
+        "version" : "0.1.5"
+      }
+    }
+  ],
+  "version" : 3
+}

@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct MagicWheelView: View {
+    @Environment(\.dismiss) var dismiss
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 0) {
+            NavBarComponent(title: "Magic Wheel", leftIcon: "menu", rightIcon: "skip") {
+                dismiss()
+            } dismissRightAction: {
+                dismiss()
+            }
+
+            Text("Magic Wheel")
+        }
     }
 }
 
