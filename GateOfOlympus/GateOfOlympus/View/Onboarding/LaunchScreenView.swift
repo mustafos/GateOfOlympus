@@ -10,11 +10,11 @@ import SwiftUI
 struct LaunchScreenView: View {
     @State private var size = 0.8
     @State private var opacity = 0.5
-    @State private var didAnimateHeart = false
+    @State private var isPreloadHomeScreen = false
     @State private var showAlert = false
     var body: some View {
-        if didAnimateHeart {
-            ContentView()
+        if isPreloadHomeScreen {
+            HomeView()
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text(NSLocalizedString( "ConnectivityTitle", comment: "")), message: Text(NSLocalizedString("ConnectivityDescription", comment: "")), dismissButton: .default(Text("OK")))
                 }
@@ -29,7 +29,7 @@ struct LaunchScreenView: View {
                     .opacity(opacity)
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            didAnimateHeart = true
+                            isPreloadHomeScreen = true
                         }
                         withAnimation(.easeIn(duration: 1.2).repeatForever(autoreverses: true)) {
                             size = 1
