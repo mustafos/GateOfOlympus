@@ -10,6 +10,7 @@ import SwiftUI
 struct OnboardingView: View {
     @AppStorage("isOnboarding") var isUserLogin: Bool?
     @State private var currentTextIndex = 0
+    @State private var isAnimateTap = false
     private let feedback = UIImpactFeedbackGenerator(style: .soft)
     private let backgrount: String = "bg"
     private let colors: [Color] = [.red, .yellow, .blue, .purple, .gray, .accentColor, .brown]
@@ -25,7 +26,7 @@ struct OnboardingView: View {
     
     var body: some View {
         let backgroundImage = "bg\(currentTextIndex + 1)"
-        return ZStack {
+        ZStack {
             Image(backgroundImage)
                 .resizable()
                 .scaledToFill()
@@ -40,7 +41,9 @@ struct OnboardingView: View {
                     } label: {
                         Image("skip")
                     }
-                }.padding(.horizontal, 16)
+                }
+                .padding(.top, 50)
+                .padding(.horizontal, 16)
                 Spacer()
                 VStack {
                     Text(texts[currentTextIndex])
@@ -50,7 +53,13 @@ struct OnboardingView: View {
                 .padding(.horizontal, 26)
                 Spacer()
                 Image("tapToContinue")
-                    .padding(.bottom, 30)
+                    .scaleEffect(isAnimateTap ? 1.2 : 1.0)
+                    .padding(.bottom, 50)
+            }
+        }
+        .onAppear() {
+            withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                isAnimateTap = true
             }
         }
         .onTapGesture {

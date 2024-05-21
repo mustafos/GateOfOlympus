@@ -13,6 +13,7 @@
 		6A59E4DF2BFBF55B009FDF39 /* GameCellContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A59E4DE2BFBF55B009FDF39 /* GameCellContainer.swift */; };
 		6A59E4E12BFBF8F8009FDF39 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A59E4E02BFBF8F8009FDF39 /* GradientButton.swift */; };
 		6A59E4E32BFBFA4D009FDF39 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A59E4E22BFBFA4D009FDF39 /* ColorPalette.swift */; };
+		6A90E79F2BFD25F600753A7C /* ResultsBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A90E79E2BFD25F600753A7C /* ResultsBoardView.swift */; };
 		6AD693AF2BFC9D0200F6493D /* GameplayAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693AE2BFC9D0200F6493D /* GameplayAlertView.swift */; };
 		6AD693B12BFCA3BC00F6493D /* CoinsBalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693B02BFCA3BC00F6493D /* CoinsBalanceView.swift */; };
 		6AD693B32BFCA5F900F6493D /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD693B22BFCA5F900F6493D /* Montserrat-Regular.ttf */; };
@@ -20,7 +21,6 @@
 		6AD693BA2BFCB1CA00F6493D /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD693B92BFCB1CA00F6493D /* Montserrat-Black.ttf */; };
 		6AD693BC2BFCBDCC00F6493D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693BB2BFCBDCC00F6493D /* Constant.swift */; };
 		6AD693BE2BFCF20C00F6493D /* BlureBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693BD2BFCF20C00F6493D /* BlureBottomView.swift */; };
-		6AD693C02BFCFC7B00F6493D /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693BF2BFCFC7B00F6493D /* TimerView.swift */; };
 		6AD693C32BFCFE6400F6493D /* ThunderGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693C22BFCFE6400F6493D /* ThunderGridView.swift */; };
 		6AD693C52BFCFF9C00F6493D /* ThunderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693C42BFCFF9C00F6493D /* ThunderHeaderView.swift */; };
 		6ADD16C02BFBA58C00C76D08 /* GateOfOlympusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADD16BF2BFBA58C00C76D08 /* GateOfOlympusApp.swift */; };
@@ -40,6 +40,7 @@
 		6A59E4DE2BFBF55B009FDF39 /* GameCellContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCellContainer.swift; sourceTree = "<group>"; };
 		6A59E4E02BFBF8F8009FDF39 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		6A59E4E22BFBFA4D009FDF39 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		6A90E79E2BFD25F600753A7C /* ResultsBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsBoardView.swift; sourceTree = "<group>"; };
 		6AD693AE2BFC9D0200F6493D /* GameplayAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayAlertView.swift; sourceTree = "<group>"; };
 		6AD693B02BFCA3BC00F6493D /* CoinsBalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsBalanceView.swift; sourceTree = "<group>"; };
 		6AD693B22BFCA5F900F6493D /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
@@ -48,7 +49,6 @@
 		6AD693B92BFCB1CA00F6493D /* Montserrat-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Black.ttf"; sourceTree = "<group>"; };
 		6AD693BB2BFCBDCC00F6493D /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		6AD693BD2BFCF20C00F6493D /* BlureBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlureBottomView.swift; sourceTree = "<group>"; };
-		6AD693BF2BFCFC7B00F6493D /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		6AD693C22BFCFE6400F6493D /* ThunderGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThunderGridView.swift; sourceTree = "<group>"; };
 		6AD693C42BFCFF9C00F6493D /* ThunderHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThunderHeaderView.swift; sourceTree = "<group>"; };
 		6ADD16BC2BFBA58C00C76D08 /* GateOfOlympus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GateOfOlympus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,7 +81,6 @@
 				6AD693B02BFCA3BC00F6493D /* CoinsBalanceView.swift */,
 				6AD693B72BFCA74600F6493D /* TextModifier.swift */,
 				6AD693BD2BFCF20C00F6493D /* BlureBottomView.swift */,
-				6AD693BF2BFCFC7B00F6493D /* TimerView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -101,6 +100,7 @@
 				6A59E4D92BFBF4B0009FDF39 /* ThunderView.swift */,
 				6AD693C42BFCFF9C00F6493D /* ThunderHeaderView.swift */,
 				6AD693C22BFCFE6400F6493D /* ThunderGridView.swift */,
+				6A90E79E2BFD25F600753A7C /* ResultsBoardView.swift */,
 				6AD693AE2BFC9D0200F6493D /* GameplayAlertView.swift */,
 			);
 			path = Thunder;
@@ -277,7 +277,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AD693C02BFCFC7B00F6493D /* TimerView.swift in Sources */,
 				6AD693AF2BFC9D0200F6493D /* GameplayAlertView.swift in Sources */,
 				6AD693C32BFCFE6400F6493D /* ThunderGridView.swift in Sources */,
 				6A59E4DA2BFBF4B0009FDF39 /* ThunderView.swift in Sources */,
@@ -293,6 +292,7 @@
 				6A59E4DF2BFBF55B009FDF39 /* GameCellContainer.swift in Sources */,
 				6ADD16DA2BFBACB500C76D08 /* TextAreaConteiner.swift in Sources */,
 				6A59E4DD2BFBF505009FDF39 /* NavBarComponent.swift in Sources */,
+				6A90E79F2BFD25F600753A7C /* ResultsBoardView.swift in Sources */,
 				6AD693B82BFCA74600F6493D /* TextModifier.swift in Sources */,
 				6ADD16D62BFBA96400C76D08 /* ThunderViewModel.swift in Sources */,
 				6ADD16D22BFBA73F00C76D08 /* LaunchScreenView.swift in Sources */,

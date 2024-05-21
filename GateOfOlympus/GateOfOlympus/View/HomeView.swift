@@ -30,6 +30,12 @@ struct HomeView: View {
                     VStack(spacing: 0) {
                         NavigationBar()
                         
+                        Button {
+                            isUserLogin = false
+                        } label: {
+                            Text("Logout").gradientButton()
+                        }
+                        
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 20) {
                                 CombinationesView()
