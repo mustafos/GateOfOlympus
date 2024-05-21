@@ -40,11 +40,13 @@ struct OnboardingView: View {
                 Spacer()
                 VStack {
                     Text(texts[currentTextIndex])
+                        .modifier(BodyModifier())
                 }
                 .textAreaConteiner()
                 .padding(.horizontal, 26)
                 Spacer()
-                Image("tapToContinue").padding(.bottom, 30)
+                Image("tapToContinue")
+                    .padding(.bottom, 30)
             }
         }
         .onTapGesture {
