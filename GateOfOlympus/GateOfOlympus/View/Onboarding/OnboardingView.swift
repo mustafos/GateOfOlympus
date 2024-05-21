@@ -11,6 +11,7 @@ struct OnboardingView: View {
     @AppStorage("isOnboarding") var isUserLogin: Bool?
     @State private var currentTextIndex = 0
     private let feedback = UIImpactFeedbackGenerator(style: .soft)
+    private let backgrount: String = "bg"
     private let colors: [Color] = [.red, .yellow, .blue, .purple, .gray, .accentColor, .brown]
     private let texts = [
         "Set in an ancient world where gods control the elements and the destinies of mortals, God of Thunder is an epic game where players will control the power of the most powerful god of thunder",
@@ -23,10 +24,13 @@ struct OnboardingView: View {
     ]
     
     var body: some View {
-        let backgroundColor = colors[currentTextIndex % colors.count]
+        let backgroundImage = "bg\(currentTextIndex + 1)"
         return ZStack {
-            backgroundColor
+            Image(backgroundImage)
+                .resizable()
+                .scaledToFill()
                 .ignoresSafeArea()
+            
             VStack {
                 HStack {
                     Spacer()
@@ -53,7 +57,7 @@ struct OnboardingView: View {
             withAnimation {
                 feedback.impactOccurred()
                 currentTextIndex = (currentTextIndex + 1) % texts.count
-                if backgroundColor == .brown {
+                if currentTextIndex == 6 {
                     isUserLogin = true
                 }
             }

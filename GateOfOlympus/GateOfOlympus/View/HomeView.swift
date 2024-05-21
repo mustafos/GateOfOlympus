@@ -12,32 +12,51 @@ struct HomeView: View {
     @Environment(\.dismiss) var dismiss
     @State private var musicOff: Bool = false
     @State private var soundOff: Bool = false
-    private let feedback = UIImpactFeedbackGenerator(style: .soft)
+    @State private var showImage = false
+    
     var body: some View {
         if isUserLogin == true {
             NavigationView {
-                VStack(spacing: 0) {
-                    NavigationBar()
-                    Spacer()
-                    NavigationLink {
-                        MagicWheelView().navigationBarBackButtonHidden()
-                    } label: {
-                        GameCellContainer(name: "Magic Wheel", chevron: true)
-                    }
+                ZStack(alignment: .bottom) {
+                    Color.accentColor.ignoresSafeArea()
+                    Image("God")
+                        .resizable()
+                        .scaledToFit()
+                        .scaleEffect(showImage ? 1.0 : 2.0)
+                        .padding(.bottom, -50)
                     
-                    NavigationLink {
-                        ThunderBallView().navigationBarBackButtonHidden()
-                    } label: {
-                        GameCellContainer(name: "God of Thunder", chevron: true)
+                    BlureBottomView()
+                    
+                    VStack(spacing: 0) {
+                        NavigationBar()
+                        
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack(spacing: 20) {
+                                CombinationesView()
+                                
+                                NavigationLink {
+                                    ThunderView().navigationBarBackButtonHidden()
+                                } label: {
+                                    GameCellContainer(isWheel: false)
+                                }
+                                
+                                NavigationLink {
+                                    MagicWheelView().navigationBarBackButtonHidden()
+                                } label: {
+                                    GameCellContainer(isWheel: true)
+                                }
+                            }.padding(20)
+                        }
+                        Spacer()
                     }
-                    Text("Hello").gradientButton()
-                    Button("Show Onboarding") {
-                        isUserLogin = false
-                    }
+                    .navigationBarTitle("")
+                    .navigationBarHidden(true)
                 }
-                .navigationBarTitle("")
-                .navigationBarHidden(true)
-                .background(Color.accentColor)
+                .onAppear() {
+                    withAnimation(.easeInOut(duration: 1.0).repeatCount(1) /*.repeatForever(autoreverses: true)*/) {
+                            showImage = true
+                        }
+                      }
             }
             .navigationViewStyle(.stack)
         } else {
@@ -69,10 +88,29 @@ struct HomeView: View {
             CoinsBalanceView(isCoins: false, score: "14")
         }
         .padding(.horizontal, 20)
-        .padding(.top, 50)
+        .padding(.top, 20)
         .padding(.bottom, 10)
-        .frame(width: .infinity, height: 100)
         .background(Color.navigation)
+    }
+    
+    @ViewBuilder
+    func CombinationesView() -> some View {
+        VStack(alignment: .leading) {
+            Text("Last Combinationes")
+                .modifier(TitleModifier(size: 18, color: .white))
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 38) {
+                    Image("rubin")
+                    Image("diamond")
+                    Image("heart")
+                    Image("crown")
+                    Image("bowl")
+                    Image("ring")
+                    Image("trophy")
+                    Image("amulet")
+                }
+            }
+        }//.padding(.horizontal, 20)
     }
 }
 

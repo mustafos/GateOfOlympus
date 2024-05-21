@@ -8,20 +8,25 @@
 import SwiftUI
 
 struct GameCellContainer: View {
-    var name: String
-    var chevron: Bool
+    var isWheel: Bool
     var body: some View {
         HStack(spacing: 20) {
-            Text(name)
-            Spacer()
-            if chevron {
-                Image("arrow")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 24, height: 24)
+            VStack(alignment: .leading) {
+                Text(isWheel ? "Magic Wheel" : "God of Thunder").modifier(TitleModifier(size: 18, color: .white))
+                Text(isWheel ? "Ready" : "Start Play")
+                    .gradientButton()
+                    .frame(width: 130)
             }
+            Spacer()
         }
-        .textAreaConteiner()
-        .foregroundColor(Color(.label))
+        .frame(height: 124)
+        .padding(.horizontal, 20)
+        .background(
+            Image(isWheel ? "wheel" : "thunder")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .ignoresSafeArea()
+        )
+        .cornerRadius(20)
     }
 }

@@ -7,23 +7,81 @@
 
 import SwiftUI
 
-struct ThunderBallView: View {
+struct ThunderView: View {
     @Environment(\.dismiss) var dismiss
+    @StateObject var manager = ThunderViewModel()
     var body: some View {
-        VStack(spacing: 0) {
-            NavBarComponent(title: "God of Thunder", leftIcon: "menu", rightIcon: "skip") {
-                dismiss()
-            } dismissRightAction: {
-                dismiss()
+        GeometryReader { geometry in
+            VStack {
+                ThunderHeaderView(manager: manager)
+                TimerView(manager: manager, geometry: geometry)
+                ThunderGridView(manager: manager)
+                if manager.combo != 0 {
+                    withAnimation(.linear(duration: 0.4)) {
+                        Text("Combo ")
+                            .bold()
+                            .font(.largeTitle)
+                            .foregroundColor(Color(red: 120/255, green: 111/255, blue: 102/255))
+                        +
+                        Text("\(manager.combo)")
+                            .bold()
+                            .font(.largeTitle)
+                            .foregroundColor(Color(red: 236/255, green: 140/255, blue: 85/255))
+                        +
+                        Text(" !")
+                            .bold()
+                            .font(.largeTitle)
+                            .foregroundColor(Color(red: 120/255, green: 111/255, blue: 102/255))
+                    }
+                }
+                Spacer()
             }
-
-            Text("ThunderBallView")
         }
+        .background(
+            Image("backgroundThunder")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+        )
+        
+//        NavigationView {
+//            ZStack {
+//                Image("backgroundThunder")
+//                    .resizable()
+//                    .scaledToFill()
+//                    .ignoresSafeArea()
+//                VStack(spacing: 0) {
+//                    NavigationBar()
+//                    Spacer()
+//                    Text("ThunderBallView")
+//                }
+//                .navigationBarTitle("")
+//                .navigationBarHidden(true)
+//            }
+//        }.navigationViewStyle(.stack)
     }
-}
-
-#Preview {
-    ThunderBallView()
+    
+//    @ViewBuilder
+//    func NavigationBar() -> some View {
+//        HStack(spacing: 20) {
+//            Button {
+//                withAnimation {
+//                    feedback.impactOccurred()
+//                    dismiss()
+//                }
+//            } label: {
+//                Image("menu")
+//            }
+//            
+//            Spacer()
+//            CoinsBalanceView(isCoins: true, score: "100")
+//            CoinsBalanceView(isCoins: false, score: "14")
+//        }
+//        .padding(.horizontal, 20)
+//        .padding(.top, 50)
+//        .padding(.bottom, 10)
+//        .background(Color.navigation)
+//    }
 }
 
 //MARK: Candy Crush Saga

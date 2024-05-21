@@ -12,7 +12,7 @@ struct TitleModifier: ViewModifier {
     let color: Color
     func body(content: Content) -> some View {
         content
-            .font(.custom("Montserrat", size: size))
+            .font(.custom("Montserrat-Black", size: size))
             .foregroundStyle(color)
     }
 }
