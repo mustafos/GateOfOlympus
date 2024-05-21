@@ -15,14 +15,8 @@ struct ThunderView: View {
             VStack {
                 ThunderHeaderView(manager: manager)
                 ResultsBoardView(manager: manager)
-                ZStack {
-                    Image("slot")
-                        .resizable()
-                        .scaledToFill()
-                        .padding(20)
-                    ThunderGridView(manager: manager)
-                    
-                }.padding(20)
+                ThunderGridView(manager: manager)
+                
                 if manager.combo != 0 {
                     withAnimation(.linear(duration: 0.4)) {
                         Text("Combo ")

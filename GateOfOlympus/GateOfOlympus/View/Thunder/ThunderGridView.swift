@@ -28,10 +28,14 @@ struct ThunderGridView: View {
                                     .gesture(dragGesture(index: index))
                             }
                         }
-                }
-                .aspectRatio(contentMode: .fit)
+                }.aspectRatio(contentMode: .fit)
             }
         }
+        .background(
+            Image("slot")
+            .resizable()
+            .scaledToFill()
+        )
         .padding(56)
         .overlay {
             if !manager.isPlaying {

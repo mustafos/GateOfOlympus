@@ -617,8 +617,8 @@ class ThunderViewModel: ObservableObject {
         }
         var testGrids = grids
         // test row
-        for index in 0...29 {
-            if !stride(from: 5, through: 29, by: 5).contains(index) {
+        for index in 0..<30 { // Adjusted loop range
+            if index % 6 != 5 { // Check if it's not the last column
                 testGrids.swapAt(index, index + 1)
                 // check row to generate checkList
                 for row in 0..<5 {
@@ -632,8 +632,8 @@ class ThunderViewModel: ObservableObject {
                 // check column to generate checkList
                 for row in 0..<4 {
                     for column in 0..<6 {
-                        if [.oval, .drop, .app, .circle].contains(testGrids[row * 6 + column].gridType) &&
-                            [testGrids[row * 6 + column + 6], testGrids[row * 6 + column + 12]].allSatisfy({ $0.gridType == testGrids[row * 6 + column].gridType }) {
+                        if [.oval, .drop, .app, .circle].contains(testGrids[row * 6 + column].gridType) && // Adjusted calculation
+                            [testGrids[row * 6 + column + 6], testGrids[row * 6 + column + 12]].allSatisfy({ $0.gridType == testGrids[row * 6 + column].gridType }) { // Adjusted calculation
                             return false
                         }
                     }
@@ -642,8 +642,8 @@ class ThunderViewModel: ObservableObject {
             }
         }
         // test column
-        for index in 0...29 {
-            if !(24...29).contains(index) {
+        for index in 0..<30 { // Adjusted loop range
+            if index < 24 { // Check if it's not in the last 2 rows
                 testGrids.swapAt(index, index + 6)
                 // check row to generate checkList
                 for row in 0..<5 {
@@ -657,8 +657,8 @@ class ThunderViewModel: ObservableObject {
                 // check column to generate checkList
                 for row in 0..<4 {
                     for column in 0..<6 {
-                        if [.oval, .drop, .app, .circle].contains(testGrids[row * 6 + column].gridType) &&
-                            [testGrids[row * 6 + column + 6], testGrids[row * 6 + column + 12]].allSatisfy({ $0.gridType == testGrids[row * 6 + column].gridType }) {
+                        if [.oval, .drop, .app, .circle].contains(testGrids[row * 6 + column].gridType) && // Adjusted calculation
+                            [testGrids[row * 6 + column + 6], testGrids[row * 6 + column + 12]].allSatisfy({ $0.gridType == testGrids[row * 6 + column].gridType }) { // Adjusted calculation
                             return false
                         }
                     }
