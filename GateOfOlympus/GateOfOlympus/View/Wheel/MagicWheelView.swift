@@ -8,70 +8,101 @@
 import SwiftUI
 
 struct MagicWheelView: View {
-    
+    @Environment(\.dismiss) var dismiss
     @State var rotation: CGFloat = 0.0
-    
+    @State private var showGod = false
     var body: some View {
-        VStack {
-            Wheel(rotation: $rotation)
-                .frame(width: 200, height: 200)
-                .rotationEffect(.radians(rotation))
-                .animation(.easeInOut(duration: 1.5), value: rotation)
-            Button("Spin") {
-                let randomAmount = Double(Int.random(in: 7..<15))
-                rotation += randomAmount
+        NavigationView {
+            ZStack(alignment: .bottom) {
+                Color.accentColor.ignoresSafeArea()
+                VStack(spacing: 0) {
+                    HeaderView().padding(.bottom, 54)
+                    Spacer()
+                    MagicWheel()
+                    Image("God")
+                        .resizable()
+                        .scaledToFit()
+                        .scaleEffect(showGod ? 1.0 : 2.0)
+                        .padding(.bottom, -50)
+                    
+                    BlureBottomView()
+                }
+                .navigationBarTitle("")
+                .navigationBarHidden(true)
             }
-        }
-        .padding()
-    }
-}
-
-
-struct Wheel: View {
-    
-    @Binding var rotation: CGFloat
-    
-    let segments = ["Steve", "John", "Bill", "Dave", "Alan"]
-    
-    var body: some View {
-        GeometryReader { proxy in
-            ZStack {
-                ForEach(segments.indices, id: \.self) { index in
-                    ZStack {
-                        Circle()
-                            .inset(by: proxy.size.width / 4)
-                            .trim(from: CGFloat(index) * segmentSize, to: CGFloat(index + 1) * segmentSize)
-                            .stroke(Color.all[index], style: StrokeStyle(lineWidth: proxy.size.width / 2))
-                            .rotationEffect(.radians(.pi * segmentSize))
-                            .opacity(0.3)
-                        label(text: segments[index], index: CGFloat(index), offset: proxy.size.width / 4)
-                    }
+            .onAppear() {
+                withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
+                    showGod = true
                 }
             }
+        }.navigationViewStyle(.stack)
+    }
+    
+    @ViewBuilder
+    func HeaderView() -> some View {
+        HStack(spacing: 20) {
+            Button {
+                withAnimation {
+                    feedback.impactOccurred()
+                    dismiss()
+                }
+            } label: {
+                Image("back")
+            }
+            
+            Text("Magic Wheel")
+                .modifier(TitleModifier(size: 18, color: .white))
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+            
+            CoinsBalanceView(isCoins: true, score: "100")
+            CoinsBalanceView(isCoins: false, score: "14")
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 20)
+        .padding(.bottom, 10)
+        .background(Color.navigation)
+    }
+    
+    @ViewBuilder
+    func MagicWheel() -> some View {
+        ZStack {
+            Image("wheelBG")
+                .resizable()
+                .scaledToFit()
+                .padding(.horizontal, 20)
+                .overlay {
+                    RotateWheelView(rotation: $rotation)
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 32)
+                        .rotationEffect(.radians(rotation))
+                        .animation(.easeInOut(duration: 1.5), value: rotation)
+                        .overlay {
+                            Button {
+                                let randomAmount = Double(Int.random(in: 7..<100))
+                                rotation += randomAmount
+                            } label: {
+                                ZStack {
+                                    Image("spin")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .padding(100)
+                                    Text("Spin").modifier(TitleModifier(size: 15, color: .white))
+                                }
+                            }
+                            .overlay(
+                                Image("drop")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 50) // Adjust the size as needed
+                                    .offset(y: -20), // Adjust the offset to position the drop image correctly
+                                alignment: .top
+                            )
+                        }
+                }
         }
     }
-    
-    var segmentSize: CGFloat {
-        1 / CGFloat(segments.count)
-    }
-    
-    func rotation(index: CGFloat) -> CGFloat {
-        (.pi * (2 * segmentSize * (CGFloat(index + 1))))
-    }
-    
-    func label(text: String, index: CGFloat, offset: CGFloat) -> some View {
-        Text(text)
-            .rotationEffect(.radians(rotation(index: CGFloat(index))))
-            .offset(x: cos(rotation(index: index)) * offset, y: sin(rotation(index: index)) * offset)
-    }
 }
-
-extension Color {
-    static var all: [Color] {
-        [Color.yellow, .green, .pink, .cyan, .mint, .orange, .teal, .indigo]
-    }
-}
-
 
 //MARK: – Only custom wheel
 //import SwiftUI
@@ -80,7 +111,7 @@ extension Color {
 //    @Environment(\.dismiss) var dismiss
 //    @State private var spin: Double = 0
 //    @State private var stoppedAtPie: Int?
-//    
+//
 //    var body: some View {
 //        VStack(spacing: 0) {
 //            NavBarComponent(title: "Magic Wheel", leftIcon: "menu", rightIcon: "skip") {
@@ -88,7 +119,7 @@ extension Color {
 //            } dismissRightAction: {
 //                dismiss()
 //            }
-//            
+//
 //            VStack {
 //                ZStack {
 //                    ForEach(0..<12, id: \.self) { index in
@@ -96,9 +127,9 @@ extension Color {
 //                            .fill(index % 2 == 0 ? Color.sea : Color.navigation)
 //                    }
 //                }.rotationEffect(.degrees(spin))
-//                
+//
 //                Spacer()
-//                
+//
 //                HStack {
 //                    Button(action: {
 //                        spinWheel()
@@ -109,7 +140,7 @@ extension Color {
 //                            .cornerRadius(8)
 //                    }
 //                }.padding()
-//                
+//
 //                if let stoppedAtPie = stoppedAtPie {
 //                    Text("Stopped at pie: \(stoppedAtPie + 1)")
 //                        .foregroundColor(.white)
@@ -119,13 +150,13 @@ extension Color {
 //            Spacer()
 //        }.background(Color.accentColor)
 //    }
-//    
+//
 //    private func spinWheel() {
 //        let randomRotation = Double.random(in: 360...7200) // Adjust the range as needed
 //        withAnimation(.spring(response: 2, dampingFraction: 1.5)) {
 //            spin += randomRotation
 //        }
-//        
+//
 //        let pieAngle = 360 / 12.0
 //        let normalizedSpin = (spin.truncatingRemainder(dividingBy: 360) + 360).truncatingRemainder(dividingBy: 360)
 //        stoppedAtPie = Int(normalizedSpin / pieAngle)
