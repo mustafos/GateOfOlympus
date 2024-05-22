@@ -47,7 +47,7 @@ struct OnboardingView: View {
                 Spacer()
                 VStack {
                     Text(texts[currentTextIndex])
-                        .modifier(BodyModifier())
+                        .modifier(BodyModifier(size: 15, color: .black))
                 }
                 .textAreaConteiner()
                 .padding(.horizontal, 26)

@@ -18,8 +18,8 @@ struct TitleModifier: ViewModifier {
 }
 
 struct BodyModifier: ViewModifier {
-    let size: CGFloat = 15
-    let color: Color = .black
+    let size: CGFloat
+    let color: Color
     func body(content: Content) -> some View {
         content
             .font(.custom("Montserrat-Regular", size: size))
