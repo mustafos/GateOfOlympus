@@ -9,11 +9,13 @@ import SwiftUI
 
 struct HomeView: View {
     @AppStorage("isOnboarding") var isUserLogin: Bool?
+    @AppStorage("Coins") var coins: Int = 0
+    @AppStorage("Hearts") var hearts: Int = 0
     @Environment(\.dismiss) var dismiss
     @State private var musicOff: Bool = false
     @State private var soundOff: Bool = false
     @State private var showImage = false
-    
+
     var body: some View {
         if isUserLogin == true {
             NavigationView {
@@ -34,6 +36,13 @@ struct HomeView: View {
                             isUserLogin = false
                         } label: {
                             Text("Logout").gradientButton()
+                        }
+                        
+                        Button {
+                            hearts += 1
+                            coins += 1
+                        } label: {
+                            Text("Add").gradientButton()
                         }
                         
                         ScrollView(.vertical, showsIndicators: false) {
@@ -90,8 +99,8 @@ struct HomeView: View {
                 Image(soundOff ? "soundOff" : "sound")
             }
             Spacer()
-            CoinsBalanceView(isCoins: true, score: "100")
-            CoinsBalanceView(isCoins: false, score: "14")
+            CoinsBalanceView(isCoins: true, score: "\(coins)")
+            CoinsBalanceView(isCoins: false, score: "\(hearts)")
         }
         .padding(.horizontal, 20)
         .padding(.top, 20)

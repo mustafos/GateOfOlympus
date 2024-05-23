@@ -10,7 +10,10 @@ import SwiftUI
 struct ThunderView: View {
     @StateObject var manager = ThunderViewModel()
     @Environment(\.dismiss) var dismiss
-    @State private var showingBankAlert: Bool = true
+    @State private var isAnimateNextLevel = false
+    @State private var extraMoves: Bool = false
+    @State private var extraTime: Bool = false
+    @State private var showResults: Bool = false
     @State private var animatingAlert: Bool = false
     var body: some View {
         NavigationView {
@@ -19,8 +22,28 @@ struct ThunderView: View {
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
-                VStack {
+                
+                VStack(spacing: 0) {
                     HeaderView()
+                    
+                    Image("NextLevel")
+                        .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
+                    
+                    HStack {
+                        MoveGuideButton(isGuide: false)
+                            .onTapGesture {
+                                withAnimation {
+                                    feedback.impactOccurred()
+                                    extraMoves.toggle()
+                                }
+                            }
+                        Spacer()
+                        NavigationLink {
+                            GuideView().navigationBarBackButtonHidden()
+                        } label: {
+                            MoveGuideButton(isGuide: true)
+                        }
+                    }
                     ResultsBoardView(manager: manager)
                     ThunderGridView(manager: manager)
                     
@@ -46,11 +69,16 @@ struct ThunderView: View {
                 }
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
-                .blur(radius: $showingBankAlert.wrappedValue ? 5 : 0, opaque: false)
+                .blur(radius: $extraMoves.wrappedValue ? 5 : 0, opaque: false)
+                .onAppear() {
+                    withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                        isAnimateNextLevel = true
+                    }
+                }
                 
-                if $showingBankAlert.wrappedValue {
-//                    ExtraAlert(isMoves: false)
-                    WinLoseAlert(isWin: true)
+                if $extraMoves.wrappedValue {
+                    ExtraAlert(isMoves: true)
+//                    WinLoseAlert(isWin: true)
                 }
             }
         }.navigationViewStyle(.stack)
@@ -109,12 +137,13 @@ struct ThunderView: View {
                     Text("Extra \(isMoves ? "Moves" : "Time")")
                         .modifier(TitleModifier(size: 18, color: .white))
                     
-                    Text(isMoves 
+                    Text(isMoves
                          ? "You can purchase 5 extra moves for 5 extra hearts"
                          : "You've run out of time. You can buy an additional 10 seconds for 100 coins")
-                        .modifier(BodyModifier(size: 14, color: .white))
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.75)
+                    .modifier(BodyModifier(size: 14, color: .white))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.75)
                     
                     if isMoves {
                         HStack(spacing: 6) {
@@ -145,31 +174,21 @@ struct ThunderView: View {
                     }
                     
                     Button {
-                        self.showingBankAlert = false
-                        self.animatingAlert = false
-                        //                                self.activateBet10()
-                        //                                self.coins = 100
+                        if isMoves {
+                            extraMoves.toggle()
+                            animatingAlert.toggle()
+                        }
                     } label: {
                         Text("Buy").gradientButton()
                     }
                 }
-                .padding(.horizontal, 36)
-                .padding(.vertical, 25)
+                .padding(15)
             }
-            .frame(minWidth: 200, idealWidth: 225, maxWidth: 252, minHeight: 260, idealHeight: 280, maxHeight: 316, alignment: .center)
-            .background(Color.accentColor)
-            .cornerRadius(30)
+            .textAreaConteiner(background: .accentColor, corner: 30)
+            .padding(.horizontal, 70)
             .opacity($animatingAlert.wrappedValue ? 1 : 0)
             .offset(y: $animatingAlert.wrappedValue ? 0 : -100)
-            .overlay {
-                RoundedRectangle(cornerRadius: 30)
-                    .stroke(LinearGradient(
-                                    colors: [Color.wheelHearts, Color.sea],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ), lineWidth: 1)
-            }
-            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: showingBankAlert)
+            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: extraMoves)
             .onAppear(perform: {
                 self.animatingAlert = true
             })
@@ -203,8 +222,8 @@ struct ThunderView: View {
                     }
                     
                     Button {
-                        self.showingBankAlert = false
-                        self.animatingAlert = false
+                        showResults.toggle()
+                        animatingAlert.toggle()
                         //                                self.activateBet10()
                         //                                self.coins = 100
                     } label: {
@@ -212,35 +231,46 @@ struct ThunderView: View {
                     }.padding(.bottom, -4)
                     
                     Button {
-                        self.showingBankAlert = false
-                        self.animatingAlert = false
-                        //                                self.activateBet10()
-                        //                                self.coins = 100
+                        showResults.toggle()
+                        animatingAlert.toggle()
                     } label: {
                         Text("Home").gradientButton()
                     }
                 }
-                .padding(.horizontal, 35)
-//                .padding(.vertical, 23)
+                .padding(15)
             }
-            .frame(minWidth: 200, idealWidth: 225, maxWidth: 252, minHeight: 240, idealHeight: 260, maxHeight: 280, alignment: .center)
-            .background(Color.accentColor)
-            .cornerRadius(30)
+            .textAreaConteiner(background: .accentColor, corner: 30)
             .opacity($animatingAlert.wrappedValue ? 1 : 0)
             .offset(y: $animatingAlert.wrappedValue ? 0 : -100)
             .shadow(color: isWin ? .green : .red, radius: 100)
-            .overlay {
-                RoundedRectangle(cornerRadius: 30)
-                    .stroke(LinearGradient(
-                                    colors: [Color.wheelHearts, Color.sea],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ), lineWidth: 1)
-            }
-            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: showingBankAlert)
+            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: showResults)
             .onAppear(perform: {
                 self.animatingAlert = true
             })
         }
+    }
+    
+    @ViewBuilder
+    func MoveGuideButton(isGuide: Bool) -> some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 6) {
+                if isGuide {
+                    Image("book")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 74)
+                    
+                    Text("Guide")
+                } else {
+                    Image("moves")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20)
+                    Text("Moves")
+                    Text("5").modifier(TitleModifier(size: 18, color: .white))
+                }
+            }.modifier(BodyModifier(size: 12, color: .white))
+        }
+        .textAreaConteiner(background: Color.black.opacity(0.9), corner: 10)
     }
 }

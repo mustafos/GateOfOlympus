@@ -49,7 +49,8 @@ struct OnboardingView: View {
                     Text(texts[currentTextIndex])
                         .modifier(BodyModifier(size: 15, color: .black))
                 }
-                .textAreaConteiner()
+                .padding(16)
+                .textAreaConteiner(background: .white, corner: 24)
                 .padding(.horizontal, 26)
                 Spacer()
                 Image("tapToContinue")

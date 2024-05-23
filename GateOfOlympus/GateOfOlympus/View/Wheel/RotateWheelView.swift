@@ -44,7 +44,8 @@ struct RotateWheelView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 24)
-            Text(text).modifier(TitleModifier(size: 16, color: .white))
+            Text(text)
+                .modifier(TitleModifier(size: 16, color: .white))
                 .padding(.bottom, 35)
         }
         .rotationEffect(.radians(rotation(index: CGFloat(index) + Double.pi)))
