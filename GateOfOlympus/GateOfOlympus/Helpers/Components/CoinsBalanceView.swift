@@ -13,16 +13,20 @@ struct CoinsBalanceView: View {
     var body: some View {
         ZStack(alignment: .leading) {
             HStack {
-                Image(isCoins ? "coin" : "love")
+                Spacer()
                 Text(score)
                     .modifier(TitleModifier(size: 12, color: .white))
+                    .padding(.trailing, 10)
             }
-            .padding(.trailing, 10)
-            .frame(width: .infinity, height: 20)
+            .frame(width: 72, height: 20)
             .background(
                 Capsule()
                     .foregroundColor(Color.black.opacity(0.7))
             )
+            .overlay(alignment: .leading) {
+                Image(isCoins ? "coin" : "love")
+                    .offset(x: -12, y: 0)
+            }
         }
     }
 }

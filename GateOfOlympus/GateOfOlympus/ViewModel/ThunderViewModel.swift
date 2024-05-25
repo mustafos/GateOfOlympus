@@ -17,7 +17,7 @@ struct Grid {
         case .blank: return ""
         case .oval: return "rubin"
         case .drop: return "crown"
-        case .app: return "dimond"
+        case .app: return "diamond"
         case .circle: return "heart"
         case .row: return "ring"
         case .column: return "amulet"
@@ -28,8 +28,8 @@ struct Grid {
 }
 
 class ThunderViewModel: ObservableObject {
-    
-    @AppStorage("bestScore") var bestScore = 0
+    @AppStorage("Coins") var coins: Int = 0
+    @AppStorage("Hearts") var hearts: Int = 0
     
     @Published var grids = Array(repeating: Grid(gridType: .blank), count: 30)
     @Published var score = 0
@@ -51,9 +51,10 @@ class ThunderViewModel: ObservableObject {
             if(self.gameTimeLast == 0) {
                 self.timer?.invalidate()
                 self.timer = nil
-                if self.score > self.bestScore {
-                    self.bestScore = self.score
-                }
+                self.coins += self.score
+//                if self.score > self.bestScore {
+//                    self.bestScore = self.score
+//                }
                 self.isPlaying = false
                 self.grids = Array(repeating: Grid(gridType: .blank), count: 30)
                 self.gameTimeLast = 60

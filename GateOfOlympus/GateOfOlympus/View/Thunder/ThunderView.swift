@@ -16,72 +16,160 @@ struct ThunderView: View {
     @State private var showResults: Bool = false
     @State private var animatingAlert: Bool = false
     var body: some View {
-        NavigationView {
-            ZStack {
-                Image("backgroundThunder")
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                VStack(spacing: 0) {
-                    HeaderView()
+        GeometryReader { geo in
+            NavigationView {
+                ZStack {
+                    Image("backgroundThunder")
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
+                        .opacity(1.0)
                     
-                    Image("NextLevel")
-                        .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
-                    
-                    HStack {
-                        MoveGuideButton(isGuide: false)
-                            .onTapGesture {
-                                withAnimation {
-                                    feedback.impactOccurred()
-                                    extraMoves.toggle()
+                    VStack(spacing: 0) {
+                        HeaderView()
+                        Spacer()
+                        Image("NextLevel")
+                            .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
+                        
+                        Image("stars")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 173, height: 32)
+                        
+                        HStack(spacing: 14) {
+                            MoveGuideButton(isGuide: false)
+                                .onTapGesture {
+                                    withAnimation {
+                                        feedback.impactOccurred()
+                                        extraMoves.toggle()
+                                    }
+                                }
+                            
+                            Image("God")
+                                .resizable()
+                                .scaledToFill()
+                                .offset(x: 0, y: -20)
+                            
+                            NavigationLink {
+                                GuideView().navigationBarBackButtonHidden()
+                            } label: {
+                                MoveGuideButton(isGuide: true)
+                            }
+                        }.padding(20)
+                        
+                        ThunderGridView(manager: manager)
+                            .overlay {
+                                if manager.combo != 0 {
+                                    withAnimation(.linear(duration: 0.4)) {
+                                        ZStack {
+                                            Image("greenShadow")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 172)
+                                            
+                                            Text("+\(manager.combo) points")
+                                                .modifier(TitleModifier(size: 18, color: .white))
+                                                .shadow(radius: 10)
+                                        }
+                                    }
                                 }
                             }
+                        if $extraMoves.wrappedValue {
+                            ExtraAlert(isMoves: true)
+                        }
+
                         Spacer()
-                        NavigationLink {
-                            GuideView().navigationBarBackButtonHidden()
-                        } label: {
-                            MoveGuideButton(isGuide: true)
+                    }
+                    .navigationBarTitle("")
+                        .navigationBarHidden(true)
+                        .blur(radius: $extraMoves.wrappedValue ? 5 : 0, opaque: false)
+                        .onAppear() {
+                            withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                                isAnimateNextLevel = true
+                            }
                         }
-                    }
-                    ResultsBoardView(manager: manager)
-                    ThunderGridView(manager: manager)
-                    
-                    if manager.combo != 0 {
-                        withAnimation(.linear(duration: 0.4)) {
-                            Text("Combo ")
-                                .bold()
-                                .font(.largeTitle)
-                                .foregroundColor(Color(red: 120/255, green: 111/255, blue: 102/255))
-                            +
-                            Text("\(manager.combo)")
-                                .bold()
-                                .font(.largeTitle)
-                                .foregroundColor(Color(red: 236/255, green: 140/255, blue: 85/255))
-                            +
-                            Text(" !")
-                                .bold()
-                                .font(.largeTitle)
-                                .foregroundColor(Color(red: 120/255, green: 111/255, blue: 102/255))
-                        }
-                    }
-                    Spacer()
                 }
-                .navigationBarTitle("")
-                .navigationBarHidden(true)
-                .blur(radius: $extraMoves.wrappedValue ? 5 : 0, opaque: false)
-                .onAppear() {
-                    withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-                        isAnimateNextLevel = true
-                    }
-                }
-                
-                if $extraMoves.wrappedValue {
-                    ExtraAlert(isMoves: true)
-//                    WinLoseAlert(isWin: true)
-                }
-            }
-        }.navigationViewStyle(.stack)
+            }.navigationViewStyle(.stack)
+        }
+//        NavigationView {
+//            ZStack {
+//                Image("backgroundThunder")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fill)
+//                    .ignoresSafeArea()
+//                
+//                VStack(spacing: 0) {
+//                    HeaderView()
+//                    Spacer()
+//                    Image("NextLevel")
+//                        .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
+//                    
+//                    Image("stars")
+//                        .resizable()
+//                        .scaledToFill()
+//                        .frame(width: 173, height: 32)
+//                    
+//                    HStack(spacing: 14) {
+//                        MoveGuideButton(isGuide: false)
+//                            .onTapGesture {
+//                                withAnimation {
+//                                    feedback.impactOccurred()
+//                                    extraMoves.toggle()
+//                                }
+//                            }
+//                        
+//                        Image("God")
+//                            .resizable()
+//                            .scaledToFill()
+//                            .offset(x: 0, y: -20)
+//                        
+//                        NavigationLink {
+//                            GuideView().navigationBarBackButtonHidden()
+//                        } label: {
+//                            MoveGuideButton(isGuide: true)
+//                        }
+//                    }.padding(20)
+//                    
+//                    Spacer()
+//                }
+//                .navigationBarTitle("")
+//                .navigationBarHidden(true)
+//                .blur(radius: $extraMoves.wrappedValue ? 5 : 0, opaque: false)
+//                
+//                ResultsBoardView(manager: manager)
+//                ThunderGridView(manager: manager)
+//                    .overlay {
+//                        if manager.combo != 0 {
+//                            withAnimation(.linear(duration: 0.4)) {
+//                                Text("Combo ")
+//                                    .bold()
+//                                    .font(.largeTitle)
+//                                    .foregroundColor(Color(red: 120/255, green: 111/255, blue: 102/255))
+//                                +
+//                                Text("\(manager.combo)")
+//                                    .bold()
+//                                    .font(.largeTitle)
+//                                    .foregroundColor(Color(red: 236/255, green: 140/255, blue: 85/255))
+//                                +
+//                                Text(" !")
+//                                    .bold()
+//                                    .font(.largeTitle)
+//                                    .foregroundColor(Color(red: 120/255, green: 111/255, blue: 102/255))
+//                            }
+//                        }
+//                    }
+//                
+//                if $extraMoves.wrappedValue {
+//                    ExtraAlert(isMoves: true)
+//                }
+//            }
+//            .onAppear() {
+//                withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+//                    isAnimateNextLevel = true
+//                }
+//            }
+//        }.navigationViewStyle(.stack)
     }
     
     @ViewBuilder
@@ -100,8 +188,8 @@ struct ThunderView: View {
             Spacer()
             
             TimerView()
-            CoinsBalanceView(isCoins: true, score: "100")
-            CoinsBalanceView(isCoins: false, score: "14")
+            CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
+            CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
         .padding(.horizontal, 20)
         .padding(.top, 20)
@@ -119,6 +207,13 @@ struct ThunderView: View {
             Capsule()
                 .frame(width: 100 - CGFloat(Double(manager.gameTimeLast)), height: 16)
                 .foregroundColor(manager.gameTimeLast <= 15 ? Color.love : Color.sea)
+        }
+        .overlay(alignment: .leading) {
+            Image("time")
+                .resizable()
+                .scaledToFill()
+                .frame(width: 22)
+                .offset(x: -12, y: -4)
         }
     }
     
@@ -215,7 +310,7 @@ struct ThunderView: View {
                             Image("coin")
                                 .resizable()
                                 .scaledToFit()
-                            Text("200")
+                            Text("\(manager.score)")
                         }
                         .frame(height: 24)
                         .modifier(TitleModifier(size: 14, color: .white))

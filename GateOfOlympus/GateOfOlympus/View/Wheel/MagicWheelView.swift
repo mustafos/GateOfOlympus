@@ -63,6 +63,7 @@ struct MagicWheelView: View {
                 .modifier(TitleModifier(size: 18, color: .white))
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)
+            
             CoinsBalanceView(isCoins: true, score: "\(coins)")
             CoinsBalanceView(isCoins: false, score: "\(hearts)")
         }

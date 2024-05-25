@@ -13,6 +13,7 @@
 		6A59E4DF2BFBF55B009FDF39 /* GameCellContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A59E4DE2BFBF55B009FDF39 /* GameCellContainer.swift */; };
 		6A59E4E12BFBF8F8009FDF39 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A59E4E02BFBF8F8009FDF39 /* GradientButton.swift */; };
 		6A59E4E32BFBFA4D009FDF39 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A59E4E22BFBFA4D009FDF39 /* ColorPalette.swift */; };
+		6A7A4B322C0070F5004E2132 /* BadgetPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */; };
 		6A8B28952BFE0AA700D5A071 /* RotateWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */; };
 		6A90E79F2BFD25F600753A7C /* ResultsBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A90E79E2BFD25F600753A7C /* ResultsBoardView.swift */; };
 		6AD693AF2BFC9D0200F6493D /* GameplayAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693AE2BFC9D0200F6493D /* GameplayAlertView.swift */; };
@@ -41,6 +42,7 @@
 		6A59E4DE2BFBF55B009FDF39 /* GameCellContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCellContainer.swift; sourceTree = "<group>"; };
 		6A59E4E02BFBF8F8009FDF39 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		6A59E4E22BFBFA4D009FDF39 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgetPosition.swift; sourceTree = "<group>"; };
 		6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotateWheelView.swift; sourceTree = "<group>"; };
 		6A90E79E2BFD25F600753A7C /* ResultsBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsBoardView.swift; sourceTree = "<group>"; };
 		6AD693AE2BFC9D0200F6493D /* GameplayAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayAlertView.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				6ADD16D92BFBACB500C76D08 /* TextAreaConteiner.swift */,
+				6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */,
 				6A59E4E02BFBF8F8009FDF39 /* GradientButton.swift */,
 				6A59E4E22BFBFA4D009FDF39 /* ColorPalette.swift */,
 			);
@@ -299,6 +302,7 @@
 				6AD693B12BFCA3BC00F6493D /* CoinsBalanceView.swift in Sources */,
 				6AD693BE2BFCF20C00F6493D /* BlureBottomView.swift in Sources */,
 				6ADD16C02BFBA58C00C76D08 /* GateOfOlympusApp.swift in Sources */,
+				6A7A4B322C0070F5004E2132 /* BadgetPosition.swift in Sources */,
 				6A59E4DF2BFBF55B009FDF39 /* GameCellContainer.swift in Sources */,
 				6ADD16DA2BFBACB500C76D08 /* TextAreaConteiner.swift in Sources */,
 				6A59E4DD2BFBF505009FDF39 /* NavBarComponent.swift in Sources */,

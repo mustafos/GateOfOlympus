@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var manager = ThunderViewModel()
     @AppStorage("isOnboarding") var isUserLogin: Bool?
-    @AppStorage("Coins") var coins: Int = 0
-    @AppStorage("Hearts") var hearts: Int = 0
+//    @AppStorage("Coins") var coins: Int = 0
+//    @AppStorage("Hearts") var hearts: Int = 0
     @Environment(\.dismiss) var dismiss
     @State private var musicOff: Bool = false
     @State private var soundOff: Bool = false
     @State private var showImage = false
-
+    
     var body: some View {
         if isUserLogin == true {
             NavigationView {
@@ -39,8 +40,8 @@ struct HomeView: View {
                         }
                         
                         Button {
-                            hearts += 1
-                            coins += 1
+                            manager.coins += 1
+                            manager.hearts += 1
                         } label: {
                             Text("Add").gradientButton()
                         }
@@ -68,10 +69,10 @@ struct HomeView: View {
                     .navigationBarHidden(true)
                 }
                 .onAppear() {
-                    withAnimation(.easeInOut(duration: 1.0).repeatCount(1) /*.repeatForever(autoreverses: true)*/) {
-                            showImage = true
-                        }
-                      }
+                    withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
+                        showImage = true
+                    }
+                }
             }
             .navigationViewStyle(.stack)
         } else {
@@ -99,8 +100,8 @@ struct HomeView: View {
                 Image(soundOff ? "soundOff" : "sound")
             }
             Spacer()
-            CoinsBalanceView(isCoins: true, score: "\(coins)")
-            CoinsBalanceView(isCoins: false, score: "\(hearts)")
+            CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
+            CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
         .padding(.horizontal, 20)
         .padding(.top, 20)
@@ -113,19 +114,21 @@ struct HomeView: View {
         VStack(alignment: .leading) {
             Text("Last Combinationes")
                 .modifier(TitleModifier(size: 18, color: .white))
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 38) {
-                    Image("rubin")
-                    Image("diamond")
-                    Image("heart")
-                    Image("crown")
-                    Image("bowl")
-                    Image("ring")
-                    Image("trophy")
-                    Image("amulet")
+            HStack(spacing: 38) {
+                Image("rubin").badge {
+                    Text("4").modifier(BodyModifier(size: 14, color: .white))
+                }
+                Image("crown").badge {
+                    Text("1").modifier(BodyModifier(size: 14, color: .white))
+                }
+                Image("diamond").badge {
+                    Text("2").modifier(BodyModifier(size: 14, color: .white))
+                }
+                Image("heart").badge {
+                    Text("3").modifier(BodyModifier(size: 14, color: .white))
                 }
             }
-        }//.padding(.horizontal, 20)
+        }
     }
 }
 
