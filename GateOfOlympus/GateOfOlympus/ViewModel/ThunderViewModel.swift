@@ -52,9 +52,6 @@ class ThunderViewModel: ObservableObject {
                 self.timer?.invalidate()
                 self.timer = nil
                 self.coins += self.score
-//                if self.score > self.bestScore {
-//                    self.bestScore = self.score
-//                }
                 self.isPlaying = false
                 self.grids = Array(repeating: Grid(gridType: .blank), count: 30)
                 self.gameTimeLast = 60
@@ -125,8 +122,8 @@ class ThunderViewModel: ObservableObject {
                     stride(from: column, through: column + 25, by: 5).forEach { grids[$0].gridType = .blank }
                     grids[column + 25].gridType = .gift
                 }
-                score += 6
-                combo += 1
+                score += 10
+                combo += 10
             }
         }
         // check row gift 5
@@ -137,8 +134,8 @@ class ThunderViewModel: ObservableObject {
                     (row * 5...row * 5 + 4).forEach { grids[$0].gridType = .blank }
                     grids[row * 5 + 2].gridType = .gift
                 }
-                score += 5
-                combo += 1
+                score += 10
+                combo += 10
             }
         }
         // check column gift 5
@@ -150,8 +147,8 @@ class ThunderViewModel: ObservableObject {
                         stride(from: row * 5 + column, through: row * 5 + column + 20, by: 5).forEach { grids[$0].gridType = .blank }
                         grids[row * 5 + column + 20].gridType = .gift
                     }
-                    score += 5
-                    combo += 1
+                    score += 10
+                    combo += 10
                 }
             }
         }
@@ -164,8 +161,8 @@ class ThunderViewModel: ObservableObject {
                         (row * 5 + column...row * 5 + column + 3).forEach { grids[$0].gridType = .blank }
                         grids[row * 5 + column + 1].gridType = .gift
                     }
-                    score += 4
-                    combo += 1
+                    score += 10
+                    combo += 10
                 }
             }
         }
@@ -178,8 +175,8 @@ class ThunderViewModel: ObservableObject {
                         stride(from: row * 5 + column, through: row * 5 + column + 15, by: 5).forEach { grids[$0].gridType = .blank }
                         grids[row * 5 + column + 15].gridType = .gift
                     }
-                    score += 4
-                    combo += 1
+                    score += 10
+                    combo += 10
                 }
             }
         }
@@ -198,8 +195,8 @@ class ThunderViewModel: ObservableObject {
                         indicesToCheck.forEach { grids[$0].gridType = .blank }
                         grids[centerIndex].gridType = .bomb
                     }
-                    score += 5
-                    combo += 1
+                    score += 10
+                    combo += 10
                 }
             }
         }
@@ -212,8 +209,8 @@ class ThunderViewModel: ObservableObject {
                         (row * 5 + column...row * 5 + column + 3).forEach { grids[$0].gridType = .blank }
                         grids[row * 5 + column + 1].gridType = .row
                     }
-                    score += 4
-                    combo += 1
+                    score += 10
+                    combo += 10
                 }
             }
         }
@@ -226,8 +223,8 @@ class ThunderViewModel: ObservableObject {
                         stride(from: row * 5 + column, through: row * 5 + column + 15, by: 5).forEach { grids[$0].gridType = .blank }
                         grids[row * 5 + column + 15].gridType = .column
                     }
-                    score += 4
-                    combo += 1
+                    score += 10
+                    combo += 10
                 }
             }
         }
@@ -241,8 +238,8 @@ class ThunderViewModel: ObservableObject {
                         (row * 5 + column...row * 5 + column + 2).forEach { grids[$0].gridType = .blank }
                         grids[row * 5 + column + 1].gridType = .row
                     }
-                    score += 3
-                    combo += 1
+                    score += 5
+                    combo += 10
                 }
             }
         }
@@ -255,8 +252,8 @@ class ThunderViewModel: ObservableObject {
                         stride(from: row * 5 + column, through: row * 5 + column + 10, by: 5).forEach { grids[$0].gridType = .blank }
                         grids[row * 5 + column + 10].gridType = .column
                     }
-                    score += 3
-                    combo += 1
+                    score += 5
+                    combo += 10
                 }
             }
         }
@@ -309,8 +306,8 @@ class ThunderViewModel: ObservableObject {
         withAnimation(.easeInOut(duration: 0.4)) {
             grids = Array(repeating: Grid(gridType: .blank), count: 30)
         }
-        score += 30
-        combo += 1
+        score += 100
+        combo += 10
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.fallDown()
         }
@@ -322,8 +319,8 @@ class ThunderViewModel: ObservableObject {
             grids[first].gridType = .blank
             grids[second].gridType = .blank
         }
-        score += 2
-        combo += 1
+        score += 10
+        combo += 10
         let randomGridType: GridType = [.oval, .drop, .app, .circle].randomElement()!
         (0...29).forEach { index in
             if grids[index].gridType == randomGridType {
@@ -348,8 +345,8 @@ class ThunderViewModel: ObservableObject {
             grids[first].gridType = .blank
             grids[second].gridType = .blank
         }
-        score += 2
-        combo += 1
+        score += 10
+        combo += 10
         let randomGridType: GridType = [.oval, .drop, .app, .circle].randomElement()!
         (0...29).forEach { index in
             if grids[index].gridType == randomGridType {
@@ -374,8 +371,8 @@ class ThunderViewModel: ObservableObject {
             grids[first].gridType = .blank
             grids[second].gridType = .blank
         }
-        score += 2
-        combo += 1
+        score += 10
+        combo += 10
         let randomGridType: GridType = [.oval, .drop, .app, .circle].randomElement()!
         (0...29).forEach { index in
             if grids[index].gridType == randomGridType {
@@ -400,8 +397,8 @@ class ThunderViewModel: ObservableObject {
             grids[first].gridType = .blank
             grids[second].gridType = .blank
         }
-        score += 2
-        combo += 1
+        score += 10
+        combo += 10
         self.bomb(index: first)
         self.bomb(index: second)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
@@ -415,8 +412,8 @@ class ThunderViewModel: ObservableObject {
             grids[first].gridType = .blank
             grids[second].gridType = .blank
         }
-        score += 2
-        combo += 1
+        score += 10
+        combo += 10
         
         if second == 0 {
             self.row(index: 0)
@@ -482,8 +479,8 @@ class ThunderViewModel: ObservableObject {
             grids[first].gridType = .blank
             grids[second].gridType = .blank
         }
-        score += 2
-        combo += 1
+        score += 10
+        combo += 10
         self.row(index: second)
         self.column(index: second)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
@@ -500,10 +497,10 @@ class ThunderViewModel: ObservableObject {
                 withAnimation(.easeInOut(duration: 0.4)) {
                     grids[idx].gridType = .blank
                 }
-                score += 1
+                score += 10
             }
         }
-        combo += 1
+        combo += 10
     }
     
     func bomb(index: Int) {
@@ -511,7 +508,7 @@ class ThunderViewModel: ObservableObject {
         withAnimation(.easeInOut(duration: 0.4)) {
             grids[index].gridType = .blank
         }
-        score += 1
+        score += 10
         
         let neighbors: [Int]
         
@@ -551,10 +548,10 @@ class ThunderViewModel: ObservableObject {
                 withAnimation(.easeInOut(duration: 0.4)) {
                     grids[idx].gridType = .blank
                 }
-                score += 1
+                score += 10
             }
         }
-        combo += 1
+        combo += 10
     }
     
     func row(index: Int) {
@@ -562,7 +559,7 @@ class ThunderViewModel: ObservableObject {
         withAnimation(.easeInOut(duration: 0.4)) {
             grids[index].gridType = .blank
         }
-        score += 1
+        score += 10
         
         let rowStart = (index / 6) * 6
         (rowStart..<(rowStart + 6)).forEach { idx in
@@ -579,10 +576,10 @@ class ThunderViewModel: ObservableObject {
                 withAnimation(.easeInOut(duration: 0.4)) {
                     grids[idx].gridType = .blank
                 }
-                score += 1
+                score += 10
             }
         }
-        combo += 1
+        combo += 10
     }
     
     func column(index: Int) {
@@ -606,10 +603,10 @@ class ThunderViewModel: ObservableObject {
                 withAnimation(.easeInOut(duration: 0.4)) {
                     grids[idx].gridType = .blank
                 }
-                score += 1
+                score += 10
             }
         }
-        combo += 1
+        combo += 10
     }
     
     func checkDead() -> Bool {
@@ -632,9 +629,8 @@ class ThunderViewModel: ObservableObject {
                 }
                 // check column to generate checkList
                 for row in 0..<4 {
-                    for column in 0..<6 {
-                        if [.oval, .drop, .app, .circle].contains(testGrids[row * 6 + column].gridType) && // Adjusted calculation
-                            [testGrids[row * 6 + column + 6], testGrids[row * 6 + column + 12]].allSatisfy({ $0.gridType == testGrids[row * 6 + column].gridType }) { // Adjusted calculation
+                    for column in 0..<5 {
+                        if [.oval, .drop, .app, .circle].contains(testGrids[row * 5 + column].gridType) && [testGrids[row * 5 + column + 6], testGrids[row * 5 + column + 10]].allSatisfy({ $0.gridType == testGrids[row * 5 + column].gridType }) {
                             return false
                         }
                     }

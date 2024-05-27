@@ -9,10 +9,10 @@ import SwiftUI
 
 struct MagicWheelView: View {
     @Environment(\.dismiss) var dismiss
+    @StateObject var manager = ThunderViewModel()
     @State var rotation: CGFloat = 0.0
     @State private var showGod = false
-    @State private var coins: Int = UserDefaults.standard.integer(forKey: "Coins")
-    @State private var hearts: Int = UserDefaults.standard.integer(forKey: "Hearts")
+    @State private var selectedSegment: Int = 0
     
     var body: some View {
         NavigationView {
@@ -21,8 +21,8 @@ struct MagicWheelView: View {
                 VStack(spacing: 0) {
                     HeaderView().padding(.bottom, 54)
                     Button(action: {
-                        coins = 0
-                        hearts = 0
+                        manager.coins = 0
+                        manager.hearts = 0
                     }, label: {
                         Text("Delete All").gradientButton()
                     })
@@ -62,10 +62,10 @@ struct MagicWheelView: View {
             Text("Magic Wheel")
                 .modifier(TitleModifier(size: 18, color: .white))
                 .lineLimit(1)
-                .minimumScaleFactor(0.75)
+                .minimumScaleFactor(0.5)
             
-            CoinsBalanceView(isCoins: true, score: "\(coins)")
-            CoinsBalanceView(isCoins: false, score: "\(hearts)")
+            CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
+            CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
         .padding(.horizontal, 20)
         .padding(.top, 20)
@@ -81,7 +81,7 @@ struct MagicWheelView: View {
                 .scaledToFit()
                 .padding(.horizontal, 20)
                 .overlay {
-                    RotateWheelView(rotation: $rotation)
+                    RotateWheelView(rotation: $rotation, selectedSegment: $selectedSegment)
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 32)
                         .rotationEffect(.radians(rotation))
@@ -90,6 +90,9 @@ struct MagicWheelView: View {
                             Button {
                                 let randomAmount = Double(Int.random(in: 7..<50))
                                 rotation += randomAmount
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    updateCoinsOrHearts()
+                                }
                             } label: {
                                 ZStack {
                                     Image("spin")
@@ -111,4 +114,13 @@ struct MagicWheelView: View {
                 }
         }
     }
+  
+    private func updateCoinsOrHearts() {
+            let segmentValue = Int(selectedSegment)
+            if selectedSegment % 2 == 0 {
+                manager.coins += segmentValue
+            } else {
+                manager.hearts += segmentValue
+            }
+        }
 }

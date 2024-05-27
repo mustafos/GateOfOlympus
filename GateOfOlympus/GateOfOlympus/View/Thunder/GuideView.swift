@@ -9,10 +9,11 @@ import SwiftUI
 
 struct GuideView: View {
     @Environment(\.dismiss) var dismiss
+    @StateObject var manager = ThunderViewModel()
     
     var body: some View {
         NavigationView {
-            ZStack {
+            ZStack(alignment: .bottom) {
                 Color.accentColor.ignoresSafeArea()
                 VStack(spacing: 0) {
                     HeaderView().padding(.bottom, 34)
@@ -39,7 +40,6 @@ struct GuideView: View {
                 }
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
-                .background(Color.accentColor)
             }
         }.navigationViewStyle(.stack)
     }
@@ -57,11 +57,10 @@ struct GuideView: View {
             Spacer()
             Text("Guide")
                 .modifier(TitleModifier(size: 18, color: .white))
-                .lineLimit(1)
-                .minimumScaleFactor(0.75)
+                .frame(width: 57)
             Spacer()
-            CoinsBalanceView(isCoins: true, score: "100")
-            CoinsBalanceView(isCoins: false, score: "14")
+            CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
+            CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
         .padding(.horizontal, 20)
         .padding(.top, 20)

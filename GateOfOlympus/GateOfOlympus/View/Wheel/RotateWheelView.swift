@@ -10,6 +10,7 @@ import SwiftUI
 struct RotateWheelView: View {
     
     @Binding var rotation: CGFloat
+    @Binding var selectedSegment: Int
     
     let segments = ["0", "0", "1", "100", "2", "10", "3", "50", "0", "10", "4", "20"]
     
@@ -28,6 +29,13 @@ struct RotateWheelView: View {
                 }
             }
         }
+        .onChange(of: rotation, perform: { newValue in
+            let totalSegments = CGFloat(segments.count)
+            let segmentSize = 2 * .pi / totalSegments
+            let currentRotation = newValue.truncatingRemainder(dividingBy: 2 * .pi)
+            let index = Int(currentRotation / segmentSize)
+            selectedSegment = index
+        })
     }
     
     var segmentSize: CGFloat {
@@ -51,9 +59,4 @@ struct RotateWheelView: View {
         .rotationEffect(.radians(rotation(index: CGFloat(index) + Double.pi)))
         .offset(x: cos(rotation(index: index)) * offset, y: sin(rotation(index: index)) * offset)
     }
-}
-
-
-#Preview {
-    RotateWheelView(rotation: .constant(20))
 }

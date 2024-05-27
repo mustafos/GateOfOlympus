@@ -9,11 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var manager = ThunderViewModel()
+    @StateObject private var musicPlayer = MusicPlayer()
     @AppStorage("isOnboarding") var isUserLogin: Bool?
-//    @AppStorage("Coins") var coins: Int = 0
-//    @AppStorage("Hearts") var hearts: Int = 0
     @Environment(\.dismiss) var dismiss
-    @State private var musicOff: Bool = false
     @State private var soundOff: Bool = false
     @State private var showImage = false
     
@@ -68,9 +66,10 @@ struct HomeView: View {
                     .navigationBarTitle("")
                     .navigationBarHidden(true)
                 }
-                .onAppear() {
+                .onAppear {
                     withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
                         showImage = true
+                        musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3")
                     }
                 }
             }
@@ -86,10 +85,14 @@ struct HomeView: View {
             Button {
                 withAnimation {
                     feedback.impactOccurred()
-                    musicOff.toggle()
+                    if musicPlayer.isPlaying {
+                        musicPlayer.stopBackgroundMusic()
+                    } else {
+                        musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3")
+                    }
                 }
             } label: {
-                Image(musicOff ? "musicOff" : "music")
+                Image(musicPlayer.isPlaying ? "music" : "musicOff")
             }
             Button {
                 withAnimation {
