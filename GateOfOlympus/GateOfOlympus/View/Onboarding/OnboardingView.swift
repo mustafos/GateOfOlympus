@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OnboardingView: View {
     @AppStorage("isOnboarding") var isUserLogin: Bool?
+    @StateObject private var musicPlayer = AudioPlayer()
     @State private var currentTextIndex = 0
     @State private var isAnimateTap = false
     private let feedback = UIImpactFeedbackGenerator(style: .soft)
@@ -61,6 +62,7 @@ struct OnboardingView: View {
         .onAppear() {
             withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
                 isAnimateTap = true
+                musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3")
             }
         }
         .onTapGesture {

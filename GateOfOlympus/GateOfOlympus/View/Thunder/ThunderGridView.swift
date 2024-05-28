@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct ThunderGridView: View {
-    
     @ObservedObject var manager: ThunderViewModel
+    @StateObject private var musicPlayer = AudioPlayer()
     @State private var startDetectDrag = false
-    
+    @State private var isAnimateStart = false
+    private let haptics = UINotificationFeedbackGenerator()
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(spacing: 6), count: 5), spacing: 6) {
             ForEach(0..<30) { index in
@@ -35,6 +36,7 @@ struct ThunderGridView: View {
             Image("slot")
             .resizable()
             .scaledToFill()
+            .padding(-20)
         )
         .padding(56)
         .overlay {
@@ -42,42 +44,84 @@ struct ThunderGridView: View {
                 Button {
                     manager.gameStart()
                 } label: {
-                    Text("Game Start")
-                        .bold()
-                        .font(.title)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color(red: 236/255, green: 140/255, blue: 85/255))
-                        .cornerRadius(5)
+                    Image("mover")
+                        .scaleEffect(isAnimateStart ? 1.2 : 1.0)
+                }
+                .onAppear() {
+                    withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                        isAnimateStart = true
+                    }
                 }
             }
             if manager.isStop {
                 VStack(spacing: 15) {
-                    Button {
-                        manager.timerStart()
-                    } label: {
-                        (Text(Image(systemName: "arrowtriangle.right.circle")) + Text("  Continue"))
-                            .bold()
-                            .font(.title)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color(red: 236/255, green: 140/255, blue: 85/255))
-                            .cornerRadius(5)
-                    }
-                    Button {
-                        manager.gameStart()
-                    } label: {
-                        (Text(Image(systemName: "arrow.counterclockwise.circle")) + Text("  Restart"))
-                            .bold()
-                            .font(.title)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color(red: 236/255, green: 140/255, blue: 85/255))
-                            .cornerRadius(5)
-                    }
+                    WinLoseAlert(isWin: manager.score >= 100)
                 }
             }
         }
+    }
+    
+    @ViewBuilder
+    func WinLoseAlert(isWin: Bool) -> some View {
+        ZStack {
+            Color.black.opacity(0.7).ignoresSafeArea()
+            VStack(spacing: 0) {
+                VStack(spacing: 20) {
+                    Image(isWin ? "win" : "lose")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: 56)
+                    
+                    Text(isWin ? "You Win!" : "Game over")
+                        .modifier(TitleModifier(size: 18, color: .white))
+                    
+                    if isWin {
+                        HStack(spacing: 6) {
+                            Image("coin")
+                                .resizable()
+                                .scaledToFit()
+                            Text("\(manager.score)")
+                        }
+                        .frame(height: 24)
+                        .modifier(TitleModifier(size: 14, color: .white))
+                    }
+                    
+                    Button {
+                        withAnimation {
+                            feedback.impactOccurred()
+                            musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                            if isWin {
+                                manager.timerStart()
+                                manager.coins = manager.score
+                            } else {
+                                manager.gameStart()
+                            }
+                        }
+                    } label: {
+                        Text(isWin ? "Naxt Level" : "Play Again").gradientButton()
+                    }.padding(.bottom, -4)
+                    
+                    Button {
+                        withAnimation {
+                            feedback.impactOccurred()
+                            musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+//                            rootView = false
+                        }
+                    } label: {
+                        Text("Home").gradientButton()
+                    }
+                }
+                .padding(15)
+            }
+            .textAreaConteiner(background: .accentColor, corner: 30)
+//            .opacity($animatingAlert.wrappedValue ? 1 : 0)
+//            .offset(y: $animatingAlert.wrappedValue ? 0 : -100)
+            .shadow(color: isWin ? .green : .red, radius: 100)
+//            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: showResults)
+//            .onAppear(perform: {
+//                self.animatingAlert = true
+//            })
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     func dragGesture(index: Int) -> some Gesture {
@@ -121,6 +165,8 @@ struct ThunderGridView: View {
         manager.isMatch = false
         manager.isProcessing = true
         withAnimation(.easeInOut(duration: 0.4)) {
+            haptics.notificationOccurred(.success)
+            musicPlayer.playSound(sound: "coins", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
             manager.grids.swapAt(leftIndex, rightIndex)
         }
         let left = manager.grids[leftIndex].gridType
@@ -186,10 +232,11 @@ struct ThunderGridView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             if !manager.isMatch {
                 withAnimation(.easeInOut(duration: 0.4)) {
+                    haptics.notificationOccurred(.error)
+                    musicPlayer.playSound(sound: "coins", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                     manager.grids.swapAt(leftIndex, rightIndex)
                 }
             }
         }
     }
-
 }

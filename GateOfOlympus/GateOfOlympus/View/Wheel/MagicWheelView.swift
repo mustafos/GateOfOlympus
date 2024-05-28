@@ -10,6 +10,7 @@ import SwiftUI
 struct MagicWheelView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var manager = ThunderViewModel()
+    @StateObject private var musicPlayer = AudioPlayer()
     @State var rotation: CGFloat = 0.0
     @State private var showGod = false
     @State private var selectedSegment: Int = 0
@@ -53,6 +54,7 @@ struct MagicWheelView: View {
             Button {
                 withAnimation {
                     feedback.impactOccurred()
+                    musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                     dismiss()
                 }
             } label: {
@@ -88,8 +90,10 @@ struct MagicWheelView: View {
                         .animation(.easeInOut(duration: 1.5), value: rotation)
                         .overlay {
                             Button {
+                                musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                                 let randomAmount = Double(Int.random(in: 7..<50))
                                 rotation += randomAmount
+                                
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                     updateCoinsOrHearts()
                                 }

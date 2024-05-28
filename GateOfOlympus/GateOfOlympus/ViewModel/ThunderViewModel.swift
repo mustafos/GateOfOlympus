@@ -51,7 +51,6 @@ class ThunderViewModel: ObservableObject {
             if(self.gameTimeLast == 0) {
                 self.timer?.invalidate()
                 self.timer = nil
-                self.coins += self.score
                 self.isPlaying = false
                 self.grids = Array(repeating: Grid(gridType: .blank), count: 30)
                 self.gameTimeLast = 60
@@ -307,7 +306,7 @@ class ThunderViewModel: ObservableObject {
             grids = Array(repeating: Grid(gridType: .blank), count: 30)
         }
         score += 100
-        combo += 10
+        combo += 100
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.fallDown()
         }
@@ -603,10 +602,10 @@ class ThunderViewModel: ObservableObject {
                 withAnimation(.easeInOut(duration: 0.4)) {
                     grids[idx].gridType = .blank
                 }
-                score += 10
+                score += 100
             }
         }
-        combo += 10
+        combo += 100
     }
     
     func checkDead() -> Bool {

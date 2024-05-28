@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RotateWheelView: View {
-    
+    @StateObject private var musicPlayer = AudioPlayer()
     @Binding var rotation: CGFloat
     @Binding var selectedSegment: Int
     

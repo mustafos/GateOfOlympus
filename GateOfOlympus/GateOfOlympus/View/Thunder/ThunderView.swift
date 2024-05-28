@@ -8,13 +8,18 @@
 import SwiftUI
 
 struct ThunderView: View {
-    @StateObject var manager = ThunderViewModel()
+    @Binding var rootView: Bool
     @Environment(\.dismiss) var dismiss
+    
+    @StateObject var manager = ThunderViewModel()
+    @StateObject private var musicPlayer = AudioPlayer()
+    
     @State private var isAnimateNextLevel = false
     @State private var extraMoves: Bool = false
     @State private var extraTime: Bool = false
     @State private var showResults: Bool = false
     @State private var animatingAlert: Bool = false
+    
     var body: some View {
         GeometryReader { geo in
             NavigationView {
@@ -60,6 +65,24 @@ struct ThunderView: View {
                         
                         ThunderGridView(manager: manager)
                             .overlay {
+//                                if !manager.isPlaying {
+//                                    Button {
+//                                        manager.gameStart()
+//                                    } label: {
+//                                        Image("mover")
+//                                            .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
+//                                    }
+//                                    .onAppear() {
+//                                        withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+//                                            isAnimateNextLevel = true
+//                                        }
+//                                    }
+//                                }
+//
+//                                if manager.isStop {
+//                                    WinLoseAlert(isWin: manager.score >= 200)
+//                                }
+                                
                                 if manager.combo != 0 {
                                     withAnimation(.linear(duration: 0.4)) {
                                         ZStack {
@@ -72,104 +95,35 @@ struct ThunderView: View {
                                                 .modifier(TitleModifier(size: 18, color: .white))
                                                 .shadow(radius: 10)
                                         }
+                                        .onAppear {
+                                            feedback.impactOccurred()
+                                            musicPlayer.playSound(sound: "slot", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                                        }
                                     }
                                 }
                             }
-                        if $extraMoves.wrappedValue {
-                            ExtraAlert(isMoves: true)
-                        }
-
+                        
                         Spacer()
                     }
                     .navigationBarTitle("")
-                        .navigationBarHidden(true)
-                        .blur(radius: $extraMoves.wrappedValue ? 5 : 0, opaque: false)
-                        .onAppear() {
-                            withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-                                isAnimateNextLevel = true
-                            }
+                    .navigationBarHidden(true)
+                    .blur(radius: $extraMoves.wrappedValue || $extraTime.wrappedValue ? 5 : 0, opaque: false)
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                            isAnimateNextLevel = true
                         }
+                    }
+                    
+                    if $extraMoves.wrappedValue {
+                        ExtraAlert(isMoves: true)
+                    }
+                    
+                    if $extraTime.wrappedValue {
+                        ExtraAlert(isMoves: false)
+                    }
                 }
             }.navigationViewStyle(.stack)
         }
-//        NavigationView {
-//            ZStack {
-//                Image("backgroundThunder")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fill)
-//                    .ignoresSafeArea()
-//                
-//                VStack(spacing: 0) {
-//                    HeaderView()
-//                    Spacer()
-//                    Image("NextLevel")
-//                        .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
-//                    
-//                    Image("stars")
-//                        .resizable()
-//                        .scaledToFill()
-//                        .frame(width: 173, height: 32)
-//                    
-//                    HStack(spacing: 14) {
-//                        MoveGuideButton(isGuide: false)
-//                            .onTapGesture {
-//                                withAnimation {
-//                                    feedback.impactOccurred()
-//                                    extraMoves.toggle()
-//                                }
-//                            }
-//                        
-//                        Image("God")
-//                            .resizable()
-//                            .scaledToFill()
-//                            .offset(x: 0, y: -20)
-//                        
-//                        NavigationLink {
-//                            GuideView().navigationBarBackButtonHidden()
-//                        } label: {
-//                            MoveGuideButton(isGuide: true)
-//                        }
-//                    }.padding(20)
-//                    
-//                    Spacer()
-//                }
-//                .navigationBarTitle("")
-//                .navigationBarHidden(true)
-//                .blur(radius: $extraMoves.wrappedValue ? 5 : 0, opaque: false)
-//                
-//                ResultsBoardView(manager: manager)
-//                ThunderGridView(manager: manager)
-//                    .overlay {
-//                        if manager.combo != 0 {
-//                            withAnimation(.linear(duration: 0.4)) {
-//                                Text("Combo ")
-//                                    .bold()
-//                                    .font(.largeTitle)
-//                                    .foregroundColor(Color(red: 120/255, green: 111/255, blue: 102/255))
-//                                +
-//                                Text("\(manager.combo)")
-//                                    .bold()
-//                                    .font(.largeTitle)
-//                                    .foregroundColor(Color(red: 236/255, green: 140/255, blue: 85/255))
-//                                +
-//                                Text(" !")
-//                                    .bold()
-//                                    .font(.largeTitle)
-//                                    .foregroundColor(Color(red: 120/255, green: 111/255, blue: 102/255))
-//                            }
-//                        }
-//                    }
-//                
-//                if $extraMoves.wrappedValue {
-//                    ExtraAlert(isMoves: true)
-//                }
-//            }
-//            .onAppear() {
-//                withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-//                    isAnimateNextLevel = true
-//                }
-//            }
-//        }.navigationViewStyle(.stack)
     }
     
     @ViewBuilder
@@ -178,6 +132,7 @@ struct ThunderView: View {
             Button {
                 withAnimation {
                     feedback.impactOccurred()
+                    musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                     dismiss()
                     manager.timerStop()
                 }
@@ -188,6 +143,7 @@ struct ThunderView: View {
             Spacer()
             
             TimerView()
+            
             CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
             CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
@@ -214,6 +170,12 @@ struct ThunderView: View {
                 .scaledToFill()
                 .frame(width: 22)
                 .offset(x: -12, y: -4)
+        }
+        .onTapGesture {
+            withAnimation {
+                feedback.impactOccurred()
+                extraTime.toggle()
+            }
         }
     }
     
@@ -270,8 +232,22 @@ struct ThunderView: View {
                     
                     Button {
                         if isMoves {
-                            extraMoves.toggle()
-                            animatingAlert.toggle()
+                            withAnimation {
+                                feedback.impactOccurred()
+                                musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                                manager.hearts -= 5
+                                extraMoves.toggle()
+                                animatingAlert.toggle()
+                            }
+                        } else {
+                            withAnimation {
+                                feedback.impactOccurred()
+                                musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                                manager.gameTimeLast += 10
+                                manager.coins -= 100
+                                extraTime.toggle()
+                                animatingAlert.toggle()
+                            }
                         }
                     } label: {
                         Text("Buy").gradientButton()
@@ -284,62 +260,9 @@ struct ThunderView: View {
             .opacity($animatingAlert.wrappedValue ? 1 : 0)
             .offset(y: $animatingAlert.wrappedValue ? 0 : -100)
             .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: extraMoves)
+            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: extraTime)
             .onAppear(perform: {
-                self.animatingAlert = true
-            })
-        }
-    }
-    
-    @ViewBuilder
-    func WinLoseAlert(isWin: Bool) -> some View {
-        ZStack {
-            Color.black.opacity(0.7).ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                VStack(spacing: 20) {
-                    Image(isWin ? "win" : "lose")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxHeight: 56)
-                    
-                    Text(isWin ? "You Win!" : "Game over")
-                        .modifier(TitleModifier(size: 18, color: .white))
-                    
-                    if isWin {
-                        HStack(spacing: 6) {
-                            Image("coin")
-                                .resizable()
-                                .scaledToFit()
-                            Text("\(manager.score)")
-                        }
-                        .frame(height: 24)
-                        .modifier(TitleModifier(size: 14, color: .white))
-                    }
-                    
-                    Button {
-                        showResults.toggle()
-                        animatingAlert.toggle()
-                        //                                self.activateBet10()
-                        //                                self.coins = 100
-                    } label: {
-                        Text(isWin ? "Naxt Level" : "Play Again").gradientButton()
-                    }.padding(.bottom, -4)
-                    
-                    Button {
-                        showResults.toggle()
-                        animatingAlert.toggle()
-                    } label: {
-                        Text("Home").gradientButton()
-                    }
-                }
-                .padding(15)
-            }
-            .textAreaConteiner(background: .accentColor, corner: 30)
-            .opacity($animatingAlert.wrappedValue ? 1 : 0)
-            .offset(y: $animatingAlert.wrappedValue ? 0 : -100)
-            .shadow(color: isWin ? .green : .red, radius: 100)
-            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: showResults)
-            .onAppear(perform: {
+                musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                 self.animatingAlert = true
             })
         }
@@ -365,7 +288,6 @@ struct ThunderView: View {
                     Text("5").modifier(TitleModifier(size: 18, color: .white))
                 }
             }.modifier(BodyModifier(size: 12, color: .white))
-        }
-        .textAreaConteiner(background: Color.black.opacity(0.9), corner: 10)
+        }.textAreaConteiner(background: Color.black.opacity(0.9), corner: 10)
     }
 }

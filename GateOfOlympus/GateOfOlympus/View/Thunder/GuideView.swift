@@ -10,6 +10,7 @@ import SwiftUI
 struct GuideView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var manager = ThunderViewModel()
+    @StateObject private var musicPlayer = AudioPlayer()
     
     var body: some View {
         NavigationView {
@@ -49,6 +50,7 @@ struct GuideView: View {
             Button {
                 withAnimation {
                     feedback.impactOccurred()
+                        musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                     dismiss()
                 }
             } label: {

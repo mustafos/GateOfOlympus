@@ -9,9 +9,10 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var manager = ThunderViewModel()
-    @StateObject private var musicPlayer = MusicPlayer()
+    @StateObject private var musicPlayer = AudioPlayer()
     @AppStorage("isOnboarding") var isUserLogin: Bool?
     @Environment(\.dismiss) var dismiss
+    @State private var rootView: Bool = false
     @State private var soundOff: Bool = false
     @State private var showImage = false
     
@@ -49,7 +50,7 @@ struct HomeView: View {
                                 CombinationesView()
                                 
                                 NavigationLink {
-                                    ThunderView().navigationBarBackButtonHidden()
+                                    ThunderView(rootView: $rootView).navigationBarBackButtonHidden()
                                 } label: {
                                     GameCellContainer(isWheel: false)
                                 }
@@ -85,6 +86,7 @@ struct HomeView: View {
             Button {
                 withAnimation {
                     feedback.impactOccurred()
+                    
                     if musicPlayer.isPlaying {
                         musicPlayer.stopBackgroundMusic()
                     } else {
@@ -97,10 +99,10 @@ struct HomeView: View {
             Button {
                 withAnimation {
                     feedback.impactOccurred()
-                    soundOff.toggle()
+                    musicPlayer.isSoundOn.toggle()
                 }
             } label: {
-                Image(soundOff ? "soundOff" : "sound")
+                Image(musicPlayer.isSoundOn ? "sound" : "soundOff")
             }
             Spacer()
             CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
