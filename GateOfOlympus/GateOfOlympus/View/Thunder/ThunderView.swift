@@ -19,111 +19,97 @@ struct ThunderView: View {
     @State private var extraTime: Bool = false
     @State private var showResults: Bool = false
     @State private var animatingAlert: Bool = false
-    
+    @State private var movesCount: UInt8 = 15
     var body: some View {
-        GeometryReader { geo in
-            NavigationView {
-                ZStack {
-                    Image("backgroundThunder")
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                        .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
-                        .opacity(1.0)
+        NavigationView {
+            VStack(spacing: 0) {
+                HeaderView()
+                Spacer()
+                Image("NextLevel")
+                    .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
+                
+                Image("stars")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 173, height: 32)
+                
+                HStack {
+                    MoveGuideButton(isGuide: false)
+                        .frame(width: 64, height: 74)
+                        .onTapGesture {
+                            withAnimation {
+                                feedback.impactOccurred()
+                                extraMoves.toggle()
+                            }
+                        }
                     
-                    VStack(spacing: 0) {
-                        HeaderView()
-                        Spacer()
-                        Image("NextLevel")
-                            .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
-                        
-                        Image("stars")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 173, height: 32)
-                        
-                        HStack(spacing: 14) {
-                            MoveGuideButton(isGuide: false)
-                                .onTapGesture {
-                                    withAnimation {
-                                        feedback.impactOccurred()
-                                        extraMoves.toggle()
-                                    }
-                                }
-                            
-                            Image("God")
-                                .resizable()
-                                .scaledToFill()
-                                .offset(x: 0, y: -20)
-                            
-                            NavigationLink {
-                                GuideView().navigationBarBackButtonHidden()
-                            } label: {
-                                MoveGuideButton(isGuide: true)
-                            }
-                        }.padding(20)
-                        
-                        ThunderGridView(manager: manager)
-                            .overlay {
-//                                if !manager.isPlaying {
-//                                    Button {
-//                                        manager.gameStart()
-//                                    } label: {
-//                                        Image("mover")
-//                                            .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
-//                                    }
-//                                    .onAppear() {
-//                                        withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-//                                            isAnimateNextLevel = true
-//                                        }
-//                                    }
-//                                }
-//
-//                                if manager.isStop {
-//                                    WinLoseAlert(isWin: manager.score >= 200)
-//                                }
-                                
-                                if manager.combo != 0 {
-                                    withAnimation(.linear(duration: 0.4)) {
-                                        ZStack {
-                                            Image("greenShadow")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 172)
-                                            
-                                            Text("+\(manager.combo) points")
-                                                .modifier(TitleModifier(size: 18, color: .white))
-                                                .shadow(radius: 10)
-                                        }
-                                        .onAppear {
-                                            feedback.impactOccurred()
-                                            musicPlayer.playSound(sound: "slot", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                                        }
-                                    }
-                                }
-                            }
-                        
-                        Spacer()
+                    Spacer()
+                    
+                    NavigationLink {
+                        GuideView().navigationBarBackButtonHidden()
+                    } label: {
+                        MoveGuideButton(isGuide: true)
+                            .frame(width: 64, height: 74)
                     }
-                    .navigationBarTitle("")
-                    .navigationBarHidden(true)
-                    .blur(radius: $extraMoves.wrappedValue || $extraTime.wrappedValue ? 5 : 0, opaque: false)
-                    .onAppear {
-                        withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-                            isAnimateNextLevel = true
+                }.padding(.horizontal, 20)
+                
+                Image("God")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 120)
+                    .overlay(alignment: .bottom) {
+                        ThunderGridView(manager: manager)
+                            .offset(x: 0, y: 100)
+                    }
+                    .overlay {
+                        if manager.combo != 0 {
+                            withAnimation(.linear(duration: 0.4)) {
+                                ZStack {
+                                    Image("greenShadow")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 172)
+                                    
+                                    Text("+\(manager.combo) points")
+                                        .modifier(TitleModifier(size: 18, color: .white))
+                                        .shadow(radius: 10)
+                                }
+                                .onAppear {
+                                    feedback.impactOccurred()
+                                    musicPlayer.playSound(sound: "slot", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                                }
+                            }
                         }
                     }
-                    
-                    if $extraMoves.wrappedValue {
-                        ExtraAlert(isMoves: true)
-                    }
-                    
-                    if $extraTime.wrappedValue {
-                        ExtraAlert(isMoves: false)
-                    }
+                
+                Spacer()
+            }
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
+            .background {
+                Image("backgroundThunder")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .opacity(1.0)
+            }
+            .blur(radius: $extraMoves.wrappedValue || $extraTime.wrappedValue ? 5 : 0, opaque: false)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                    isAnimateNextLevel = true
                 }
-            }.navigationViewStyle(.stack)
-        }
+            }
+            .overlay {
+                if $extraMoves.wrappedValue {
+                    ExtraAlert(isMoves: true)
+                }
+                
+                if $extraTime.wrappedValue {
+                    ExtraAlert(isMoves: false)
+                }
+            }
+        }.navigationViewStyle(.stack)
     }
     
     @ViewBuilder
@@ -148,7 +134,6 @@ struct ThunderView: View {
             CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
         .padding(.horizontal, 20)
-        .padding(.top, 20)
         .padding(.bottom, 10)
         .background(Color.navigation)
     }
@@ -252,8 +237,7 @@ struct ThunderView: View {
                     } label: {
                         Text("Buy").gradientButton()
                     }
-                }
-                .padding(15)
+                }.padding(15)
             }
             .textAreaConteiner(background: .accentColor, corner: 30)
             .padding(.horizontal, 70)

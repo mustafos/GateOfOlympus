@@ -73,8 +73,7 @@ struct HomeView: View {
                         musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3")
                     }
                 }
-            }
-            .navigationViewStyle(.stack)
+            }.navigationViewStyle(.stack)
         } else {
             OnboardingView()
         }
@@ -86,7 +85,7 @@ struct HomeView: View {
             Button {
                 withAnimation {
                     feedback.impactOccurred()
-                    
+                    musicPlayer.isMusicOn.toggle()
                     if musicPlayer.isPlaying {
                         musicPlayer.stopBackgroundMusic()
                     } else {

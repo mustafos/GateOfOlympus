@@ -9,6 +9,7 @@ import SwiftUI
 import AVFoundation
 
 class AudioPlayer: ObservableObject {
+    @AppStorage("isMusicOn") var isMusicOn: Bool = true
     @AppStorage("isSoundOn") var isSoundOn: Bool = true
     
     @Published var isPlaying = true

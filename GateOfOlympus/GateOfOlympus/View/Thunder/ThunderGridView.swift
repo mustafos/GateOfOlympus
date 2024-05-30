@@ -14,48 +14,50 @@ struct ThunderGridView: View {
     @State private var isAnimateStart = false
     private let haptics = UINotificationFeedbackGenerator()
     var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(spacing: 6), count: 5), spacing: 6) {
-            ForEach(0..<30) { index in
-                GeometryReader { geo in
-                    Rectangle()
-                        .frame(width: nil, height: geo.size.width)
-                        .foregroundColor(Color(red: 71/255, green: 14/255, blue: 115/255))
-                        .cornerRadius(10)
-                        .overlay {
-                            if manager.grids[index].gridType != .blank && !manager.isStop {
-                                Image(manager.grids[index].icon)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .gesture(dragGesture(index: index))
+        ZStack {
+            LazyVGrid(columns: Array(repeating: GridItem(spacing: 6), count: 5), spacing: 6) {
+                ForEach(0..<30) { index in
+                    GeometryReader { geo in
+                        Rectangle()
+                            .frame(width: nil, height: geo.size.width)
+                            .foregroundColor(Color(red: 71/255, green: 14/255, blue: 115/255))
+                            .cornerRadius(10)
+                            .overlay {
+                                if manager.grids[index].gridType != .blank && !manager.isStop {
+                                    Image(manager.grids[index].icon)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .gesture(dragGesture(index: index))
+                                }
                             }
-                        }
-                }.aspectRatio(contentMode: .fit)
-            }
-        }
-        .background(
-            Image("slot")
-            .resizable()
-            .scaledToFill()
-            .padding(-20)
-        )
-        .padding(56)
-        .overlay {
-            if !manager.isPlaying {
-                Button {
-                    manager.gameStart()
-                } label: {
-                    Image("mover")
-                        .scaleEffect(isAnimateStart ? 1.2 : 1.0)
+                    }.aspectRatio(contentMode: .fit)
                 }
-                .onAppear() {
-                    withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-                        isAnimateStart = true
+            }
+            .background(
+                Image("slot")
+                    .resizable()
+                    .scaledToFill()
+                    .padding(-20)
+            )
+            .padding(56)
+            .overlay {
+                if !manager.isPlaying {
+                    Button {
+                        manager.gameStart()
+                    } label: {
+                        Image("mover")
+                            .scaleEffect(isAnimateStart ? 1.2 : 1.0)
+                    }
+                    .onAppear() {
+                        withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                            isAnimateStart = true
+                        }
                     }
                 }
-            }
-            if manager.isStop {
-                VStack(spacing: 15) {
-                    WinLoseAlert(isWin: manager.score >= 100)
+                if manager.isStop {
+                    VStack(spacing: 15) {
+                        WinLoseAlert(isWin: manager.score >= 100)
+                    }
                 }
             }
         }
@@ -105,7 +107,7 @@ struct ThunderGridView: View {
                         withAnimation {
                             feedback.impactOccurred()
                             musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-//                            rootView = false
+                            //                            rootView = false
                         }
                     } label: {
                         Text("Home").gradientButton()
@@ -114,52 +116,52 @@ struct ThunderGridView: View {
                 .padding(15)
             }
             .textAreaConteiner(background: .accentColor, corner: 30)
-//            .opacity($animatingAlert.wrappedValue ? 1 : 0)
-//            .offset(y: $animatingAlert.wrappedValue ? 0 : -100)
+            //            .opacity($animatingAlert.wrappedValue ? 1 : 0)
+            //            .offset(y: $animatingAlert.wrappedValue ? 0 : -100)
             .shadow(color: isWin ? .green : .red, radius: 100)
-//            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: showResults)
-//            .onAppear(perform: {
-//                self.animatingAlert = true
-//            })
+            //            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: showResults)
+            //            .onAppear(perform: {
+            //                self.animatingAlert = true
+            //            })
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     func dragGesture(index: Int) -> some Gesture {
-            DragGesture(minimumDistance: 0)
-                .onChanged { value in
-                    if startDetectDrag && !manager.isProcessing && manager.isPlaying && !manager.isStop {
-                        if value.translation.width > 5 { // swipe right
-                            if !stride(from: 4, through: 29, by: 5).contains(index) {
-                                let rightIndex = index + 1
-                                processMove(leftIndex: index, rightIndex: rightIndex)
-                            }
-                            startDetectDrag = false
-                        } else if value.translation.width < -5 { // swipe left
-                            if !stride(from: 0, through: 25, by: 5).contains(index) {
-                                let leftIndex = index - 1
-                                processMove(leftIndex: leftIndex, rightIndex: index)
-                            }
-                            startDetectDrag = false
-                        } else if value.translation.height < -5 { // swipe up
-                            if index >= 5 {
-                                let upIndex = index - 5
-                                processMove(leftIndex: upIndex, rightIndex: index)
-                            }
-                            startDetectDrag = false
-                        } else if value.translation.height > 5 { // swipe down
-                            if index <= 24 {
-                                let downIndex = index + 5
-                                processMove(leftIndex: index, rightIndex: downIndex)
-                            }
-                            startDetectDrag = false
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                if startDetectDrag && !manager.isProcessing && manager.isPlaying && !manager.isStop {
+                    if value.translation.width > 5 { // swipe right
+                        if !stride(from: 4, through: 29, by: 5).contains(index) {
+                            let rightIndex = index + 1
+                            processMove(leftIndex: index, rightIndex: rightIndex)
                         }
-                    } else {
-                        if value.translation == .zero {
-                            startDetectDrag = true
+                        startDetectDrag = false
+                    } else if value.translation.width < -5 { // swipe left
+                        if !stride(from: 0, through: 25, by: 5).contains(index) {
+                            let leftIndex = index - 1
+                            processMove(leftIndex: leftIndex, rightIndex: index)
                         }
+                        startDetectDrag = false
+                    } else if value.translation.height < -5 { // swipe up
+                        if index >= 5 {
+                            let upIndex = index - 5
+                            processMove(leftIndex: upIndex, rightIndex: index)
+                        }
+                        startDetectDrag = false
+                    } else if value.translation.height > 5 { // swipe down
+                        if index <= 24 {
+                            let downIndex = index + 5
+                            processMove(leftIndex: index, rightIndex: downIndex)
+                        }
+                        startDetectDrag = false
+                    }
+                } else {
+                    if value.translation == .zero {
+                        startDetectDrag = true
                     }
                 }
-        }
+            }
+    }
     
     func processMove(leftIndex: Int, rightIndex: Int) {
         manager.isMatch = false
