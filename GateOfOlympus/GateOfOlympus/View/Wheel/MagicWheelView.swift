@@ -43,6 +43,7 @@ struct MagicWheelView: View {
             .onAppear() {
                 withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
                     showGod = true
+                    NotificationManager.shared.timeNotification()
                 }
             }
         }.navigationViewStyle(.stack)

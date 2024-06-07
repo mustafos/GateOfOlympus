@@ -39,6 +39,8 @@ struct OnboardingView: View {
                     Button {
                         feedback.impactOccurred()
                         isUserLogin = true
+                        NotificationManager.shared.requestAuthorization()
+                        NotificationManager.shared.scheduleDailyNotification()
                     } label: {
                         Image("skip")
                     }
@@ -69,7 +71,10 @@ struct OnboardingView: View {
             withAnimation {
                 feedback.impactOccurred()
                 currentTextIndex = (currentTextIndex + 1) % texts.count
-                if currentTextIndex == 6 {
+                if currentTextIndex == 1 {
+                    NotificationManager.shared.requestAuthorization()
+                    NotificationManager.shared.scheduleDailyNotification()
+                } else if currentTextIndex == 6 {
                     isUserLogin = true
                 }
             }

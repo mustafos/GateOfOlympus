@@ -40,7 +40,21 @@
 		6ADD16D22BFBA73F00C76D08 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADD16D12BFBA73F00C76D08 /* LaunchScreenView.swift */; };
 		6ADD16D62BFBA96400C76D08 /* ThunderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADD16D52BFBA96400C76D08 /* ThunderViewModel.swift */; };
 		6ADD16DA2BFBACB500C76D08 /* TextAreaConteiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADD16D92BFBACB500C76D08 /* TextAreaConteiner.swift */; };
+		6AF42CD72C0BCA95005BE5F8 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF42CD62C0BCA95005BE5F8 /* NotificationManager.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6AF42CBA2C0BC1ED005BE5F8 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6A2C3D282C04D0E7008B8FCE /* drop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drop.mp3; sourceTree = "<group>"; };
@@ -78,6 +92,10 @@
 		6ADD16D12BFBA73F00C76D08 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		6ADD16D52BFBA96400C76D08 /* ThunderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThunderViewModel.swift; sourceTree = "<group>"; };
 		6ADD16D92BFBACB500C76D08 /* TextAreaConteiner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaConteiner.swift; sourceTree = "<group>"; };
+		6AF42CA82C0BC1EC005BE5F8 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = /System/Library/Frameworks/WidgetKit.framework; sourceTree = "<absolute>"; };
+		6AF42CAA2C0BC1EC005BE5F8 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
+		6AF42CBE2C0BC393005BE5F8 /* GateOfOlympus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GateOfOlympus.entitlements; sourceTree = "<group>"; };
+		6AF42CD62C0BCA95005BE5F8 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				6ADD16BE2BFBA58C00C76D08 /* GateOfOlympus */,
+				6AF42CA72C0BC1EC005BE5F8 /* Frameworks */,
 				6ADD16BD2BFBA58C00C76D08 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -166,6 +185,7 @@
 		6ADD16BE2BFBA58C00C76D08 /* GateOfOlympus */ = {
 			isa = PBXGroup;
 			children = (
+				6AF42CBE2C0BC393005BE5F8 /* GateOfOlympus.entitlements */,
 				6AD693B62BFCA69200F6493D /* Info.plist */,
 				6ADD16BF2BFBA58C00C76D08 /* GateOfOlympusApp.swift */,
 				6ADD16D32BFBA94800C76D08 /* Model */,
@@ -218,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				6ADD16D52BFBA96400C76D08 /* ThunderViewModel.swift */,
+				6AF42CD62C0BCA95005BE5F8 /* NotificationManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -244,6 +265,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		6AF42CA72C0BC1EC005BE5F8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6AF42CA82C0BC1EC005BE5F8 /* WidgetKit.framework */,
+				6AF42CAA2C0BC1EC005BE5F8 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -254,6 +284,7 @@
 				6ADD16B82BFBA58C00C76D08 /* Sources */,
 				6ADD16B92BFBA58C00C76D08 /* Frameworks */,
 				6ADD16BA2BFBA58C00C76D08 /* Resources */,
+				6AF42CBA2C0BC1ED005BE5F8 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -329,6 +360,7 @@
 				6AD693AF2BFC9D0200F6493D /* GameplayAlertView.swift in Sources */,
 				6AD693C32BFCFE6400F6493D /* ThunderGridView.swift in Sources */,
 				6A59E4DA2BFBF4B0009FDF39 /* ThunderView.swift in Sources */,
+				6AF42CD72C0BCA95005BE5F8 /* NotificationManager.swift in Sources */,
 				6A59E4D82BFBF482009FDF39 /* MagicWheelView.swift in Sources */,
 				6AD693BC2BFCBDCC00F6493D /* Constant.swift in Sources */,
 				6A7857262C0491A500BE679F /* AudioPlayer.swift in Sources */,
@@ -477,8 +509,10 @@
 		6ADD16CB2BFBA58D00C76D08 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GateOfOlympus/GateOfOlympus.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GateOfOlympus/Preview Content\"";
@@ -486,6 +520,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GateOfOlympus/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Olympus Gold\n        .padding(.top, 20)\n        .padding(.bottom, 10)\n        .background(Color.navigation)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.casino-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -505,15 +540,17 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6ADD16CC2BFBA58D00C76D08 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GateOfOlympus/GateOfOlympus.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GateOfOlympus/Preview Content\"";
@@ -521,6 +558,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GateOfOlympus/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Olympus Gold\n        .padding(.top, 20)\n        .padding(.bottom, 10)\n        .background(Color.navigation)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.casino-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -540,7 +578,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

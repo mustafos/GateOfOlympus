@@ -53,34 +53,33 @@ struct ThunderView: View {
                     }
                 }.padding(.horizontal, 20)
                 
-                Image("God")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 120)
-                    .overlay(alignment: .bottom) {
-                        ThunderGridView(manager: manager)
-                            .offset(x: 0, y: 100)
-                    }
-                    .overlay {
-                        if manager.combo != 0 {
-                            withAnimation(.linear(duration: 0.4)) {
-                                ZStack {
-                                    Image("greenShadow")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 172)
-                                    
-                                    Text("+\(manager.combo) points")
-                                        .modifier(TitleModifier(size: 18, color: .white))
-                                        .shadow(radius: 10)
-                                }
-                                .onAppear {
-                                    feedback.impactOccurred()
-                                    musicPlayer.playSound(sound: "slot", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                ZStack {
+                    Image("God")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120)
+                    ThunderGridView(manager: manager)
+                        .overlay {
+                            if manager.combo != 0 {
+                                withAnimation(.linear(duration: 0.4)) {
+                                    ZStack {
+                                        Image("greenShadow")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 172)
+                                        
+                                        Text("+\(manager.combo) points")
+                                            .modifier(TitleModifier(size: 18, color: .white))
+                                            .shadow(radius: 10)
+                                    }
+                                    .onAppear {
+                                        feedback.impactOccurred()
+                                        musicPlayer.playSound(sound: "slot", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                                    }
                                 }
                             }
                         }
-                    }
+                }
                 
                 Spacer()
             }
@@ -98,6 +97,7 @@ struct ThunderView: View {
             .onAppear {
                 withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
                     isAnimateNextLevel = true
+                    NotificationManager.shared.timeNotification()
                 }
             }
             .overlay {
@@ -134,6 +134,7 @@ struct ThunderView: View {
             CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
         .padding(.horizontal, 20)
+        .padding(.top, 20)
         .padding(.bottom, 10)
         .background(Color.navigation)
     }
@@ -237,7 +238,14 @@ struct ThunderView: View {
                     } label: {
                         Text("Buy").gradientButton()
                     }
-                }.padding(15)
+                }
+                .padding(15)
+                .overlay(Button {
+                        // dismiss
+                    } label: {
+                        Image("cancel")
+                    }, alignment: .topTrailing
+                )
             }
             .textAreaConteiner(background: .accentColor, corner: 30)
             .padding(.horizontal, 70)

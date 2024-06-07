@@ -14,6 +14,9 @@ struct LaunchScreenView: View {
     var body: some View {
         if isPreloadHomeScreen {
             HomeView()
+                .onAppear {
+                    UIApplication.shared.applicationIconBadgeNumber = 0
+                }
         } else {
             ZStack {
                 Color.accentColor.ignoresSafeArea()
