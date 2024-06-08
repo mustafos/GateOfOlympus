@@ -10,14 +10,14 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var manager = ThunderViewModel()
     @StateObject private var musicPlayer = AudioPlayer()
-    @AppStorage("isOnboarding") var isUserLogin: Bool?
+    
     @Environment(\.dismiss) var dismiss
+    
     @State private var rootView: Bool = false
-    @State private var soundOff: Bool = false
     @State private var showImage = false
     
     var body: some View {
-        if isUserLogin == true {
+        if manager.isUserLogin == true {
             NavigationView {
                 ZStack(alignment: .bottom) {
                     Color.accentColor.ignoresSafeArea()
@@ -33,7 +33,7 @@ struct HomeView: View {
                         NavigationBar()
                         
                         Button {
-                            isUserLogin = false
+                            manager.isUserLogin = false
                         } label: {
                             Text("Logout").gradientButton()
                         }
@@ -70,7 +70,7 @@ struct HomeView: View {
                 .onAppear {
                     withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
                         showImage = true
-                        musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3")
+                        musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3", isMusicOn: musicPlayer.isMusicOn)
                     }
                 }
             }.navigationViewStyle(.stack)
@@ -82,27 +82,16 @@ struct HomeView: View {
     @ViewBuilder
     func NavigationBar() -> some View {
         HStack(spacing: 20) {
-            Button {
-                withAnimation {
-                    feedback.impactOccurred()
-                    musicPlayer.isMusicOn.toggle()
-                    if musicPlayer.isPlaying {
-                        musicPlayer.stopBackgroundMusic()
-                    } else {
-                        musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3")
-                    }
-                }
+            NavigationLink {
+                SettingsView().navigationBarBackButtonHidden()
             } label: {
-                Image(musicPlayer.isPlaying ? "music" : "musicOff")
+                Image("menu")
             }
-            Button {
-                withAnimation {
-                    feedback.impactOccurred()
-                    musicPlayer.isSoundOn.toggle()
-                }
-            } label: {
-                Image(musicPlayer.isSoundOn ? "sound" : "soundOff")
-            }
+            
+            Text("Olympus")
+                .modifier(TitleModifier(size: 18, color: .white))
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
             Spacer()
             CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
             CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")

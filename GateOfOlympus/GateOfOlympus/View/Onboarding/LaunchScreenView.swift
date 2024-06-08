@@ -20,12 +20,22 @@ struct LaunchScreenView: View {
         } else {
             ZStack {
                 Color.accentColor.ignoresSafeArea()
+                
                 Image("LaunchIcon")
                     .resizable()
                     .scaledToFit()
                     .padding(.horizontal, 70)
                     .scaleEffect(size)
                     .opacity(opacity)
+                    .overlay(alignment: .bottom) {
+                        Image("progress")
+                            .resizable()
+                            .scaledToFit()
+                            .padding(.horizontal, 70)
+                            .overlay {
+                                ProgressView()
+                            }
+                    }
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                             isPreloadHomeScreen = true

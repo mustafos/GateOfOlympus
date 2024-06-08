@@ -11,9 +11,7 @@ import AVFoundation
 class AudioPlayer: ObservableObject {
     @AppStorage("isMusicOn") var isMusicOn: Bool = true
     @AppStorage("isSoundOn") var isSoundOn: Bool = true
-    
-    @Published var isPlaying = true
-    
+
     private var audioPlayer: AVAudioPlayer?
     
     func playSound(sound: String, type: String, isSoundOn: Bool) {
@@ -28,25 +26,20 @@ class AudioPlayer: ObservableObject {
         }
     }
     
-    func playBackgroundMusic(fileName: String, fileType: String) {
-        guard let url = Bundle.main.url(forResource: fileName, withExtension: fileType) else {
-            print("Failed to locate audio file.")
-            return
+    func playBackgroundMusic(fileName: String, fileType: String, isMusicOn: Bool) {
+        if isMusicOn {
+            if let url = Bundle.main.url(forResource: fileName, withExtension: fileType) {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: url)
+                    audioPlayer?.numberOfLoops = -1
+                    audioPlayer?.prepareToPlay()
+                    audioPlayer?.play()
+                } catch {
+                    print("Failed to initialize audio player: \(error.localizedDescription)")
+                }
+            }
+        } else {
+            audioPlayer?.stop()
         }
-        
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.numberOfLoops = -1 
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
-            isPlaying = true
-        } catch {
-            print("Failed to initialize audio player: \(error.localizedDescription)")
-        }
-    }
-    
-    func stopBackgroundMusic() {
-        audioPlayer?.stop()
-        isPlaying.toggle()
     }
 }

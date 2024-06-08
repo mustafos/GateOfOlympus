@@ -21,12 +21,6 @@ struct MagicWheelView: View {
                 Color.accentColor.ignoresSafeArea()
                 VStack(spacing: 0) {
                     HeaderView().padding(.bottom, 54)
-                    Button(action: {
-                        manager.coins = 0
-                        manager.hearts = 0
-                    }, label: {
-                        Text("Delete All").gradientButton()
-                    })
                     Spacer()
                     MagicWheel()
                     Image("God")

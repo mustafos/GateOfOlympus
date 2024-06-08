@@ -64,7 +64,7 @@ struct OnboardingView: View {
         .onAppear() {
             withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
                 isAnimateTap = true
-                musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3")
+//                musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3", isMusicOn: musicPlayer.isMusicOn)
             }
         }
         .onTapGesture {

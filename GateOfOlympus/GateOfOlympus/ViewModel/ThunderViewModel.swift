@@ -27,9 +27,10 @@ struct Grid {
     }
 }
 
-class ThunderViewModel: ObservableObject {
-    @AppStorage("Coins") var coins: Int = 0
-    @AppStorage("Hearts") var hearts: Int = 0
+final class ThunderViewModel: ObservableObject {
+    @AppStorage("isOnboarding") var isUserLogin: Bool = true
+    @AppStorage("Coins") var coins: Int = 100
+    @AppStorage("Hearts") var hearts: Int = 15
     
     @Published var grids = Array(repeating: Grid(gridType: .blank), count: 30)
     @Published var score = 0
