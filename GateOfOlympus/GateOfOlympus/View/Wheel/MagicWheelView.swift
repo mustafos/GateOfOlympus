@@ -16,12 +16,14 @@ struct MagicWheelView: View {
     @State private var selectedSegment: Int = 0
     
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .bottom) {
-                Color.accentColor.ignoresSafeArea()
+        ZStack(alignment: .bottom) {
+            Color.accentColor.ignoresSafeArea()
+            VStack(spacing: 0) {
+                HeaderView(image: "back", title: "Spin") {
+                    dismiss()
+                }
+                .padding(.bottom, 54)
                 VStack(spacing: 0) {
-                    HeaderView().padding(.bottom, 54)
-                    Spacer()
                     MagicWheel()
                     Image("God")
                         .resizable()
@@ -31,43 +33,16 @@ struct MagicWheelView: View {
                     
                     BlureBottomView()
                 }
-                .navigationBarTitle("")
-                .navigationBarHidden(true)
             }
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
             .onAppear() {
                 withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
                     showGod = true
                     NotificationManager.shared.timeNotification()
                 }
             }
-        }.navigationViewStyle(.stack)
-    }
-    
-    @ViewBuilder
-    func HeaderView() -> some View {
-        HStack(spacing: 20) {
-            Button {
-                withAnimation {
-                    feedback.impactOccurred()
-                    musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                    dismiss()
-                }
-            } label: {
-                Image("back")
-            }
-            
-            Text("Magic Wheel")
-                .modifier(TitleModifier(size: 18, color: .white))
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-            
-            CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
-            CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 20)
-        .padding(.bottom, 10)
-        .background(Color.navigation)
     }
     
     @ViewBuilder
@@ -113,13 +88,13 @@ struct MagicWheelView: View {
                 }
         }
     }
-  
+    
     private func updateCoinsOrHearts() {
-            let segmentValue = Int(selectedSegment)
-            if selectedSegment % 2 == 0 {
-                manager.coins += segmentValue
-            } else {
-                manager.hearts += segmentValue
-            }
+        let segmentValue = Int(selectedSegment)
+        if selectedSegment % 2 == 0 {
+            manager.coins += segmentValue
+        } else {
+            manager.hearts += segmentValue
         }
+    }
 }

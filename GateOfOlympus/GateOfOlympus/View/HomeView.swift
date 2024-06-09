@@ -32,19 +32,6 @@ struct HomeView: View {
                     VStack(spacing: 0) {
                         NavigationBar()
                         
-                        Button {
-                            manager.isUserLogin = false
-                        } label: {
-                            Text("Logout").gradientButton()
-                        }
-                        
-                        Button {
-                            manager.coins += 1
-                            manager.hearts += 1
-                        } label: {
-                            Text("Add").gradientButton()
-                        }
-                        
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 20) {
                                 CombinationesView()
@@ -85,17 +72,18 @@ struct HomeView: View {
             NavigationLink {
                 SettingsView().navigationBarBackButtonHidden()
             } label: {
-                Image("menu")
+                Image("gear")
             }
             
             Text("Olympus")
                 .modifier(TitleModifier(size: 18, color: .white))
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-            Spacer()
+
             CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
             CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
+        .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)
         .padding(.top, 20)
         .padding(.bottom, 10)

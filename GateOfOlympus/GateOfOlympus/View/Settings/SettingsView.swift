@@ -14,86 +14,35 @@ struct SettingsView: View {
     @State private var showNotification: Bool = true
     
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .bottom) {
-                Color.accentColor.ignoresSafeArea()
-                VStack(spacing: 0) {
-                    HeaderView().padding(.bottom, 34)
-                    
-                    VStack(alignment: .leading, spacing: 20) {
-                        ParameterView(isOn: $musicPlayer.isMusicOn, image: musicPlayer.isMusicOn ? "music" : "musicOff", name: "Lock Sound")
-//                            .onTapGesture {
-//                                withAnimation {
-//                                    feedback.impactOccurred()
-//                                    musicPlayer.isMusicOn.toggle()
-//                                    if musicPlayer.isPlaying {
-//                                        musicPlayer.stopBackgroundMusic()
-//                                    } else {
-//                                        musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3")
-//                                    }
-//                                }
-//                            }
-                        ParameterView(isOn: $musicPlayer.isSoundOn, image: musicPlayer.isSoundOn ? "sound" : "soundOff", name: "System Haptics")
-//                            .onTapGesture {
-//                                withAnimation {
-//                                    feedback.impactOccurred()
-//                                    musicPlayer.isSoundOn.toggle()
-//                                }
-//                            }
-                        ParameterView(isOn: $showNotification, image: "menu", name: "Allow Notifications")
-//                            .onTapGesture {
-//                                withAnimation {
-//                                    feedback.impactOccurred()
-//                                    NotificationManager.shared.cancelNotification()
-//                                }
-//                            }
-                        ParameterView(isOn: $manager.isUserLogin, image: "menu", name: "Delete Account")
-//                            .onTapGesture {
-//                                withAnimation {
-//                                    musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3")
-//                                    isUserLogin = false
-//                                }
-//                            }
-                    }
-                    .padding(20)
-                    Spacer()
-                }
-                .onAppear {
-                    if showNotification {
-                        NotificationManager.shared.requestAuthorization()
-                    } else {
-                        NotificationManager.shared.cancelNotification()
-                    }
-                }
-                .navigationBarTitle("")
-                .navigationBarHidden(true)
-            }
-        }.navigationViewStyle(.stack)
-    }
-    @ViewBuilder
-    func HeaderView() -> some View {
-        HStack(spacing: 20) {
-            Button {
-                withAnimation {
-                    feedback.impactOccurred()
-                    musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+        ZStack(alignment: .bottom) {
+            Color.accentColor.ignoresSafeArea()
+            VStack(spacing: 0) {
+                HeaderView(image: "back", title: "Settings", addSpacer: false) {
                     dismiss()
+                }.padding(.bottom, 34)
+                
+                VStack(alignment: .leading, spacing: 20) {
+                    ParameterView(isOn: $musicPlayer.isMusicOn, image: musicPlayer.isMusicOn ? "music" : "musicOff", name: "Lock Sound")
+                    
+                    ParameterView(isOn: $musicPlayer.isSoundOn, image: musicPlayer.isSoundOn ? "sound" : "soundOff", name: "System Haptics")
+                    
+                    ParameterView(isOn: $showNotification, image: "bell", name: "Allow Notifications")
+                    
+                    ParameterView(isOn: $manager.isUserLogin, image: "menu", name: "Delete Account")
                 }
-            } label: {
-                Image("back")
+                .padding(20)
+                Spacer()
             }
-            Text("Settings")
-                .modifier(TitleModifier(size: 18, color: .white))
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-            Spacer()
-            CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
-            CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
+            .onAppear {
+                if showNotification {
+                    NotificationManager.shared.requestAuthorization()
+                } else {
+                    NotificationManager.shared.cancelNotification()
+                }
+            }
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 20)
-        .padding(.bottom, 10)
-        .background(Color.navigation)
     }
 }
 
