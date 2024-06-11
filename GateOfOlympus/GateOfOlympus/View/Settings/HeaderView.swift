@@ -12,7 +12,6 @@ struct HeaderView: View {
     @StateObject private var musicPlayer = AudioPlayer()
     var image: String
     var title: String
-    var addSpacer: Bool = true
     var action: () -> Void
     
     var body: some View {
@@ -26,15 +25,13 @@ struct HeaderView: View {
             } label: {
                 Image(image)
             }
-
+            
             Text(title)
-                .modifier(TitleModifier(size: addSpacer ? 16 : 18, color: .white))
+                .modifier(TitleModifier(size: 16, color: .white))
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)
             
-            if addSpacer {
-                Spacer(minLength: 5)
-            }
+            Spacer(minLength: 5)
             
             CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
             CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")

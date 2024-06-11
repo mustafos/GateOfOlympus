@@ -17,7 +17,7 @@ struct SettingsView: View {
         ZStack(alignment: .bottom) {
             Color.accentColor.ignoresSafeArea()
             VStack(spacing: 0) {
-                HeaderView(image: "back", title: "Settings", addSpacer: false) {
+                HeaderView(image: "back", title: "Settings") {
                     dismiss()
                 }.padding(.bottom, 34)
                 

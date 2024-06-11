@@ -37,7 +37,9 @@ final class ThunderViewModel: ObservableObject {
     @Published var combo = 0
     @Published var isMatch = false
     @Published var isProcessing = false
+    @Published var showResult = false
     
+    @Published var movesCount = 15
     @Published var gameTimeLast = 60
     @Published var isPlaying = false
     @Published var isStop = false
@@ -49,12 +51,18 @@ final class ThunderViewModel: ObservableObject {
         isStop = false
         self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.gameTimeLast -= 1
-            if(self.gameTimeLast == 0) {
+            if(self.gameTimeLast == 0 || self.movesCount == 0) {
                 self.timer?.invalidate()
                 self.timer = nil
+                self.showResult = true
                 self.isPlaying = false
                 self.grids = Array(repeating: Grid(gridType: .blank), count: 30)
                 self.gameTimeLast = 60
+                self.movesCount = 15
+                if self.coins <= 0 || self.hearts <= 0 {
+                    self.coins = 100
+                    self.hearts = 15
+                }
             }
         }
     }
@@ -68,7 +76,9 @@ final class ThunderViewModel: ObservableObject {
     func gameStart() {
         self.score = 0
         self.gameTimeLast = 60
+        self.movesCount = 15
         isPlaying = true
+        showResult = false
         withAnimation(.linear(duration: 0.4)) {
             (0..<30).forEach { index in
                 grids[index].gridType = [.oval, .drop, .app, .circle].randomElement()!

@@ -25,8 +25,6 @@
 		6A78572F2C04955B00BE679F /* olympus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6A78572E2C04955B00BE679F /* olympus.mp3 */; };
 		6A7A4B322C0070F5004E2132 /* BadgetPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */; };
 		6A8B28952BFE0AA700D5A071 /* RotateWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */; };
-		6A90E79F2BFD25F600753A7C /* ResultsBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A90E79E2BFD25F600753A7C /* ResultsBoardView.swift */; };
-		6AD693AF2BFC9D0200F6493D /* GameplayAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693AE2BFC9D0200F6493D /* GameplayAlertView.swift */; };
 		6AD693B12BFCA3BC00F6493D /* CoinsBalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693B02BFCA3BC00F6493D /* CoinsBalanceView.swift */; };
 		6AD693B32BFCA5F900F6493D /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD693B22BFCA5F900F6493D /* Montserrat-Regular.ttf */; };
 		6AD693B82BFCA74600F6493D /* TextModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693B72BFCA74600F6493D /* TextModifier.swift */; };
@@ -78,8 +76,6 @@
 		6A78572E2C04955B00BE679F /* olympus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = olympus.mp3; sourceTree = "<group>"; };
 		6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgetPosition.swift; sourceTree = "<group>"; };
 		6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotateWheelView.swift; sourceTree = "<group>"; };
-		6A90E79E2BFD25F600753A7C /* ResultsBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsBoardView.swift; sourceTree = "<group>"; };
-		6AD693AE2BFC9D0200F6493D /* GameplayAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayAlertView.swift; sourceTree = "<group>"; };
 		6AD693B02BFCA3BC00F6493D /* CoinsBalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsBalanceView.swift; sourceTree = "<group>"; };
 		6AD693B22BFCA5F900F6493D /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		6AD693B62BFCA69200F6493D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -174,8 +170,6 @@
 			children = (
 				6A59E4D92BFBF4B0009FDF39 /* ThunderView.swift */,
 				6AD693C22BFCFE6400F6493D /* ThunderGridView.swift */,
-				6A90E79E2BFD25F600753A7C /* ResultsBoardView.swift */,
-				6AD693AE2BFC9D0200F6493D /* GameplayAlertView.swift */,
 				6AD7CCD02BFE53CB0090D894 /* GuideView.swift */,
 			);
 			path = Thunder;
@@ -375,7 +369,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7294492C1348E20099268B /* SettingsView.swift in Sources */,
-				6AD693AF2BFC9D0200F6493D /* GameplayAlertView.swift in Sources */,
 				6A72944B2C134AC10099268B /* ParameterView.swift in Sources */,
 				6AD693C32BFCFE6400F6493D /* ThunderGridView.swift in Sources */,
 				6A59E4DA2BFBF4B0009FDF39 /* ThunderView.swift in Sources */,
@@ -394,7 +387,6 @@
 				6ADD16DA2BFBACB500C76D08 /* TextAreaConteiner.swift in Sources */,
 				6A59E4DD2BFBF505009FDF39 /* NavBarComponent.swift in Sources */,
 				6A3EEDA42C14CC9100E81E44 /* HeaderView.swift in Sources */,
-				6A90E79F2BFD25F600753A7C /* ResultsBoardView.swift in Sources */,
 				6A8B28952BFE0AA700D5A071 /* RotateWheelView.swift in Sources */,
 				6AD693B82BFCA74600F6493D /* TextModifier.swift in Sources */,
 				6ADD16D62BFBA96400C76D08 /* ThunderViewModel.swift in Sources */,

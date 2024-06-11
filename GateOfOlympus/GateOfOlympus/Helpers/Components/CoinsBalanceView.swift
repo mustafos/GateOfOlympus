@@ -10,6 +10,7 @@ import SwiftUI
 struct CoinsBalanceView: View {
     var isCoins: Bool
     var score: String
+    @StateObject var manager = ThunderViewModel()
     var body: some View {
         ZStack(alignment: .leading) {
             HStack {
@@ -26,6 +27,14 @@ struct CoinsBalanceView: View {
             .overlay(alignment: .leading) {
                 Image(isCoins ? "coin" : "love")
                     .offset(x: -12, y: 0)
+            }
+        }
+        .onAppear {
+            if manager.coins <= 0 {
+                manager.coins += 100
+            }
+            if manager.hearts <= 0 {
+                manager.hearts += 15
             }
         }
     }
