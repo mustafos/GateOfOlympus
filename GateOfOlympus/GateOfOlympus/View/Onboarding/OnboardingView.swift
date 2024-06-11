@@ -37,10 +37,12 @@ struct OnboardingView: View {
                 HStack {
                     Spacer()
                     Button {
-                        feedback.impactOccurred()
-                        isUserLogin = true
-                        NotificationManager.shared.requestAuthorization()
-                        NotificationManager.shared.scheduleDailyNotification()
+                        withAnimation {
+                            feedback.impactOccurred()
+                            isUserLogin = true
+                            NotificationManager.shared.requestAuthorization()
+                            NotificationManager.shared.scheduleDailyNotification()
+                        }
                     } label: {
                         Image("skip")
                     }
@@ -64,7 +66,6 @@ struct OnboardingView: View {
         .onAppear() {
             withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
                 isAnimateTap = true
-//                musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3", isMusicOn: musicPlayer.isMusicOn)
             }
         }
         .onTapGesture {

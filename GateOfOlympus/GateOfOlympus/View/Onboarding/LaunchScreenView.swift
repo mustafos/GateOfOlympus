@@ -28,13 +28,7 @@ struct LaunchScreenView: View {
                     .scaleEffect(size)
                     .opacity(opacity)
                     .overlay(alignment: .bottom) {
-                        Image("progress")
-                            .resizable()
-                            .scaledToFit()
-                            .padding(.horizontal, 70)
-                            .overlay {
-                                ProgressView()
-                            }
+                        CustomProgressView(progress: opacity)
                     }
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -47,6 +41,23 @@ struct LaunchScreenView: View {
                     }
             }
         }
+    }
+    
+    @ViewBuilder
+    func CustomProgressView(progress: CGFloat) -> some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                Image("progress")
+                    .resizable()
+                    .scaledToFit()
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(LinearGradient(gradient: Gradient(colors: [Color.love, Color.heart]), startPoint: .leading, endPoint: .trailing))
+                            .frame(width: min(progress * geometry.size.width, geometry.size.width), height: 4)
+                            .padding(2)
+                    }
+            }
+        }.frame(width: 209, height: 10)
     }
 }
 
