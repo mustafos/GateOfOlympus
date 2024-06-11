@@ -16,6 +16,11 @@ struct HomeView: View {
     @State private var rootView: Bool = false
     @State private var showImage = false
     
+    @State private var randomCoinsRubin = Int.random(in: 0...5)
+    @State private var randomCoinsCrown = Int.random(in: 0...5)
+    @State private var randomCoinsDiamond = Int.random(in: 0...5)
+    @State private var randomCoinsHeart = Int.random(in: 0...5)
+    
     var body: some View {
         if manager.isUserLogin == true {
             NavigationView {
@@ -49,6 +54,9 @@ struct HomeView: View {
                                 }
                             }.padding(20)
                         }
+                        .refreshable {
+                            updateRandomCoins()
+                        }
                         Spacer()
                     }
                     .navigationBarTitle("")
@@ -79,7 +87,7 @@ struct HomeView: View {
                 .modifier(TitleModifier(size: 18, color: .white))
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-
+            
             CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
             CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
@@ -97,19 +105,26 @@ struct HomeView: View {
                 .modifier(TitleModifier(size: 18, color: .white))
             HStack(spacing: 38) {
                 Image("rubin").badge {
-                    Text("4").modifier(BodyModifier(size: 14, color: .white))
+                    Text("\(randomCoinsRubin)").modifier(BodyModifier(size: 14, color: .white))
                 }
                 Image("crown").badge {
-                    Text("1").modifier(BodyModifier(size: 14, color: .white))
+                    Text("\(randomCoinsCrown)").modifier(BodyModifier(size: 14, color: .white))
                 }
                 Image("diamond").badge {
-                    Text("2").modifier(BodyModifier(size: 14, color: .white))
+                    Text("\(randomCoinsDiamond)").modifier(BodyModifier(size: 14, color: .white))
                 }
                 Image("heart").badge {
-                    Text("3").modifier(BodyModifier(size: 14, color: .white))
+                    Text("\(randomCoinsHeart)").modifier(BodyModifier(size: 14, color: .white))
                 }
             }
         }
+    }
+    
+    private func updateRandomCoins() {
+        randomCoinsRubin = Int.random(in: 0...5)
+        randomCoinsCrown = Int.random(in: 0...5)
+        randomCoinsDiamond = Int.random(in: 0...5)
+        randomCoinsHeart = Int.random(in: 0...5)
     }
 }
 
