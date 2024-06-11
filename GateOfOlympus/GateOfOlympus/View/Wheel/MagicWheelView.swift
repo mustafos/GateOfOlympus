@@ -13,7 +13,11 @@ struct MagicWheelView: View {
     @StateObject private var musicPlayer = AudioPlayer()
     @State var rotation: CGFloat = 0.0
     @State private var showGod = false
+    @State private var showWins = false
     @State private var selectedSegment: Int = 0
+    
+    private let segmentValue1 = [0, 100, 10, 50, 10, 20].randomElement()!
+    private let segmentValue2 = [0, 1, 2, 3, 0, 4].randomElement()!
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -60,12 +64,13 @@ struct MagicWheelView: View {
                         .animation(.easeInOut(duration: 1.5), value: rotation)
                         .overlay {
                             Button {
-                                musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                                musicPlayer.playSound(sound: "wheel", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                                 let randomAmount = Double(Int.random(in: 7..<50))
                                 rotation += randomAmount
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                     updateCoinsOrHearts()
+                                    showWins = true
                                 }
                             } label: {
                                 ZStack {
@@ -74,6 +79,23 @@ struct MagicWheelView: View {
                                         .scaledToFit()
                                         .padding(100)
                                     Text("Spin").modifier(TitleModifier(size: 15, color: .white))
+                                        .overlay {
+                                            if showWins && (segmentValue1 != 0 || segmentValue2 != 0) {
+                                                ZStack {
+                                                    Image("greenShadow")
+                                                        .frame(maxWidth: 100)
+                                                    HStack {
+                                                        Image(selectedSegment % 2 == 0 ? "coin" : "love")
+                                                        Text(selectedSegment % 2 == 0 ? "\(segmentValue1)" : "\(segmentValue2)")
+                                                            .modifier(TitleModifier(size: 18, color: .white))
+                                                            .shadow(radius: 10)
+                                                    }
+                                                }
+                                                .onTapGesture {
+                                                    showWins.toggle()
+                                                }
+                                            }
+                                        }
                                 }
                             }
                             .overlay(
@@ -90,11 +112,12 @@ struct MagicWheelView: View {
     }
     
     private func updateCoinsOrHearts() {
-        let segmentValue = Int(selectedSegment)
         if selectedSegment % 2 == 0 {
-            manager.coins += segmentValue
+            manager.coins += segmentValue1
+            musicPlayer.playSound(sound: "win", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
         } else {
-            manager.hearts += segmentValue
+            manager.hearts += segmentValue2
+            musicPlayer.playSound(sound: "win", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
         }
     }
 }
