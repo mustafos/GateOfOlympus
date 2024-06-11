@@ -30,7 +30,8 @@ struct ThunderGridView: View {
                                         .gesture(dragGesture(index: index))
                                 }
                             }
-                    }.aspectRatio(contentMode: .fit)
+                    }
+                    .aspectRatio(contentMode: .fit)
                 }
             }
             .background(
@@ -54,76 +55,8 @@ struct ThunderGridView: View {
                         }
                     }
                 }
-                if manager.isStop {
-                    VStack(spacing: 15) {
-                        WinLoseAlert(isWin: manager.score >= 100)
-                    }
-                }
             }
         }
-    }
-    
-    @ViewBuilder
-    func WinLoseAlert(isWin: Bool) -> some View {
-        ZStack {
-            Color.black.opacity(0.7).ignoresSafeArea()
-            VStack(spacing: 0) {
-                VStack(spacing: 20) {
-                    Image(isWin ? "win" : "lose")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxHeight: 56)
-                    
-                    Text(isWin ? "You Win!" : "Game over")
-                        .modifier(TitleModifier(size: 18, color: .white))
-                    
-                    if isWin {
-                        HStack(spacing: 6) {
-                            Image("coin")
-                                .resizable()
-                                .scaledToFit()
-                            Text("\(manager.score)")
-                        }
-                        .frame(height: 24)
-                        .modifier(TitleModifier(size: 14, color: .white))
-                    }
-                    
-                    Button {
-                        withAnimation {
-                            feedback.impactOccurred()
-                            musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                            if isWin {
-                                manager.timerStart()
-                                manager.coins = manager.score
-                            } else {
-                                manager.gameStart()
-                            }
-                        }
-                    } label: {
-                        Text(isWin ? "Naxt Level" : "Play Again").gradientButton()
-                    }.padding(.bottom, -4)
-                    
-                    Button {
-                        withAnimation {
-                            feedback.impactOccurred()
-                            musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                            //                            rootView = false
-                        }
-                    } label: {
-                        Text("Home").gradientButton()
-                    }
-                }
-                .padding(15)
-            }
-            .textAreaConteiner(background: .accentColor, corner: 30)
-            //            .opacity($animatingAlert.wrappedValue ? 1 : 0)
-            //            .offset(y: $animatingAlert.wrappedValue ? 0 : -100)
-            .shadow(color: isWin ? .green : .red, radius: 100)
-            //            .animation(Animation.spring(response: 0.6, dampingFraction: 1.0, blendDuration: 1.0), value: showResults)
-            //            .onAppear(perform: {
-            //                self.animatingAlert = true
-            //            })
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     func dragGesture(index: Int) -> some Gesture {
@@ -169,6 +102,7 @@ struct ThunderGridView: View {
         withAnimation(.easeInOut(duration: 0.4)) {
             haptics.notificationOccurred(.success)
             musicPlayer.playSound(sound: "coins", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+            manager.movesCount -= 1
             manager.grids.swapAt(leftIndex, rightIndex)
         }
         let left = manager.grids[leftIndex].gridType
@@ -236,6 +170,7 @@ struct ThunderGridView: View {
                 withAnimation(.easeInOut(duration: 0.4)) {
                     haptics.notificationOccurred(.error)
                     musicPlayer.playSound(sound: "coins", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                    manager.movesCount -= 1
                     manager.grids.swapAt(leftIndex, rightIndex)
                 }
             }

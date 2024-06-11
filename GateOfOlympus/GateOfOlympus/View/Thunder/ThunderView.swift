@@ -17,9 +17,8 @@ struct ThunderView: View {
     @State private var isAnimateNextLevel = false
     @State private var extraMoves: Bool = false
     @State private var extraTime: Bool = false
-    @State private var showResults: Bool = false
     @State private var animatingAlert: Bool = false
-    @State private var movesCount: UInt8 = 15
+    
     var body: some View {
         VStack(spacing: 0) {
             HeaderView()
@@ -27,10 +26,11 @@ struct ThunderView: View {
             Image("NextLevel")
                 .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
             
-            Image("stars")
+            Image(manager.score >= 1000 ? "win" : "lose")
                 .resizable()
-                .scaledToFill()
-                .frame(width: 173, height: 32)
+                .scaledToFit()
+                .frame(width: 80)
+                .padding(.top, 8)
             
             HStack {
                 MoveGuideButton(isGuide: false)
@@ -57,6 +57,7 @@ struct ThunderView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 120)
+                    .padding(.top, -260)
                 ThunderGridView(manager: manager)
                     .overlay {
                         if manager.combo != 0 {
@@ -100,12 +101,16 @@ struct ThunderView: View {
             }
         }
         .overlay {
-            if $extraMoves.wrappedValue {
+            if $extraMoves.wrappedValue || manager.movesCount == 1 {
                 ExtraAlert(isMoves: true)
             }
             
             if $extraTime.wrappedValue {
                 ExtraAlert(isMoves: false)
+            }
+            
+            if manager.showResult {
+                WinLoseAlert(isWin: manager.score >= 1000)
             }
         }
     }
@@ -220,6 +225,7 @@ struct ThunderView: View {
                                 feedback.impactOccurred()
                                 musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                                 manager.hearts -= 5
+                                manager.movesCount += 5
                             }
                         } else {
                             withAnimation {
@@ -262,6 +268,68 @@ struct ThunderView: View {
     }
     
     @ViewBuilder
+    func WinLoseAlert(isWin: Bool) -> some View {
+        ZStack {
+            Color.black.opacity(0.7).ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                VStack(spacing: 20) {
+                    Image(isWin ? "win" : "lose")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: 56)
+                    
+                    Text(isWin ? "You Win!" : "Game over")
+                        .modifier(TitleModifier(size: 18, color: .white))
+                    
+                    if isWin {
+                        HStack(spacing: 6) {
+                            Image("coin")
+                                .resizable()
+                                .scaledToFit()
+                            Text("\(manager.score)")
+                        }
+                        .frame(height: 24)
+                        .modifier(TitleModifier(size: 14, color: .white))
+                    }
+                    
+                    Button {
+                        withAnimation {
+                            feedback.impactOccurred()
+                            musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                            
+                            if isWin {
+                                manager.gameStart()
+                                manager.coins = manager.score
+                            } else {
+                                manager.gameStart()
+                            }
+                        }
+                    } label: {
+                        Text(isWin ? "Naxt Level" : "Play Again").gradientButton()
+                    }.padding(.bottom, -4)
+                    
+                    Button {
+                        withAnimation {
+                            feedback.impactOccurred()
+                            musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                            manager.showResult = false
+                        }
+                    } label: {
+                        Text("Home").gradientButton()
+                    }
+                }.padding(15)
+            }
+            .textAreaConteiner(background: .accentColor, corner: 30)
+            .shadow(color: isWin ? .green : .red, radius: 50)
+            .padding(.horizontal, 70)
+            .onAppear(perform: {
+                musicPlayer.playSound(sound: "win", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+            })
+        }
+    }
+    
+    @ViewBuilder
     func MoveGuideButton(isGuide: Bool) -> some View {
         VStack(spacing: 0) {
             VStack(spacing: 6) {
@@ -278,7 +346,7 @@ struct ThunderView: View {
                         .scaledToFit()
                         .frame(width: 20)
                     Text("Moves")
-                    Text("5").modifier(TitleModifier(size: 18, color: .white))
+                    Text("\(manager.movesCount)").modifier(TitleModifier(size: 18, color: .white))
                 }
             }.modifier(BodyModifier(size: 12, color: .white))
         }.textAreaConteiner(background: Color.black.opacity(0.9), corner: 10)
