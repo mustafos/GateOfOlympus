@@ -88,6 +88,8 @@ struct HomeView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
             
+            Spacer()
+            
             CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
             CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }

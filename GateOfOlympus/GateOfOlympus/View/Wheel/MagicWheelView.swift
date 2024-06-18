@@ -77,7 +77,8 @@ struct MagicWheelView: View {
                                     Image("spin")
                                         .resizable()
                                         .scaledToFit()
-                                        .padding(100)
+                                        .frame(minWidth: 50, idealWidth: 100, maxWidth: 120)
+                                        .padding(Device.iPad ? 150 : 100)
                                     Text("Spin").modifier(TitleModifier(size: 15, color: .white))
                                         .overlay {
                                             if showWins && (segmentValue1 != 0 || segmentValue2 != 0) {

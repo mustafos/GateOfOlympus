@@ -58,7 +58,7 @@ struct ThunderView: View {
                     .scaledToFit()
                     .frame(width: 120)
                     .padding(.top, -260)
-                ThunderGridView(manager: manager)
+                ThunderGridView(manager: manager).padding()
                     .overlay {
                         if manager.combo != 0 {
                             withAnimation(.linear(duration: 0.4)) {
@@ -136,8 +136,8 @@ struct ThunderView: View {
             CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
             CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 20)
+        .padding(.horizontal, 36)
+        .padding(.top, Device.iPad ? 58 : 36)
         .padding(.bottom, 10)
         .background(Color.navigation)
     }
