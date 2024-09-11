@@ -11,7 +11,8 @@ import SwiftUI
 struct GateOfOlympusApp: App {
     var body: some Scene {
         WindowGroup {
-            LaunchScreenView()
+//            LaunchScreenView()
+            ExampleView()
         }
     }
 }
