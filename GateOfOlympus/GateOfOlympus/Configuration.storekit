@@ -1,0 +1,130 @@
+{
+  "identifier" : "412ACD9D",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "6677001313",
+      "localizations" : [
+        {
+          "description" : "Boost your progress with additional coins!",
+          "displayName" : "Coin Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.olympus.coinpack",
+      "referenceName" : "CoinPackPurchase",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "6677001531",
+      "localizations" : [
+        {
+          "description" : "Add 10 hearts to enjoying your gameplay",
+          "displayName" : "Heart Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.olympus.heartpack",
+      "referenceName" : "HeartPackPurchase",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "6677001329",
+      "localizations" : [
+        {
+          "description" : "Remove all ads and focus on what matters most",
+          "displayName" : "Ad-Free Experience",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.olympus.noads",
+      "referenceName" : "NoAdsPurchase",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "6677004523",
+      "localizations" : [
+        {
+          "description" : "Unlock unlimited use of the app!",
+          "displayName" : "Unlimited Access",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.olympus.unlimitedaccess",
+      "referenceName" : "UnlimitedAccessPurchase",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6503482343",
+    "_developerTeamID" : "9PCQ5XC84W",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 747783007.835729,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
