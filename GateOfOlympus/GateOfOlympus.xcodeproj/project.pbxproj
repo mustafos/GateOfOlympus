@@ -27,6 +27,8 @@
 		6A7A4B322C0070F5004E2132 /* BadgetPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */; };
 		6A8B28952BFE0AA700D5A071 /* RotateWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */; };
 		6A98509A2C92444900D8EBC6 /* InAppPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */; };
+		6A98509C2C924EC400D8EBC6 /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A98509B2C924EC400D8EBC6 /* AdsManager.swift */; };
+		6A9850A22C924F4D00D8EBC6 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 6A9850A12C924F4D00D8EBC6 /* GoogleMobileAds */; };
 		6AB6762B2C9238DB006E1B01 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB6762A2C9238DB006E1B01 /* ExampleView.swift */; };
 		6AD693B12BFCA3BC00F6493D /* CoinsBalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693B02BFCA3BC00F6493D /* CoinsBalanceView.swift */; };
 		6AD693B32BFCA5F900F6493D /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AD693B22BFCA5F900F6493D /* Montserrat-Regular.ttf */; };
@@ -82,6 +84,7 @@
 		6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotateWheelView.swift; sourceTree = "<group>"; };
 		6A9850982C9241BF00D8EBC6 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseManager.swift; sourceTree = "<group>"; };
+		6A98509B2C924EC400D8EBC6 /* AdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsManager.swift; sourceTree = "<group>"; };
 		6AB6762A2C9238DB006E1B01 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
 		6AD693B02BFCA3BC00F6493D /* CoinsBalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsBalanceView.swift; sourceTree = "<group>"; };
 		6AD693B22BFCA5F900F6493D /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
@@ -112,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A9850A22C924F4D00D8EBC6 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,7 +241,6 @@
 			isa = PBXGroup;
 			children = (
 				6AD693BB2BFCBDCC00F6493D /* Constant.swift */,
-				6A6E8EBF2C217F74001C5786 /* Ext+Device.swift */,
 				6A7857272C04944E00BE679F /* Audio */,
 				6A59E4E42BFBFCCB009FDF39 /* Fonts */,
 				6A59E4DB2BFBF4C4009FDF39 /* Components */,
@@ -252,6 +255,7 @@
 				6ADD16D52BFBA96400C76D08 /* ThunderViewModel.swift */,
 				6AF42CD62C0BCA95005BE5F8 /* NotificationManager.swift */,
 				6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */,
+				6A98509B2C924EC400D8EBC6 /* AdsManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -271,6 +275,7 @@
 		6ADD16DB2BFBACBD00C76D08 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				6A6E8EBF2C217F74001C5786 /* Ext+Device.swift */,
 				6ADD16D92BFBACB500C76D08 /* TextAreaConteiner.swift */,
 				6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */,
 				6A59E4E02BFBF8F8009FDF39 /* GradientButton.swift */,
@@ -306,6 +311,7 @@
 			);
 			name = GateOfOlympus;
 			packageProductDependencies = (
+				6A9850A12C924F4D00D8EBC6 /* GoogleMobileAds */,
 			);
 			productName = GateOfOlympus;
 			productReference = 6ADD16BC2BFBA58C00C76D08 /* GateOfOlympus.app */;
@@ -336,6 +342,7 @@
 			);
 			mainGroup = 6ADD16B32BFBA58C00C76D08;
 			packageReferences = (
+				6A9850A02C924F4D00D8EBC6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 6ADD16BD2BFBA58C00C76D08 /* Products */;
 			projectDirPath = "";
@@ -376,6 +383,7 @@
 				6A72944B2C134AC10099268B /* ParameterView.swift in Sources */,
 				6AD693C32BFCFE6400F6493D /* ThunderGridView.swift in Sources */,
 				6A59E4DA2BFBF4B0009FDF39 /* ThunderView.swift in Sources */,
+				6A98509C2C924EC400D8EBC6 /* AdsManager.swift in Sources */,
 				6AF42CD72C0BCA95005BE5F8 /* NotificationManager.swift in Sources */,
 				6A59E4D82BFBF482009FDF39 /* MagicWheelView.swift in Sources */,
 				6AD693BC2BFCBDCC00F6493D /* Constant.swift in Sources */,
@@ -622,6 +630,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6A9850A02C924F4D00D8EBC6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6A9850A12C924F4D00D8EBC6 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6A9850A02C924F4D00D8EBC6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6ADD16B42BFBA58C00C76D08 /* Project object */;
 }

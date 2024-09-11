@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppTrackingTransparency
 
 struct OnboardingView: View {
     @AppStorage("isOnboarding") var isUserLogin: Bool?
@@ -81,6 +82,9 @@ struct OnboardingView: View {
                     isUserLogin = true
                 }
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
         }
     }
 }

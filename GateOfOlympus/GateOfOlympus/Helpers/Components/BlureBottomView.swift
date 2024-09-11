@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BlureBottomView: View {
     var body: some View {
-        Color.accentColor
+        Color.accent
             .frame(height: 50)
             .padding(.bottom, -50)
             .blur(radius: 12)

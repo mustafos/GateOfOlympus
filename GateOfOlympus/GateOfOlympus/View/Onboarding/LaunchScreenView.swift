@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LaunchScreenView: View {
+    @EnvironmentObject private var interstitialAdManager: InterstitialAdsManager
     @EnvironmentObject private var thunderManager: ThunderViewModel
     @EnvironmentObject private var musicPlayer: AudioPlayer
     
@@ -17,6 +18,7 @@ struct LaunchScreenView: View {
     var body: some View {
         if isPreloadHomeScreen {
             HomeView()
+                .environmentObject(interstitialAdManager)
                 .environmentObject(thunderManager)
                 .environmentObject(musicPlayer)
                 .onAppear {
@@ -37,7 +39,9 @@ struct LaunchScreenView: View {
                     }
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            isPreloadHomeScreen = true
+                            interstitialAdManager.displayInterstitialAd {
+                                isPreloadHomeScreen = true
+                            }
                         }
                         withAnimation(.easeIn(duration: 1.2).repeatForever(autoreverses: true)) {
                             size = 1

@@ -25,7 +25,7 @@ struct HomeView: View {
         if thunderManager.isUserLogin == true {
             NavigationView {
                 ZStack(alignment: .bottom) {
-                    Color.accentColor.ignoresSafeArea()
+                    Color.accent.ignoresSafeArea()
                     Image("God")
                         .resizable()
                         .scaledToFit()
@@ -37,15 +37,15 @@ struct HomeView: View {
                     VStack(spacing: 0) {
                         NavigationBar()
                         
-                        ScrollView(.vertical, showsIndicators: false) {
-                            VStack(spacing: 20) {
-                                CombinationesView()
-                                
+                        VStack(spacing: 20) {
+                            CombinationesView()
+                            
+                            ScrollView(.vertical, showsIndicators: false) {
                                 NavigationLink {
                                     ThunderView(rootView: $rootView)
                                         .environmentObject(thunderManager)
                                         .environmentObject(musicPlayer)
-                                    .navigationBarBackButtonHidden()
+                                        .navigationBarBackButtonHidden()
                                 } label: {
                                     GameCellContainer(isWheel: false)
                                 }
@@ -58,15 +58,16 @@ struct HomeView: View {
                                 } label: {
                                     GameCellContainer(isWheel: true)
                                 }
-                            }.padding(20)
-                        }
-                        .refreshable {
-                            updateRandomCoins()
-                        }
+                            }
+                            .refreshable {
+                                updateRandomCoins()
+                            }
+                        }.padding(20)
+                        
                         Spacer()
                     }
-                    .navigationBarTitle("")
-                    .navigationBarHidden(true)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarBackButtonHidden()
                 }
                 .onAppear {
                     withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
@@ -84,31 +85,33 @@ struct HomeView: View {
     
     @ViewBuilder
     func NavigationBar() -> some View {
-        HStack(spacing: 20) {
-            NavigationLink {
-                SettingsView()
-                    .environmentObject(thunderManager)
-                    .environmentObject(musicPlayer)
-                    .navigationBarBackButtonHidden()
-            } label: {
-                Image("gear")
+        VStack(spacing: 0) {
+            BannerView()
+            HStack(spacing: 20) {
+                NavigationLink {
+                    SettingsView()
+                        .environmentObject(thunderManager)
+                        .environmentObject(musicPlayer)
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    Image("gear")
+                }
+                
+                Text("Olympus")
+                    .modifier(TitleModifier(size: 18, color: .white))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                
+                Spacer()
+                
+                CoinsBalanceView(isCoins: true, score: "\(thunderManager.coins)")
+                CoinsBalanceView(isCoins: false, score: "\(thunderManager.hearts)")
             }
-            
-            Text("Olympus")
-                .modifier(TitleModifier(size: 18, color: .white))
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-            
-            Spacer()
-            
-            CoinsBalanceView(isCoins: true, score: "\(thunderManager.coins)")
-            CoinsBalanceView(isCoins: false, score: "\(thunderManager.hearts)")
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal, 20)
-        .padding(.top, 20)
-        .padding(.bottom, 10)
-        .background(Color.navigation)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 10)
+        }.background(Color.navigation)
     }
     
     @ViewBuilder
