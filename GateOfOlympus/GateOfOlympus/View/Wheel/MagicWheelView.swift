@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MagicWheelView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject var manager = ThunderViewModel()
-    @StateObject private var musicPlayer = AudioPlayer()
+    @EnvironmentObject private var thunderManager: ThunderViewModel
+    @EnvironmentObject private var musicPlayer: AudioPlayer
+    
     @State var rotation: CGFloat = 0.0
     @State private var showGod = false
     @State private var showWins = false
@@ -114,10 +115,10 @@ struct MagicWheelView: View {
     
     private func updateCoinsOrHearts() {
         if selectedSegment % 2 == 0 {
-            manager.coins += segmentValue1
+            thunderManager.coins += segmentValue1
             musicPlayer.playSound(sound: "win", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
         } else {
-            manager.hearts += segmentValue2
+            thunderManager.hearts += segmentValue2
             musicPlayer.playSound(sound: "win", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
         }
     }

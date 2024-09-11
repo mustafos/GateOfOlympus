@@ -9,10 +9,15 @@ import SwiftUI
 
 @main
 struct GateOfOlympusApp: App {
+    @StateObject private var thunderManager = ThunderViewModel()
+    @StateObject private var musicPlayer = AudioPlayer()
+    
     var body: some Scene {
         WindowGroup {
-//            LaunchScreenView()
-            ExampleView()
+            LaunchScreenView()
+                .environmentObject(thunderManager)
+                .environmentObject(musicPlayer)
+//            ExampleView()
         }
     }
 }

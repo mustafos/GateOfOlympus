@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject var manager = ThunderViewModel()
-    @StateObject private var musicPlayer = AudioPlayer()
+    @EnvironmentObject private var thunderManager: ThunderViewModel
+    @EnvironmentObject private var musicPlayer: AudioPlayer
     
     @Environment(\.dismiss) var dismiss
     
@@ -22,7 +22,7 @@ struct HomeView: View {
     @State private var randomCoinsHeart = Int.random(in: 0...5)
     
     var body: some View {
-        if manager.isUserLogin == true {
+        if thunderManager.isUserLogin == true {
             NavigationView {
                 ZStack(alignment: .bottom) {
                     Color.accentColor.ignoresSafeArea()
@@ -42,13 +42,19 @@ struct HomeView: View {
                                 CombinationesView()
                                 
                                 NavigationLink {
-                                    ThunderView(rootView: $rootView).navigationBarBackButtonHidden()
+                                    ThunderView(rootView: $rootView)
+                                        .environmentObject(thunderManager)
+                                        .environmentObject(musicPlayer)
+                                    .navigationBarBackButtonHidden()
                                 } label: {
                                     GameCellContainer(isWheel: false)
                                 }
                                 
                                 NavigationLink {
-                                    MagicWheelView().navigationBarBackButtonHidden()
+                                    MagicWheelView()
+                                        .environmentObject(thunderManager)
+                                        .environmentObject(musicPlayer)
+                                        .navigationBarBackButtonHidden()
                                 } label: {
                                     GameCellContainer(isWheel: true)
                                 }
@@ -71,6 +77,8 @@ struct HomeView: View {
             }.navigationViewStyle(.stack)
         } else {
             OnboardingView()
+                .environmentObject(thunderManager)
+                .environmentObject(musicPlayer)
         }
     }
     
@@ -78,7 +86,10 @@ struct HomeView: View {
     func NavigationBar() -> some View {
         HStack(spacing: 20) {
             NavigationLink {
-                SettingsView().navigationBarBackButtonHidden()
+                SettingsView()
+                    .environmentObject(thunderManager)
+                    .environmentObject(musicPlayer)
+                    .navigationBarBackButtonHidden()
             } label: {
                 Image("gear")
             }
@@ -90,8 +101,8 @@ struct HomeView: View {
             
             Spacer()
             
-            CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
-            CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
+            CoinsBalanceView(isCoins: true, score: "\(thunderManager.coins)")
+            CoinsBalanceView(isCoins: false, score: "\(thunderManager.hearts)")
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)

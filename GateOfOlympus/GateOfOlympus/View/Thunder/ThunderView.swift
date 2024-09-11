@@ -11,8 +11,8 @@ struct ThunderView: View {
     @Binding var rootView: Bool
     @Environment(\.dismiss) var dismiss
     
-    @StateObject var manager = ThunderViewModel()
-    @StateObject private var musicPlayer = AudioPlayer()
+    @EnvironmentObject private var thunderManager: ThunderViewModel
+    @EnvironmentObject private var musicPlayer: AudioPlayer
     
     @State private var isAnimateNextLevel = false
     @State private var extraMoves: Bool = false
@@ -26,7 +26,7 @@ struct ThunderView: View {
             Image("NextLevel")
                 .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
             
-            Image(manager.score >= 1000 ? "win" : "lose")
+            Image(thunderManager.score >= 1000 ? "win" : "lose")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 80)
@@ -37,7 +37,7 @@ struct ThunderView: View {
                     .frame(width: 64, height: 74)
                     .onTapGesture {
                         withAnimation {
-                            feedback.impactOccurred()
+                            Configurations.feedback.impactOccurred()
                             extraMoves.toggle()
                         }
                     }
@@ -58,9 +58,13 @@ struct ThunderView: View {
                     .scaledToFit()
                     .frame(width: 120)
                     .padding(.top, -260)
-                ThunderGridView(manager: manager).padding()
+                
+                ThunderGridView()
+                    .environmentObject(thunderManager)
+                    .environmentObject(musicPlayer)
+                    .padding()
                     .overlay {
-                        if manager.combo != 0 {
+                        if thunderManager.combo != 0 {
                             withAnimation(.linear(duration: 0.4)) {
                                 ZStack {
                                     Image("greenShadow")
@@ -68,12 +72,11 @@ struct ThunderView: View {
                                         .scaledToFit()
                                         .frame(width: 172)
                                     
-                                    Text("+\(manager.combo) points")
+                                    Text("+\(thunderManager.combo) points")
                                         .modifier(TitleModifier(size: 18, color: .white))
                                         .shadow(radius: 10)
                                 }
                                 .onAppear {
-                                    feedback.impactOccurred()
                                     musicPlayer.playSound(sound: "slot", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                                 }
                             }
@@ -101,7 +104,7 @@ struct ThunderView: View {
             }
         }
         .overlay {
-            if $extraMoves.wrappedValue || manager.movesCount == 1 {
+            if $extraMoves.wrappedValue || thunderManager.movesCount == 1 {
                 ExtraAlert(isMoves: true)
             }
             
@@ -109,8 +112,8 @@ struct ThunderView: View {
                 ExtraAlert(isMoves: false)
             }
             
-            if manager.showResult {
-                WinLoseAlert(isWin: manager.score >= 1000)
+            if thunderManager.showResult {
+                WinLoseAlert(isWin: thunderManager.score >= 1000)
             }
         }
     }
@@ -120,10 +123,10 @@ struct ThunderView: View {
         HStack(spacing: 20) {
             Button {
                 withAnimation {
-                    feedback.impactOccurred()
+                    Configurations.feedback.impactOccurred()
                     musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                     dismiss()
-                    manager.timerStop()
+                    thunderManager.timerStop()
                 }
             } label: {
                 Image("back")
@@ -133,8 +136,8 @@ struct ThunderView: View {
             
             TimerView()
             
-            CoinsBalanceView(isCoins: true, score: "\(manager.coins)")
-            CoinsBalanceView(isCoins: false, score: "\(manager.hearts)")
+            CoinsBalanceView(isCoins: true, score: "\(thunderManager.coins)")
+            CoinsBalanceView(isCoins: false, score: "\(thunderManager.hearts)")
         }
         .padding(.horizontal, 36)
         .padding(.top, Device.iPad ? 58 : 36)
@@ -150,8 +153,8 @@ struct ThunderView: View {
                 .foregroundColor(Color.black.opacity(0.7))
             
             Capsule()
-                .frame(width: 100 - CGFloat(Double(manager.gameTimeLast)), height: 16)
-                .foregroundColor(manager.gameTimeLast <= 15 ? Color.love : Color.sea)
+                .frame(width: 100 - CGFloat(Double(thunderManager.gameTimeLast)), height: 16)
+                .foregroundColor(thunderManager.gameTimeLast <= 15 ? Color.love : Color.sea)
         }
         .overlay(alignment: .leading) {
             Image("time")
@@ -162,7 +165,7 @@ struct ThunderView: View {
         }
         .onTapGesture {
             withAnimation {
-                feedback.impactOccurred()
+                Configurations.feedback.impactOccurred()
                 extraTime.toggle()
             }
         }
@@ -222,17 +225,17 @@ struct ThunderView: View {
                     Button {
                         if isMoves {
                             withAnimation {
-                                feedback.impactOccurred()
+                                Configurations.feedback.impactOccurred()
                                 musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                                manager.hearts -= 5
-                                manager.movesCount += 5
+                                thunderManager.hearts -= 5
+                                thunderManager.movesCount += 5
                             }
                         } else {
                             withAnimation {
-                                feedback.impactOccurred()
+                                Configurations.feedback.impactOccurred()
                                 musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                                manager.gameTimeLast += 10
-                                manager.coins -= 100
+                                thunderManager.gameTimeLast += 10
+                                thunderManager.coins -= 100
                             }
                         }
                     } label: {
@@ -242,7 +245,7 @@ struct ThunderView: View {
                 .padding(15)
                 .overlay(Button {
                     withAnimation {
-                        feedback.impactOccurred()
+                        Configurations.feedback.impactOccurred()
                         if isMoves {
                             extraMoves.toggle()
                         } else {
@@ -287,7 +290,7 @@ struct ThunderView: View {
                             Image("coin")
                                 .resizable()
                                 .scaledToFit()
-                            Text("\(manager.score)")
+                            Text("\(thunderManager.score)")
                         }
                         .frame(height: 24)
                         .modifier(TitleModifier(size: 14, color: .white))
@@ -295,14 +298,14 @@ struct ThunderView: View {
                     
                     Button {
                         withAnimation {
-                            feedback.impactOccurred()
+                            Configurations.feedback.impactOccurred()
                             musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                             
                             if isWin {
-                                manager.gameStart()
-                                manager.coins = manager.score
+                                thunderManager.gameStart()
+                                thunderManager.coins = thunderManager.score
                             } else {
-                                manager.gameStart()
+                                thunderManager.gameStart()
                             }
                         }
                     } label: {
@@ -311,9 +314,9 @@ struct ThunderView: View {
                     
                     Button {
                         withAnimation {
-                            feedback.impactOccurred()
+                            Configurations.feedback.impactOccurred()
                             musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                            manager.showResult = false
+                            thunderManager.showResult = false
                         }
                     } label: {
                         Text("Home").gradientButton()
@@ -346,7 +349,7 @@ struct ThunderView: View {
                         .scaledToFit()
                         .frame(width: 20)
                     Text("Moves")
-                    Text("\(manager.movesCount)").modifier(TitleModifier(size: 18, color: .white))
+                    Text("\(thunderManager.movesCount)").modifier(TitleModifier(size: 18, color: .white))
                 }
             }.modifier(BodyModifier(size: 12, color: .white))
         }.textAreaConteiner(background: Color.black.opacity(0.9), corner: 10)

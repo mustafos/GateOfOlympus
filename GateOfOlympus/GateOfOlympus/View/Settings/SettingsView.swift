@@ -9,8 +9,9 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject var manager = ThunderViewModel()
-    @StateObject private var musicPlayer = AudioPlayer()
+    @EnvironmentObject private var thunderManager: ThunderViewModel
+    @EnvironmentObject private var musicPlayer: AudioPlayer
+    
     @State private var showNotification: Bool = true
     
     var body: some View {
@@ -28,7 +29,7 @@ struct SettingsView: View {
                     
                     ParameterView(isOn: $showNotification, image: "bell", name: "Allow Notifications")
                     
-                    ParameterView(isOn: $manager.isUserLogin, image: "menu", name: "Delete Account")
+                    ParameterView(isOn: $thunderManager.isUserLogin, image: "menu", name: "Delete Account")
                 }
                 .padding(20)
                 Spacer()

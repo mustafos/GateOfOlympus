@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct LaunchScreenView: View {
+    @EnvironmentObject private var thunderManager: ThunderViewModel
+    @EnvironmentObject private var musicPlayer: AudioPlayer
+    
     @State private var size = 0.8
     @State private var opacity = 0.5
     @State private var isPreloadHomeScreen = false
     var body: some View {
         if isPreloadHomeScreen {
             HomeView()
+                .environmentObject(thunderManager)
+                .environmentObject(musicPlayer)
                 .onAppear {
                     UIApplication.shared.applicationIconBadgeNumber = 0
                 }

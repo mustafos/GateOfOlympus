@@ -9,10 +9,12 @@ import SwiftUI
 
 struct OnboardingView: View {
     @AppStorage("isOnboarding") var isUserLogin: Bool?
-    @StateObject private var musicPlayer = AudioPlayer()
+    @EnvironmentObject private var thunderManager: ThunderViewModel
+    @EnvironmentObject private var musicPlayer: AudioPlayer
+    
     @State private var currentTextIndex = 0
     @State private var isAnimateTap = false
-    private let feedback = UIImpactFeedbackGenerator(style: .soft)
+    
     private let backgrount: String = "bg"
     private let colors: [Color] = [.red, .yellow, .blue, .purple, .gray, .accentColor, .brown]
     private let texts = [
@@ -38,7 +40,7 @@ struct OnboardingView: View {
                     Spacer()
                     Button {
                         withAnimation {
-                            feedback.impactOccurred()
+                            Configurations.feedback.impactOccurred()
                             isUserLogin = true
                             NotificationManager.shared.requestAuthorization()
                             NotificationManager.shared.scheduleDailyNotification()
@@ -63,14 +65,14 @@ struct OnboardingView: View {
                     .padding(.bottom, 50)
             }
         }
-        .onAppear() {
+        .onAppear {
             withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
                 isAnimateTap = true
             }
         }
         .onTapGesture {
             withAnimation {
-                feedback.impactOccurred()
+                Configurations.feedback.impactOccurred()
                 currentTextIndex = (currentTextIndex + 1) % texts.count
                 if currentTextIndex == 1 {
                     NotificationManager.shared.requestAuthorization()

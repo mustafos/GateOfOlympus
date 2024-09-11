@@ -26,7 +26,6 @@
 		6A78572F2C04955B00BE679F /* olympus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6A78572E2C04955B00BE679F /* olympus.mp3 */; };
 		6A7A4B322C0070F5004E2132 /* BadgetPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */; };
 		6A8B28952BFE0AA700D5A071 /* RotateWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */; };
-		6A9850972C9240BD00D8EBC6 /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9850962C9240BD00D8EBC6 /* IAPManager.swift */; };
 		6A98509A2C92444900D8EBC6 /* InAppPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */; };
 		6AB6762B2C9238DB006E1B01 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB6762A2C9238DB006E1B01 /* ExampleView.swift */; };
 		6AD693B12BFCA3BC00F6493D /* CoinsBalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD693B02BFCA3BC00F6493D /* CoinsBalanceView.swift */; };
@@ -81,7 +80,6 @@
 		6A78572E2C04955B00BE679F /* olympus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = olympus.mp3; sourceTree = "<group>"; };
 		6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgetPosition.swift; sourceTree = "<group>"; };
 		6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotateWheelView.swift; sourceTree = "<group>"; };
-		6A9850962C9240BD00D8EBC6 /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		6A9850982C9241BF00D8EBC6 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseManager.swift; sourceTree = "<group>"; };
 		6AB6762A2C9238DB006E1B01 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
@@ -209,7 +207,6 @@
 				6AD693B62BFCA69200F6493D /* Info.plist */,
 				6AB6762A2C9238DB006E1B01 /* ExampleView.swift */,
 				6ADD16BF2BFBA58C00C76D08 /* GateOfOlympusApp.swift */,
-				6ADD16D32BFBA94800C76D08 /* Services */,
 				6ADD16D42BFBA94F00C76D08 /* ViewModel */,
 				6ADD16D72BFBAA8B00C76D08 /* View */,
 				6ADD16CE2BFBA6A600C76D08 /* Helpers */,
@@ -247,14 +244,6 @@
 				6ADD16DB2BFBACBD00C76D08 /* Extensions */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		6ADD16D32BFBA94800C76D08 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				6A9850962C9240BD00D8EBC6 /* IAPManager.swift */,
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		6ADD16D42BFBA94F00C76D08 /* ViewModel */ = {
@@ -382,7 +371,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9850972C9240BD00D8EBC6 /* IAPManager.swift in Sources */,
 				6A7294492C1348E20099268B /* SettingsView.swift in Sources */,
 				6A98509A2C92444900D8EBC6 /* InAppPurchaseManager.swift in Sources */,
 				6A72944B2C134AC10099268B /* ParameterView.swift in Sources */,

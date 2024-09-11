@@ -18,7 +18,7 @@ struct HeaderView: View {
         HStack(spacing: 20) {
             Button {
                 withAnimation {
-                    feedback.impactOccurred()
+                    Configurations.feedback.impactOccurred()
                     musicPlayer.playSound(sound: "drop", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
                     action()
                 }

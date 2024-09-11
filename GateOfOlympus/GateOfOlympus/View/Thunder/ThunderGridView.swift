@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ThunderGridView: View {
-    @ObservedObject var manager: ThunderViewModel
-    @StateObject private var musicPlayer = AudioPlayer()
+    @EnvironmentObject private var thunderManager: ThunderViewModel
+    @EnvironmentObject private var musicPlayer: AudioPlayer
+    
     @State private var startDetectDrag = false
     @State private var isAnimateStart = false
     private let haptics = UINotificationFeedbackGenerator()
@@ -23,8 +24,8 @@ struct ThunderGridView: View {
                             .foregroundColor(Color(red: 71/255, green: 14/255, blue: 115/255))
                             .cornerRadius(10)
                             .overlay {
-                                if manager.grids[index].gridType != .blank && !manager.isStop {
-                                    Image(manager.grids[index].icon)
+                                if thunderManager.grids[index].gridType != .blank && !thunderManager.isStop {
+                                    Image(thunderManager.grids[index].icon)
                                         .resizable()
                                         .scaledToFit()
                                         .gesture(dragGesture(index: index))
@@ -42,9 +43,9 @@ struct ThunderGridView: View {
             )
             .padding(56)
             .overlay {
-                if !manager.isPlaying {
+                if !thunderManager.isPlaying {
                     Button {
-                        manager.gameStart()
+                        thunderManager.gameStart()
                     } label: {
                         Image("mover")
                             .scaleEffect(isAnimateStart ? 1.2 : 1.0)
@@ -62,7 +63,7 @@ struct ThunderGridView: View {
     func dragGesture(index: Int) -> some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
-                if startDetectDrag && !manager.isProcessing && manager.isPlaying && !manager.isStop {
+                if startDetectDrag && !thunderManager.isProcessing && thunderManager.isPlaying && !thunderManager.isStop {
                     if value.translation.width > 5 { // swipe right
                         if !stride(from: 4, through: 29, by: 5).contains(index) {
                             let rightIndex = index + 1
@@ -97,81 +98,81 @@ struct ThunderGridView: View {
     }
     
     func processMove(leftIndex: Int, rightIndex: Int) {
-        manager.isMatch = false
-        manager.isProcessing = true
+        thunderManager.isMatch = false
+        thunderManager.isProcessing = true
         withAnimation(.easeInOut(duration: 0.4)) {
             haptics.notificationOccurred(.success)
             musicPlayer.playSound(sound: "coins", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-            manager.movesCount -= 1
-            manager.grids.swapAt(leftIndex, rightIndex)
+            thunderManager.movesCount -= 1
+            thunderManager.grids.swapAt(leftIndex, rightIndex)
         }
-        let left = manager.grids[leftIndex].gridType
-        let right = manager.grids[rightIndex].gridType
+        let left = thunderManager.grids[leftIndex].gridType
+        let right = thunderManager.grids[rightIndex].gridType
         
         if [left, right].allSatisfy({ $0 == .gift }) {
-            manager.clearAll()
+            thunderManager.clearAll()
         } else if left == .gift && right == .bomb || left == .bomb && right == .gift {
-            manager.manyBomb(first: leftIndex, second: rightIndex)
+            thunderManager.manyBomb(first: leftIndex, second: rightIndex)
         } else if left == .gift && right == .row || left == .row && right == .gift {
-            manager.manyRow(first: leftIndex, second: rightIndex)
+            thunderManager.manyRow(first: leftIndex, second: rightIndex)
         } else if left == .gift && right == .column || left == .column && right == .gift {
-            manager.manyColumn(first: leftIndex, second: rightIndex)
+            thunderManager.manyColumn(first: leftIndex, second: rightIndex)
         } else if [left, right].allSatisfy({ $0 == .bomb }) {
-            manager.bigBomb(first: leftIndex, second: rightIndex)
+            thunderManager.bigBomb(first: leftIndex, second: rightIndex)
         } else if [.row, .column].contains(left) && right == .bomb || left == .bomb && [.row, .column].contains(right) {
-            manager.bigCross(first: leftIndex, second: rightIndex)
+            thunderManager.bigCross(first: leftIndex, second: rightIndex)
         } else if [.row, .column].contains(left) && [.row, .column].contains(right) {
-            manager.cross(first: leftIndex, second: rightIndex)
+            thunderManager.cross(first: leftIndex, second: rightIndex)
         } else if left == .gift {
-            manager.gift(gridType: right, index: leftIndex)
+            thunderManager.gift(gridType: right, index: leftIndex)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                manager.fallDown()
+                thunderManager.fallDown()
             }
         } else if right == .gift {
-            manager.gift(gridType: left, index: rightIndex)
+            thunderManager.gift(gridType: left, index: rightIndex)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                manager.fallDown()
+                thunderManager.fallDown()
             }
         } else if left == .bomb {
-            manager.bomb(index: leftIndex)
+            thunderManager.bomb(index: leftIndex)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                manager.fallDown()
+                thunderManager.fallDown()
             }
         } else if right == .bomb {
-            manager.bomb(index: rightIndex)
+            thunderManager.bomb(index: rightIndex)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                manager.fallDown()
+                thunderManager.fallDown()
             }
         } else if left == .row {
-            manager.row(index: leftIndex)
+            thunderManager.row(index: leftIndex)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                manager.fallDown()
+                thunderManager.fallDown()
             }
         } else if right == .row {
-            manager.row(index: rightIndex)
+            thunderManager.row(index: rightIndex)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                manager.fallDown()
+                thunderManager.fallDown()
             }
         } else if left == .column {
-            manager.column(index: leftIndex)
+            thunderManager.column(index: leftIndex)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                manager.fallDown()
+                thunderManager.fallDown()
             }
         } else if right == .column {
-            manager.column(index: rightIndex)
+            thunderManager.column(index: rightIndex)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                manager.fallDown()
+                thunderManager.fallDown()
             }
         } else {
-            manager.checkMatch()
+            thunderManager.checkMatch()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            if !manager.isMatch {
+            if !thunderManager.isMatch {
                 withAnimation(.easeInOut(duration: 0.4)) {
                     haptics.notificationOccurred(.error)
                     musicPlayer.playSound(sound: "coins", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                    manager.movesCount -= 1
-                    manager.grids.swapAt(leftIndex, rightIndex)
+                    thunderManager.movesCount -= 1
+                    thunderManager.grids.swapAt(leftIndex, rightIndex)
                 }
             }
         }
