@@ -58,6 +58,18 @@ struct HomeView: View {
                                 } label: {
                                     GameCellContainer(isWheel: true)
                                 }
+                                
+                                NavigationLink {
+                                    ExampleView()
+                                } label: {
+                                    Text("In-app purchase")
+                                }
+                                
+                                NavigationLink {
+                                    ExampleView2()
+                                } label: {
+                                    Text("Rulette")
+                                }
                             }
                             .refreshable {
                                 updateRandomCoins()

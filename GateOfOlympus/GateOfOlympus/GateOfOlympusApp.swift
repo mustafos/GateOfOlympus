@@ -24,7 +24,6 @@ struct GateOfOlympusApp: App {
                 .environmentObject(interstitialAdManager)
                 .environmentObject(thunderManager)
                 .environmentObject(musicPlayer)
-//            ExampleView()
         }
     }
 }

@@ -22,7 +22,7 @@ struct MagicWheelView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            Color.accentColor.ignoresSafeArea()
+            Color.accent.ignoresSafeArea()
             VStack(spacing: 0) {
                 HeaderView(image: "back", title: "Spin") {
                     dismiss()

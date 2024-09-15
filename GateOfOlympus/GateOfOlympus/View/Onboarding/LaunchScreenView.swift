@@ -26,7 +26,7 @@ struct LaunchScreenView: View {
                 }
         } else {
             ZStack {
-                Color.accentColor.ignoresSafeArea()
+                Color.accent.ignoresSafeArea()
                 
                 Image("LaunchIcon")
                     .resizable()

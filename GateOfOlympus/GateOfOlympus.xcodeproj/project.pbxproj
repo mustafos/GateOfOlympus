@@ -13,6 +13,7 @@
 		6A2C3D2F2C04F1CE008B8FCE /* coins.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6A2C3D2E2C04F1CE008B8FCE /* coins.mp3 */; };
 		6A2C3D312C04F8DD008B8FCE /* slot.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6A2C3D302C04F8DD008B8FCE /* slot.mp3 */; };
 		6A3EEDA42C14CC9100E81E44 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3EEDA32C14CC9100E81E44 /* HeaderView.swift */; };
+		6A5039012C9D6F9700B1C4CA /* RotateWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5039002C9D6F9700B1C4CA /* RotateWheelView.swift */; };
 		6A59E4D82BFBF482009FDF39 /* MagicWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A59E4D72BFBF482009FDF39 /* MagicWheelView.swift */; };
 		6A59E4DA2BFBF4B0009FDF39 /* ThunderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A59E4D92BFBF4B0009FDF39 /* ThunderView.swift */; };
 		6A59E4DD2BFBF505009FDF39 /* NavBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A59E4DC2BFBF505009FDF39 /* NavBarComponent.swift */; };
@@ -25,7 +26,6 @@
 		6A7857262C0491A500BE679F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7857252C0491A500BE679F /* AudioPlayer.swift */; };
 		6A78572F2C04955B00BE679F /* olympus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6A78572E2C04955B00BE679F /* olympus.mp3 */; };
 		6A7A4B322C0070F5004E2132 /* BadgetPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */; };
-		6A8B28952BFE0AA700D5A071 /* RotateWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */; };
 		6A98509A2C92444900D8EBC6 /* InAppPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */; };
 		6A98509C2C924EC400D8EBC6 /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A98509B2C924EC400D8EBC6 /* AdsManager.swift */; };
 		6A9850A22C924F4D00D8EBC6 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 6A9850A12C924F4D00D8EBC6 /* GoogleMobileAds */; };
@@ -69,6 +69,7 @@
 		6A2C3D2E2C04F1CE008B8FCE /* coins.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coins.mp3; sourceTree = "<group>"; };
 		6A2C3D302C04F8DD008B8FCE /* slot.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = slot.mp3; sourceTree = "<group>"; };
 		6A3EEDA32C14CC9100E81E44 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		6A5039002C9D6F9700B1C4CA /* RotateWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotateWheelView.swift; sourceTree = "<group>"; };
 		6A59E4D72BFBF482009FDF39 /* MagicWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicWheelView.swift; sourceTree = "<group>"; };
 		6A59E4D92BFBF4B0009FDF39 /* ThunderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThunderView.swift; sourceTree = "<group>"; };
 		6A59E4DC2BFBF505009FDF39 /* NavBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarComponent.swift; sourceTree = "<group>"; };
@@ -81,7 +82,6 @@
 		6A7857252C0491A500BE679F /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		6A78572E2C04955B00BE679F /* olympus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = olympus.mp3; sourceTree = "<group>"; };
 		6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgetPosition.swift; sourceTree = "<group>"; };
-		6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotateWheelView.swift; sourceTree = "<group>"; };
 		6A9850982C9241BF00D8EBC6 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseManager.swift; sourceTree = "<group>"; };
 		6A98509B2C924EC400D8EBC6 /* AdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsManager.swift; sourceTree = "<group>"; };
@@ -171,7 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				6A59E4D72BFBF482009FDF39 /* MagicWheelView.swift */,
-				6A8B28942BFE0AA700D5A071 /* RotateWheelView.swift */,
+				6A5039002C9D6F9700B1C4CA /* RotateWheelView.swift */,
 			);
 			path = Wheel;
 			sourceTree = "<group>";
@@ -401,11 +401,11 @@
 				6ADD16DA2BFBACB500C76D08 /* TextAreaConteiner.swift in Sources */,
 				6A59E4DD2BFBF505009FDF39 /* NavBarComponent.swift in Sources */,
 				6A3EEDA42C14CC9100E81E44 /* HeaderView.swift in Sources */,
-				6A8B28952BFE0AA700D5A071 /* RotateWheelView.swift in Sources */,
 				6AD693B82BFCA74600F6493D /* TextModifier.swift in Sources */,
 				6ADD16D62BFBA96400C76D08 /* ThunderViewModel.swift in Sources */,
 				6AD7CCD12BFE53CB0090D894 /* GuideView.swift in Sources */,
 				6ADD16D22BFBA73F00C76D08 /* LaunchScreenView.swift in Sources */,
+				6A5039012C9D6F9700B1C4CA /* RotateWheelView.swift in Sources */,
 				6A59E4E32BFBFA4D009FDF39 /* ColorPalette.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
