@@ -2,6 +2,13 @@
 //  RotateWheelView.swift
 //  GateOfOlympus
 //
+//  Created by Mustafa Bekirov on 10.10.2024.
+//
+
+//
+//  RotateWheelView.swift
+//  GateOfOlympus
+//
 //  Created by Mustafa Bekirov on 22.05.2024.
 //
 
