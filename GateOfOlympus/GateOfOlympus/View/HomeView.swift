@@ -60,7 +60,7 @@ struct HomeView: View {
                                 }
                                 
                                 NavigationLink {
-                                    ExampleView()
+//                                    ExampleView()
                                 } label: {
                                     Text("In-app purchase")
                                 }

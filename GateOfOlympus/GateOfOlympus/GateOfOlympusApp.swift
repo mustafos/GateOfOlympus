@@ -16,14 +16,16 @@ struct GateOfOlympusApp: App {
     
     init() {
         GADMobileAds.sharedInstance().start()
+        PurchaseManager.instance.fetchProducts()
     }
     
     var body: some Scene {
         WindowGroup {
-            LaunchScreenView()
-                .environmentObject(interstitialAdManager)
-                .environmentObject(thunderManager)
-                .environmentObject(musicPlayer)
+//            LaunchScreenView()
+//                .environmentObject(interstitialAdManager)
+//                .environmentObject(thunderManager)
+//                .environmentObject(musicPlayer)
+            MainView()
         }
     }
 }

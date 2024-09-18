@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -109,6 +109,10 @@
 		6AF42CBE2C0BC393005BE5F8 /* GateOfOlympus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GateOfOlympus.entitlements; sourceTree = "<group>"; };
 		6AF42CD62C0BCA95005BE5F8 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6A0FEBD92CBB90BC0060073A /* StoreKit */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = StoreKit; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6ADD16B92BFBA58C00C76D08 /* Frameworks */ = {
@@ -252,6 +256,7 @@
 		6ADD16D42BFBA94F00C76D08 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				6A0FEBD92CBB90BC0060073A /* StoreKit */,
 				6ADD16D52BFBA96400C76D08 /* ThunderViewModel.swift */,
 				6AF42CD62C0BCA95005BE5F8 /* NotificationManager.swift */,
 				6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */,
@@ -309,6 +314,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				6A0FEBD92CBB90BC0060073A /* StoreKit */,
+			);
 			name = GateOfOlympus;
 			packageProductDependencies = (
 				6A9850A12C924F4D00D8EBC6 /* GoogleMobileAds */,
@@ -325,7 +333,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					6ADD16BB2BFBA58C00C76D08 = {
 						CreatedOnToolsVersion = 15.4;
@@ -535,7 +543,6 @@
 		6ADD16CB2BFBA58D00C76D08 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GateOfOlympus/GateOfOlympus.entitlements;
@@ -573,7 +580,6 @@
 		6ADD16CC2BFBA58D00C76D08 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = GateOfOlympus/GateOfOlympus.entitlements;
