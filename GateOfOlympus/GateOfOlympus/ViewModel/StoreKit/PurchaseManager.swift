@@ -40,6 +40,16 @@ class PurchaseManager: NSObject {
             onComplete(false)
         }
     }
+    
+    func restorePurchases(onComplete: @escaping CompletionHandler) {
+        if SKPaymentQueue.canMakePayments() {
+            transactionComplete = onComplete
+            SKPaymentQueue.default().add(self)
+            SKPaymentQueue.default().restoreCompletedTransactions()
+        } else {
+            onComplete(false)
+        }
+    }
 }
 
 // MARK: – Request Delegate
@@ -69,6 +79,9 @@ extension PurchaseManager: SKPaymentTransactionObserver {
                 break
             case .restored:
                 SKPaymentQueue.default().finishTransaction(transaction)
+                if transaction.payment.productIdentifier == IAP_REMOVE_ADS {
+                    UserDefaults.standard.set(true, forKey: IAP_REMOVE_ADS)
+                }
                 transactionComplete?(true)
                 break
             default:
@@ -87,6 +100,22 @@ struct MainView: View {
     var body: some View {
         VStack {
             if !isPremium {
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        PurchaseManager.instance.restorePurchases { success in
+                            isPremium = UserDefaults.standard.bool(forKey: PurchaseManager.instance.IAP_REMOVE_ADS)
+                        }
+                    } label: {
+                        Text("Restore")
+                            .font(.system(size: 8, weight: .bold, design: .rounded))
+                            .padding(8)
+                            .background(.red)
+                            .clipShape(Capsule())
+                    }
+                }.padding()
+                
                 BannerView()
                 
                 Spacer()
