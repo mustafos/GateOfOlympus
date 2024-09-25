@@ -9,14 +9,10 @@ typealias CompletionHandler = (_ success: Bool) -> ()
 
 import StoreKit
 
-class PurchaseManager: NSObject {
-    static let instance = PurchaseManager()
-    
-    let IAP_COIN_PACK = "com.olympus.coinpack"
-    let IAP_HEART_PACK = "com.olympus.heartpack"
+class NonConsumableManager: NSObject {
+    static let instance = NonConsumableManager()
+    // Non-consumable
     let IAP_REMOVE_ADS = "com.olympus.noads"
-    
-    let IAP_UNLIMITED_ACCESS = "com.olympus.unlimitedaccess"
     
     var productsRequest: SKProductsRequest!
     var products = [SKProduct]()
@@ -53,7 +49,7 @@ class PurchaseManager: NSObject {
 }
 
 // MARK: – Request Delegate
-extension PurchaseManager: SKProductsRequestDelegate {
+extension NonConsumableManager: SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if response.products.count > 0 {
             print(response.products.debugDescription)
@@ -63,7 +59,7 @@ extension PurchaseManager: SKProductsRequestDelegate {
 }
 
 // MARK: – Transaction Observer
-extension PurchaseManager: SKPaymentTransactionObserver {
+extension NonConsumableManager: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             switch transaction.transactionState {
@@ -96,7 +92,7 @@ import SwiftUI
 import StoreKit
 
 struct MainView: View {
-    @State private var isPremium: Bool = UserDefaults.standard.bool(forKey: PurchaseManager.instance.IAP_REMOVE_ADS)
+    @State private var isPremium: Bool = UserDefaults.standard.bool(forKey: NonConsumableManager.instance.IAP_REMOVE_ADS)
     var body: some View {
         VStack {
             if !isPremium {
@@ -104,8 +100,8 @@ struct MainView: View {
                     Spacer()
                     
                     Button {
-                        PurchaseManager.instance.restorePurchases { success in
-                            isPremium = UserDefaults.standard.bool(forKey: PurchaseManager.instance.IAP_REMOVE_ADS)
+                        NonConsumableManager.instance.restorePurchases { success in
+                            isPremium = UserDefaults.standard.bool(forKey: NonConsumableManager.instance.IAP_REMOVE_ADS)
                         }
                     } label: {
                         Text("Restore")
@@ -121,8 +117,8 @@ struct MainView: View {
                 Spacer()
                 
                 Button {
-                    PurchaseManager.instance.purchaseRemoveAds { success in
-                        isPremium = UserDefaults.standard.bool(forKey: PurchaseManager.instance.IAP_REMOVE_ADS)
+                    NonConsumableManager.instance.purchaseRemoveAds { success in
+                        isPremium = UserDefaults.standard.bool(forKey: NonConsumableManager.instance.IAP_REMOVE_ADS)
                     }
                 } label: {
                     Text("REMOVE ADS")

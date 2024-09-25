@@ -16,7 +16,7 @@ struct GateOfOlympusApp: App {
     
     init() {
         GADMobileAds.sharedInstance().start()
-        PurchaseManager.instance.fetchProducts()
+//        NonConsumableManager.instance.fetchProducts()
     }
     
     var body: some Scene {
@@ -25,7 +25,8 @@ struct GateOfOlympusApp: App {
 //                .environmentObject(interstitialAdManager)
 //                .environmentObject(thunderManager)
 //                .environmentObject(musicPlayer)
-            MainView()
+//            MainView()
+            StoreView()
         }
     }
 }

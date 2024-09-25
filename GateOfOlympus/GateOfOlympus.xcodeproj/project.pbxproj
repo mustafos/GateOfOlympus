@@ -26,7 +26,7 @@
 		6A7857262C0491A500BE679F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7857252C0491A500BE679F /* AudioPlayer.swift */; };
 		6A78572F2C04955B00BE679F /* olympus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6A78572E2C04955B00BE679F /* olympus.mp3 */; };
 		6A7A4B322C0070F5004E2132 /* BadgetPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */; };
-		6A98509A2C92444900D8EBC6 /* InAppPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */; };
+		6A98509A2C92444900D8EBC6 /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9850992C92444900D8EBC6 /* PurchaseManager.swift */; };
 		6A98509C2C924EC400D8EBC6 /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A98509B2C924EC400D8EBC6 /* AdsManager.swift */; };
 		6A9850A22C924F4D00D8EBC6 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 6A9850A12C924F4D00D8EBC6 /* GoogleMobileAds */; };
 		6AB6762B2C9238DB006E1B01 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB6762A2C9238DB006E1B01 /* ExampleView.swift */; };
@@ -83,7 +83,7 @@
 		6A78572E2C04955B00BE679F /* olympus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = olympus.mp3; sourceTree = "<group>"; };
 		6A7A4B312C0070F5004E2132 /* BadgetPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgetPosition.swift; sourceTree = "<group>"; };
 		6A9850982C9241BF00D8EBC6 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
-		6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseManager.swift; sourceTree = "<group>"; };
+		6A9850992C92444900D8EBC6 /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
 		6A98509B2C924EC400D8EBC6 /* AdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsManager.swift; sourceTree = "<group>"; };
 		6AB6762A2C9238DB006E1B01 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
 		6AD693B02BFCA3BC00F6493D /* CoinsBalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsBalanceView.swift; sourceTree = "<group>"; };
@@ -259,7 +259,7 @@
 				6A0FEBD92CBB90BC0060073A /* StoreKit */,
 				6ADD16D52BFBA96400C76D08 /* ThunderViewModel.swift */,
 				6AF42CD62C0BCA95005BE5F8 /* NotificationManager.swift */,
-				6A9850992C92444900D8EBC6 /* InAppPurchaseManager.swift */,
+				6A9850992C92444900D8EBC6 /* PurchaseManager.swift */,
 				6A98509B2C924EC400D8EBC6 /* AdsManager.swift */,
 			);
 			path = ViewModel;
@@ -387,7 +387,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7294492C1348E20099268B /* SettingsView.swift in Sources */,
-				6A98509A2C92444900D8EBC6 /* InAppPurchaseManager.swift in Sources */,
+				6A98509A2C92444900D8EBC6 /* PurchaseManager.swift in Sources */,
 				6A72944B2C134AC10099268B /* ParameterView.swift in Sources */,
 				6AD693C32BFCFE6400F6493D /* ThunderGridView.swift in Sources */,
 				6A59E4DA2BFBF4B0009FDF39 /* ThunderView.swift in Sources */,

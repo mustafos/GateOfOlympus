@@ -257,7 +257,7 @@ struct ThunderView: View {
                     Image("cancel")
                 }, alignment: .topTrailing)
             }
-            .textAreaConteiner(background: .accentColor, corner: 30)
+            .textAreaConteiner(background: .accent, corner: 30)
             .padding(.horizontal, 70)
             .opacity($animatingAlert.wrappedValue ? 1 : 0)
             .offset(y: $animatingAlert.wrappedValue ? 0 : -100)

@@ -1,4 +1,14 @@
 {
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
   "identifier" : "412ACD9D",
   "nonRenewingSubscriptions" : [
 
@@ -7,7 +17,7 @@
     {
       "displayPrice" : "2.99",
       "familyShareable" : false,
-      "internalID" : "6677001313",
+      "internalID" : "6736880672",
       "localizations" : [
         {
           "description" : "Boost your progress with additional coins!",
@@ -15,14 +25,14 @@
           "locale" : "en_US"
         }
       ],
-      "productID" : "com.olympus.coinpack",
+      "productID" : "com.olympus.coin.pack",
       "referenceName" : "CoinPackPurchase",
-      "type" : "NonConsumable"
+      "type" : "Consumable"
     },
     {
       "displayPrice" : "2.99",
       "familyShareable" : false,
-      "internalID" : "6677001531",
+      "internalID" : "6736880681",
       "localizations" : [
         {
           "description" : "Add 10 hearts to enjoying your gameplay",
@@ -30,9 +40,9 @@
           "locale" : "en_US"
         }
       ],
-      "productID" : "com.olympus.heartpack",
+      "productID" : "com.olympus.heart.pack",
       "referenceName" : "HeartPackPurchase",
-      "type" : "NonConsumable"
+      "type" : "Consumable"
     },
     {
       "displayPrice" : "4.99",
@@ -52,7 +62,7 @@
     {
       "displayPrice" : "9.99",
       "familyShareable" : false,
-      "internalID" : "6677004523",
+      "internalID" : "6736880387",
       "localizations" : [
         {
           "description" : "Unlock unlimited use of the app!",
@@ -60,16 +70,16 @@
           "locale" : "en_US"
         }
       ],
-      "productID" : "com.olympus.unlimitedaccess",
+      "productID" : "com.olympus.unlimaccess",
       "referenceName" : "UnlimitedAccessPurchase",
-      "type" : "Consumable"
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {
     "_applicationInternalID" : "6503482343",
     "_developerTeamID" : "9PCQ5XC84W",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 747783007.835729,
+    "_lastSynchronizedDate" : 750592413.10640705,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
@@ -124,7 +134,7 @@
 
   ],
   "version" : {
-    "major" : 3,
+    "major" : 4,
     "minor" : 0
   }
 }
