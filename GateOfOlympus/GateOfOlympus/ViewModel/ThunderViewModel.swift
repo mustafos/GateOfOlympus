@@ -29,6 +29,7 @@ struct Grid {
 
 final class ThunderViewModel: ObservableObject {
     @AppStorage("isOnboarding") var isUserLogin: Bool = false
+    @AppStorage("isNotifyEnabled") var isNotifyEnabled: Bool = true
     @AppStorage("Coins") var coins: Int = 100
     @AppStorage("Hearts") var hearts: Int = 15
     

@@ -6,17 +6,15 @@
 //
 
 import SwiftUI
-import AppTrackingTransparency
 
 struct OnboardingView: View {
-    @AppStorage("isOnboarding") var isUserLogin: Bool?
+    @EnvironmentObject private var interstitialAdManager: InterstitialAdsManager
     @EnvironmentObject private var thunderManager: ThunderViewModel
     @EnvironmentObject private var musicPlayer: AudioPlayer
     
     @State private var currentTextIndex = 0
     @State private var isAnimateTap = false
     
-    private let backgrount: String = "bg"
     private let colors: [Color] = [.red, .yellow, .blue, .purple, .gray, .accentColor, .brown]
     private let texts = [
         "Set in an ancient world where gods control the elements and the destinies of mortals, God of Thunder is an epic game where players will control the power of the most powerful god of thunder",
@@ -29,9 +27,8 @@ struct OnboardingView: View {
     ]
     
     var body: some View {
-        let backgroundImage = "bg\(currentTextIndex + 1)"
         ZStack {
-            Image(backgroundImage)
+            Image("bg\(currentTextIndex + 1)")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
@@ -42,9 +39,9 @@ struct OnboardingView: View {
                     Button {
                         withAnimation {
                             Configurations.feedback.impactOccurred()
-                            isUserLogin = true
-                            NotificationManager.shared.requestAuthorization()
-                            NotificationManager.shared.scheduleDailyNotification()
+                            interstitialAdManager.displayInterstitialAd {
+                                thunderManager.isUserLogin = true
+                            }
                         }
                     } label: {
                         Image("skip")
@@ -75,16 +72,12 @@ struct OnboardingView: View {
             withAnimation {
                 Configurations.feedback.impactOccurred()
                 currentTextIndex = (currentTextIndex + 1) % texts.count
-                if currentTextIndex == 1 {
-                    NotificationManager.shared.requestAuthorization()
-                    NotificationManager.shared.scheduleDailyNotification()
-                } else if currentTextIndex == 6 {
-                    isUserLogin = true
+                if currentTextIndex == 6 {
+                    interstitialAdManager.displayInterstitialAd {
+                        thunderManager.isUserLogin = true
+                    }
                 }
             }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
         }
     }
 }

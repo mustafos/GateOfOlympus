@@ -15,15 +15,20 @@ struct LaunchScreenView: View {
     @State private var size = 0.8
     @State private var opacity = 0.5
     @State private var isPreloadHomeScreen = false
+    
     var body: some View {
         if isPreloadHomeScreen {
-            HomeView()
-                .environmentObject(interstitialAdManager)
-                .environmentObject(thunderManager)
-                .environmentObject(musicPlayer)
-                .onAppear {
-                    UIApplication.shared.applicationIconBadgeNumber = 0
-                }
+            if thunderManager.isUserLogin {
+                HomeView()
+                    .environmentObject(interstitialAdManager)
+                    .environmentObject(thunderManager)
+                    .environmentObject(musicPlayer)
+            } else {
+                OnboardingView()
+                    .environmentObject(interstitialAdManager)
+                    .environmentObject(thunderManager)
+                    .environmentObject(musicPlayer)
+            }
         } else {
             ZStack {
                 Color.accent.ignoresSafeArea()
@@ -39,9 +44,7 @@ struct LaunchScreenView: View {
                     }
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            interstitialAdManager.displayInterstitialAd {
-                                isPreloadHomeScreen = true
-                            }
+                            isPreloadHomeScreen = true
                         }
                         withAnimation(.easeIn(duration: 1.2).repeatForever(autoreverses: true)) {
                             size = 1

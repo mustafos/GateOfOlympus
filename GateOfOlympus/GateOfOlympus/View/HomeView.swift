@@ -22,77 +22,71 @@ struct HomeView: View {
     @State private var randomCoinsHeart = Int.random(in: 0...5)
     
     var body: some View {
-        if thunderManager.isUserLogin == true {
-            NavigationView {
-                ZStack(alignment: .bottom) {
-                    Color.accent.ignoresSafeArea()
-                    Image("God")
-                        .resizable()
-                        .scaledToFit()
-                        .scaleEffect(showImage ? 1.0 : 2.0)
-                        .padding(.bottom, -50)
+        NavigationView {
+            ZStack(alignment: .bottom) {
+                Color.accent.ignoresSafeArea()
+                Image("God")
+                    .resizable()
+                    .scaledToFit()
+                    .scaleEffect(showImage ? 1.0 : 2.0)
+                    .padding(.bottom, -50)
+                
+                BlureBottomView()
+                
+                VStack(spacing: 0) {
+                    NavigationBar()
                     
-                    BlureBottomView()
-                    
-                    VStack(spacing: 0) {
-                        NavigationBar()
+                    VStack(spacing: 20) {
+                        CombinationesView()
                         
-                        VStack(spacing: 20) {
-                            CombinationesView()
+                        ScrollView(.vertical, showsIndicators: false) {
+                            NavigationLink {
+                                ThunderView(rootView: $rootView)
+                                    .environmentObject(thunderManager)
+                                    .environmentObject(musicPlayer)
+                                    .navigationBarBackButtonHidden()
+                            } label: {
+                                GameCellContainer(isWheel: false)
+                            }
                             
-                            ScrollView(.vertical, showsIndicators: false) {
-                                NavigationLink {
-                                    ThunderView(rootView: $rootView)
-                                        .environmentObject(thunderManager)
-                                        .environmentObject(musicPlayer)
-                                        .navigationBarBackButtonHidden()
-                                } label: {
-                                    GameCellContainer(isWheel: false)
-                                }
-                                
-                                NavigationLink {
-                                    MagicWheelView()
-                                        .environmentObject(thunderManager)
-                                        .environmentObject(musicPlayer)
-                                        .navigationBarBackButtonHidden()
-                                } label: {
-                                    GameCellContainer(isWheel: true)
-                                }
-                                
-                                NavigationLink {
-                                    ExampleView()
-                                } label: {
-                                    Text("In-app purchase")
-                                }
-                                
-                                NavigationLink {
-                                    ExampleView2()
-                                } label: {
-                                    Text("Rulette")
-                                }
+                            NavigationLink {
+                                MagicWheelView()
+                                    .environmentObject(thunderManager)
+                                    .environmentObject(musicPlayer)
+                                    .navigationBarBackButtonHidden()
+                            } label: {
+                                GameCellContainer(isWheel: true)
                             }
-                            .refreshable {
-                                updateRandomCoins()
+                            
+                            NavigationLink {
+                                ExampleView()
+                            } label: {
+                                Text("In-app purchase")
                             }
-                        }.padding(20)
-                        
-                        Spacer()
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarBackButtonHidden()
+                            
+                            NavigationLink {
+                                ExampleView2()
+                            } label: {
+                                Text("Rulette")
+                            }
+                        }
+                        .refreshable {
+                            updateRandomCoins()
+                        }
+                    }.padding(20)
+                    
+                    Spacer()
                 }
-                .onAppear {
-                    withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
-                        showImage = true
-                        musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3", isMusicOn: musicPlayer.isMusicOn)
-                    }
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarBackButtonHidden()
+            }
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
+                    showImage = true
+                    musicPlayer.playBackgroundMusic(fileName: "olympus", fileType: "mp3", isMusicOn: musicPlayer.isMusicOn)
                 }
-            }.navigationViewStyle(.stack)
-        } else {
-            OnboardingView()
-                .environmentObject(thunderManager)
-                .environmentObject(musicPlayer)
-        }
+            }
+        }.navigationViewStyle(.stack)
     }
     
     @ViewBuilder
