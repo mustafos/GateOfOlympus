@@ -7,18 +7,53 @@
 
 import SwiftUI
 
+enum TypeRevard: String {
+    case coins = "WheelCoinsColor"
+    case hearts = "WheelHeartsColor"
+    case empty
+}
+
+struct Sector: Equatable {
+    let point: Int
+    let type: TypeRevard
+}
+
+
 struct MagicWheelView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var thunderManager: ThunderViewModel
     @EnvironmentObject private var musicPlayer: AudioPlayer
     
-    @State var rotation: CGFloat = 0.0
     @State private var showGod = false
     @State private var showWins = false
-    @State private var selectedSegment: Int = 0
     
-    private let segmentValue1 = [0, 100, 10, 50, 10, 20].randomElement()!
-    private let segmentValue2 = [0, 1, 2, 3, 0, 4].randomElement()!
+    @State private var isAnimating = false
+    @State private var spinDegrees = 0.0
+    @State private var rand = 0.0
+    @State private var newAngle = 0.0
+    @State private var rotation: CGFloat = 0.0
+    @State private var selectedSegment: Int = 0
+    @State private var selectedSector: Sector = Sector(point: 0, type: .coins)
+    
+    private let halfSector = 360.0 / 11.0 / 2.0
+    private let sectors: [Sector] = [
+        Sector(point: 10, type: .hearts),
+        Sector(point: 4, type: .coins),
+        Sector(point: 20, type: .hearts),
+        Sector(point: 0, type: .coins),
+        Sector(point: 0, type: .hearts),
+        Sector(point: 1, type: .coins),
+        Sector(point: 100, type: .hearts),
+        Sector(point: 2, type: .coins),
+        Sector(point: 10, type: .hearts),
+        Sector(point: 3, type: .coins),
+        Sector(point: 50, type: .hearts)
+    ]
+    
+    private var spinAnimation: Animation {
+        Animation.easeOut(duration: 3.0)
+            .repeatCount(1, autoreverses: false)
+    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -29,7 +64,7 @@ struct MagicWheelView: View {
                 }
                 .padding(.bottom, 54)
                 VStack(spacing: 0) {
-                    MagicWheel()
+                    magicWheel
                     Image("God")
                         .resizable()
                         .scaledToFit()
@@ -38,20 +73,25 @@ struct MagicWheelView: View {
                     
                     BlureBottomView()
                 }
+                .onChange(of: spinDegrees) { newValue in
+                    newAngle = getAngle(angle: spinDegrees)
+                }
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .onAppear() {
                 withAnimation(.easeInOut(duration: 1.0).repeatCount(1)) {
                     showGod = true
-                    NotificationManager.shared.timeNotification()
                 }
             }
         }
     }
+}
+
+private extension MagicWheelView {
     
-    @ViewBuilder
-    func MagicWheel() -> some View {
+    // MARK: Components
+    var magicWheel: some View {
         ZStack {
             Image("wheelBG")
                 .resizable()
@@ -61,45 +101,29 @@ struct MagicWheelView: View {
                     RotateWheelView(rotation: $rotation, selectedSegment: $selectedSegment)
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 32)
-                        .rotationEffect(.radians(rotation))
-                        .animation(.easeInOut(duration: 1.5), value: rotation)
+                        .rotationEffect(Angle(degrees: spinDegrees))
+                        .animation(spinAnimation, value: rotation)
                         .overlay {
                             Button {
-                                musicPlayer.playSound(sound: "wheel", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                                let randomAmount = Double(Int.random(in: 7..<50))
-                                rotation += randomAmount
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                    updateCoinsOrHearts()
-                                    showWins = true
+                                withAnimation {
+                                    musicPlayer.playSound(sound: "wheel", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                                    isAnimating = true
+                                    rand = Double.random(in: 1...360)
+                                    spinDegrees += 720.0 + rand
+                                    newAngle = getAngle(angle: spinDegrees)
+                                    rotation = CGFloat(spinDegrees * .pi / 180)
+                                    selectedSector = sectorFromAngle(angle: newAngle)
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.9) {
+                                        updateCoinsOrHearts()
+                                        isAnimating = false
+                                        showWins = true
+                                    }
                                 }
                             } label: {
-                                ZStack {
-                                    Image("spin")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(minWidth: 50, idealWidth: 100, maxWidth: 120)
-                                        .padding(Device.iPad ? 150 : 100)
-                                    Text("Spin").modifier(TitleModifier(size: 15, color: .white))
-                                        .overlay {
-                                            if showWins && (segmentValue1 != 0 || segmentValue2 != 0) {
-                                                ZStack {
-                                                    Image("greenShadow")
-                                                        .frame(maxWidth: 100)
-                                                    HStack {
-                                                        Image(selectedSegment % 2 == 0 ? "coin" : "love")
-                                                        Text(selectedSegment % 2 == 0 ? "\(segmentValue1)" : "\(segmentValue2)")
-                                                            .modifier(TitleModifier(size: 18, color: .white))
-                                                            .shadow(radius: 10)
-                                                    }
-                                                }
-                                                .onTapGesture {
-                                                    showWins.toggle()
-                                                }
-                                            }
-                                        }
-                                }
+                                spinButton
                             }
+                            .disabled(isAnimating)
                             .overlay(
                                 Image("drop")
                                     .resizable()
@@ -113,13 +137,64 @@ struct MagicWheelView: View {
         }
     }
     
-    private func updateCoinsOrHearts() {
-        if selectedSegment % 2 == 0 {
-            thunderManager.coins += segmentValue1
-            musicPlayer.playSound(sound: "win", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-        } else {
-            thunderManager.hearts += segmentValue2
-            musicPlayer.playSound(sound: "win", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+    var spinButton: some View {
+        ZStack {
+            Image("spin")
+                .resizable()
+                .scaledToFit()
+                .frame(minWidth: 50, idealWidth: 100, maxWidth: 120)
+                .padding(Device.iPad ? 150 : 100)
+            Text("Spin").modifier(TitleModifier(size: 15, color: .white))
+                .overlay {
+                    if showWins && newAngle != 0 {
+                        ZStack {
+                            Image("greenShadow")
+                                .frame(maxWidth: 100)
+                            HStack {
+                                Image(selectedSector.type == .coins ? "coin" : "love")
+                                Text("\(selectedSector.point)")
+                                    .modifier(TitleModifier(size: 18, color: .white))
+                                    .shadow(radius: 10)
+                            }
+                        }
+                        .onTapGesture {
+                            showWins.toggle()
+                        }
+                    }
+                }
         }
+    }
+    
+    // MARK: Properties
+    func getAngle(angle: Double) -> Double {
+        let deg = 360 - angle.truncatingRemainder(dividingBy: 360)
+        return deg
+    }
+    
+    func sectorFromAngle(angle: Double) -> Sector {
+        var i = 0
+        var sector: Sector = Sector(point: -1, type: .empty)
+        
+        while sector == Sector(point: -1, type: .empty) && i < sectors.count {
+            let start: Double = halfSector * Double((i * 2 + 1)) - halfSector
+            let end: Double = halfSector * Double((i * 2 + 10))
+            
+            if angle >= start && angle < end {
+                sector = sectors[i]
+            }
+            i += 1
+        }
+        
+        return sector
+    }
+    
+    // MARK: Methods
+    func updateCoinsOrHearts() {
+        if selectedSector.type == .coins {
+            thunderManager.coins += selectedSector.point
+        } else {
+            thunderManager.hearts += selectedSector.point
+        }
+        musicPlayer.playSound(sound: "win", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
     }
 }

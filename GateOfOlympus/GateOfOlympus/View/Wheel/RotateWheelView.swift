@@ -5,21 +5,14 @@
 //  Created by Mustafa Bekirov on 10.10.2024.
 //
 
-//
-//  RotateWheelView.swift
-//  GateOfOlympus
-//
-//  Created by Mustafa Bekirov on 22.05.2024.
-//
-
 import SwiftUI
 
 struct RotateWheelView: View {
-    @StateObject private var musicPlayer = AudioPlayer()
     @Binding var rotation: CGFloat
     @Binding var selectedSegment: Int
     
-    let segments = ["0", "0", "1", "100", "2", "10", "3", "50", "0", "10", "4", "20"]
+    let segments = ["0", "10", "4", "20", "0", "0",
+                    "1", "100", "2", "10", "3", "50"]
     
     var body: some View {
         GeometryReader { proxy in
@@ -36,13 +29,6 @@ struct RotateWheelView: View {
                 }
             }
         }
-        .onChange(of: rotation, perform: { newValue in
-            let totalSegments = CGFloat(segments.count)
-            let segmentSize = 2 * .pi / totalSegments
-            let currentRotation = newValue.truncatingRemainder(dividingBy: 2 * .pi)
-            let index = Int(currentRotation / segmentSize)
-            selectedSegment = index
-        })
     }
     
     var segmentSize: CGFloat {
