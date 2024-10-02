@@ -33,6 +33,11 @@ final class ThunderViewModel: ObservableObject {
     @AppStorage("Coins") var coins: Int = 100
     @AppStorage("Hearts") var hearts: Int = 15
     
+    @AppStorage("rubinCollect") var rubinCollect: Int = 0
+    @AppStorage("crownCollect") var crownCollect: Int = 0
+    @AppStorage("diamondCollect") var diamondCollect: Int = 0
+    @AppStorage("heartCollect") var heartCollect: Int = 0
+    
     @Published var grids = Array(repeating: Grid(gridType: .blank), count: 30)
     @Published var score = 0
     @Published var combo = 0
@@ -300,6 +305,19 @@ final class ThunderViewModel: ObservableObject {
                         grids[index].gridType = [.oval, .drop, .app, .circle].randomElement()!
                     } else {
                         withAnimation(.easeInOut(duration: 0.4)) {
+                            // Если клетка не пустая и она содержит иконку, увеличиваем соответствующий счетчик
+                            switch grids[index].gridType {
+                            case .oval:
+                                rubinCollect += 1
+                            case .drop:
+                                crownCollect += 1
+                            case .app:
+                                diamondCollect += 1
+                            case .circle:
+                                heartCollect += 1
+                            default:
+                                break
+                            }
                             grids.swapAt(index, index-6) // Move element down by one row
                         }
                     }
@@ -517,6 +535,18 @@ final class ThunderViewModel: ObservableObject {
     func bomb(index: Int) {
         isMatch = true
         withAnimation(.easeInOut(duration: 0.4)) {
+            switch grids[index].gridType {
+            case .oval:
+                rubinCollect += 1
+            case .drop:
+                crownCollect += 1
+            case .app:
+                diamondCollect += 1
+            case .circle:
+                heartCollect += 1
+            default:
+                break
+            }
             grids[index].gridType = .blank
         }
         score += 10
@@ -568,6 +598,18 @@ final class ThunderViewModel: ObservableObject {
     func row(index: Int) {
         isMatch = true
         withAnimation(.easeInOut(duration: 0.4)) {
+            switch grids[index].gridType {
+            case .oval:
+                rubinCollect += 1
+            case .drop:
+                crownCollect += 1
+            case .app:
+                diamondCollect += 1
+            case .circle:
+                heartCollect += 1
+            default:
+                break
+            }
             grids[index].gridType = .blank
         }
         score += 10
@@ -596,6 +638,18 @@ final class ThunderViewModel: ObservableObject {
     func column(index: Int) {
         isMatch = true
         withAnimation(.easeInOut(duration: 0.4)) {
+            switch grids[index].gridType {
+            case .oval:
+                rubinCollect += 1
+            case .drop:
+                crownCollect += 1
+            case .app:
+                diamondCollect += 1
+            case .circle:
+                heartCollect += 1
+            default:
+                break
+            }
             grids[index].gridType = .blank
         }
         score += 1
