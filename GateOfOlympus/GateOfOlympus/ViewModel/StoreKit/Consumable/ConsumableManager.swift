@@ -5,9 +5,29 @@
 //  Created by Mustafa Bekirov on 13.10.2024.
 //
 
+// MARK: Product
+import Foundation
+
+enum Product: Int {
+    case coin = 0
+    case heart = 1
+    case hideAds = 2
+    case unlimited = 3
+}
+
+// MARK: Purchase Status
+import Foundation
+
+enum PurchaseStatus {
+    case purchased
+    case restored
+    case failed
+}
+
 // MARK: Constants
 import Foundation
 
+// MARK: – IAP Identifiers
 // Consumable
 let IAP_COIN_PACK = "com.olympus.coin.pack"
 let IAP_HEART_PACK = "com.olympus.heart.pack"
@@ -15,6 +35,11 @@ let IAP_HEART_PACK = "com.olympus.heart.pack"
 // Non-consumable
 let IAP_REMOVE_ADS = "com.olympus.noads"
 let IAP_UNLIMITED_ACCESS = "com.olympus.unlimaccess"
+
+// MARK: – Notification Identifier
+let IAPServicePurchaseNotification = "IAPServicePurchaseNotification"
+let IAPServiceRestoreNotification = "IAPServiceRestoreNotification"
+let IAPServiceFailureNotification = "IAPServiceFailureNotification"
 
 
 // MARK: Service with Protocol
@@ -33,6 +58,11 @@ class IAPService: NSObject, SKProductsRequestDelegate {
     var products = [SKProduct]()
     var productIds = Set<String>()
     var productRequest = SKProductsRequest()
+    
+    override init() {
+        super.init()
+        SKPaymentQueue.default().add(self)
+    }
     
     func loadProducts() {
         productIdToStringSet()
@@ -60,13 +90,51 @@ class IAPService: NSObject, SKProductsRequestDelegate {
             print(products[0].localizedTitle)
         }
     }
+    
+    func attemptPurchaseForItemWith(productIndex: Product) {
+        let product = products[productIndex.rawValue]
+        let payment = SKPayment(product: product)
+        SKPaymentQueue.default().add(payment)
+    }
 }
 
-// MARK: Manager
-struct ConsumableManager: View {
+extension IAPService: SKPaymentTransactionObserver {
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction in transactions {
+            switch transaction.transactionState {
+            case .purchased:
+                SKPaymentQueue.default().finishTransaction(transaction)
+                sendNotificationFor(status: .purchased, withIdentifier: transaction.payment.productIdentifier)
+                debugPrint("Purchase was successful!")
+                break
+            case .restored:
+                break
+            case .failed:
+                SKPaymentQueue.default().finishTransaction(transaction)
+                sendNotificationFor(status: .failed, withIdentifier: nil)
+                break
+            case .deferred:
+                break
+            case .purchasing:
+                break
+            @unknown default:
+                fatalError()
+            }
+        }
+    }
     
-    var body: some View {
-        Text("Hello, World!")
+    func sendNotificationFor(status: PurchaseStatus, withIdentifier identifier: String?) {
+        switch status {
+        case .purchased:
+            NotificationCenter.default.post(name: NSNotification.Name(IAPServicePurchaseNotification), object: identifier)
+            break
+        case .restored:
+            NotificationCenter.default.post(name: NSNotification.Name(IAPServiceRestoreNotification), object: nil)
+            break
+        case .failed:
+            NotificationCenter.default.post(name: NSNotification.Name(IAPServiceFailureNotification), object: nil)
+            break
+        }
     }
 }
 
@@ -74,8 +142,7 @@ struct ConsumableManager: View {
 struct StoreView: View {
     @State private var animatingAlert: Bool = false
     @State private var isCoinStore: Bool = true
-    
-//    @State private var products: [SKProduct] = []
+    @State private var buyButtonDisabled: Bool = false
     
     var body: some View {
         ZStack {
@@ -138,11 +205,11 @@ struct StoreView: View {
                     Button {
                         withAnimation {
                             Configurations.feedback.impactOccurred()
-                            // consumable product
+                            IAPService.instance.attemptPurchaseForItemWith(productIndex: isCoinStore ? .coin : .heart)
                         }
                     } label: {
-                        Text("Buy").gradientButton()
-                    }
+                        Text(buyButtonDisabled ? "Yes" : "Buy").gradientButton()
+                    }.disabled(buyButtonDisabled)
                     
                     Button {
                         withAnimation {
@@ -180,25 +247,50 @@ struct StoreView: View {
         .onAppear {
             IAPService.instance.delegate = self
             IAPService.instance.loadProducts()
+            
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(IAPServicePurchaseNotification), object: nil, queue: .main) { notification in
+                self.handlePurchase(notification)
+            }
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(IAPServiceFailureNotification), object: nil, queue: .main) { notification in
+                self.handleFailed()
+            }
+        }
+        .onDisappear {
+            // Удаление наблюдателя при уходе с экрана
+            NotificationCenter.default.removeObserver(self)
+            animatingAlert.toggle()
         }
     }
     
-    // MARK: - IAPServiceDelegate
-//        func iapProductsLoaded() {
-//            self.products = IAPService.instance.products
-//            print("IAP PRODUCTS LOADED")
-//        }
+    // MARK: - Обработка уведомления
+    func handlePurchase(_ notification: Notification) {
+        guard let productID = notification.object as? String else { return }
+        
+        switch productID {
+        case IAP_COIN_PACK:
+            buyButtonDisabled = true
+            debugPrint("Coins successfully purchased.")
+        case IAP_HEART_PACK:
+            debugPrint("Hearts successfully purchased.")
+        case IAP_REMOVE_ADS:
+            debugPrint("Ads removed successfully.")
+        case IAP_UNLIMITED_ACCESS:
+            debugPrint("Unlimited access granted.")
+        default:
+            break
+        }
+    }
     
-//    func purchaseProduct() {
-//            guard let product = products.first else { return }
-//        }
+    func handleFailed() {
+        buyButtonDisabled = false
+        debugPrint("Purchase Failed")
+    }
 }
 
 // MARK: - IAPServiceDelegate
 extension StoreView: IAPServiceDelegate {
     func iapProductsLoaded() {
-//        self.products = IAPService.instance.products
-                    print("IAP PRODUCTS LOADED")
+        print("IAP PRODUCTS LOADED")
     }
 }
 

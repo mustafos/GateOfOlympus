@@ -24,15 +24,15 @@ struct GateOfOlympusApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LaunchScreenView()
-                .environmentObject(interstitialAdManager)
-                .environmentObject(thunderManager)
-                .environmentObject(musicPlayer)
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                    ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
-                }
+//            LaunchScreenView()
+//                .environmentObject(interstitialAdManager)
+//                .environmentObject(thunderManager)
+//                .environmentObject(musicPlayer)
+//                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+//                    ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
+//                }
             //            MainView()
-            //            StoreView()
+                        StoreView()
         }
         .onChange(of: scenePhase) { newScenePhase in
             processScenePhaseChange(to: newScenePhase)
