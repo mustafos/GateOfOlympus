@@ -9,10 +9,10 @@
 import Foundation
 
 enum Product: Int {
-    case coin = 0
-    case heart = 1
-    case hideAds = 2
-    case unlimited = 3
+    case unlimited = 0
+    case hideAds = 1
+    case heart = 2
+    case coin = 3
 }
 
 // MARK: Purchase Status
@@ -59,6 +59,8 @@ class IAPService: NSObject, SKProductsRequestDelegate {
     var productIds = Set<String>()
     var productRequest = SKProductsRequest()
     
+    var nonConsumablePurchaseWasMade = UserDefaults.standard.bool(forKey: "nonConsumablePurchaseWasMade")
+    
     override init() {
         super.init()
         SKPaymentQueue.default().add(self)
@@ -70,7 +72,10 @@ class IAPService: NSObject, SKProductsRequestDelegate {
     }
     
     func productIdToStringSet() {
-        productIds.insert(IAP_COIN_PACK)
+        let ids = [IAP_COIN_PACK, IAP_HEART_PACK, IAP_REMOVE_ADS, IAP_UNLIMITED_ACCESS]
+        for id in ids {
+            productIds.insert(id)
+        }
     }
     
     func requestProducts(forIds ids: Set<String>) {
@@ -96,6 +101,10 @@ class IAPService: NSObject, SKProductsRequestDelegate {
         let payment = SKPayment(product: product)
         SKPaymentQueue.default().add(payment)
     }
+    
+    func restorePurchases() {
+        SKPaymentQueue.default().restoreCompletedTransactions()
+    }
 }
 
 extension IAPService: SKPaymentTransactionObserver {
@@ -104,10 +113,12 @@ extension IAPService: SKPaymentTransactionObserver {
             switch transaction.transactionState {
             case .purchased:
                 SKPaymentQueue.default().finishTransaction(transaction)
+                complete(transaction: transaction)
                 sendNotificationFor(status: .purchased, withIdentifier: transaction.payment.productIdentifier)
                 debugPrint("Purchase was successful!")
                 break
             case .restored:
+                SKPaymentQueue.default().finishTransaction(transaction)
                 break
             case .failed:
                 SKPaymentQueue.default().finishTransaction(transaction)
@@ -121,6 +132,31 @@ extension IAPService: SKPaymentTransactionObserver {
                 fatalError()
             }
         }
+    }
+    
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        sendNotificationFor(status: .restored, withIdentifier: nil)
+        setNonConsumablePurchase(true)
+    }
+    
+    func complete(transaction: SKPaymentTransaction) {
+        switch transaction.payment.productIdentifier {
+        case IAP_COIN_PACK:
+            break
+        case IAP_HEART_PACK:
+            break
+        case IAP_REMOVE_ADS:
+            setNonConsumablePurchase(true)
+            break
+        case IAP_UNLIMITED_ACCESS:
+            break
+        default:
+            break
+        }
+    }
+    
+    func setNonConsumablePurchase(_ status: Bool) {
+        UserDefaults.standard.set(status, forKey: "nonConsumablePurchaseWasMade")
     }
     
     func sendNotificationFor(status: PurchaseStatus, withIdentifier identifier: String?) {
@@ -143,6 +179,10 @@ struct StoreView: View {
     @State private var animatingAlert: Bool = false
     @State private var isCoinStore: Bool = true
     @State private var buyButtonDisabled: Bool = false
+    @State private var buyNoAdsDisabled: Bool = false
+    @State private var hiddenStatus: Bool = UserDefaults.standard.bool(forKey: "nonConsumablePurchaseWasMade")
+    @State private var showRestoreAlert = false
+    @State private var showSuccessRestoreAlert = false
     
     var body: some View {
         ZStack {
@@ -208,13 +248,26 @@ struct StoreView: View {
                             IAPService.instance.attemptPurchaseForItemWith(productIndex: isCoinStore ? .coin : .heart)
                         }
                     } label: {
-                        Text(buyButtonDisabled ? "Yes" : "Buy").gradientButton()
+                        Text(buyButtonDisabled ? "Purchase Compleated" : "Buy").gradientButton()
                     }.disabled(buyButtonDisabled)
+                    
+                    if !buyNoAdsDisabled {
+                        Button {
+                            withAnimation {
+                                Configurations.feedback.impactOccurred()
+                                // non-consumable product
+                                IAPService.instance.attemptPurchaseForItemWith(productIndex: .hideAds)
+                            }
+                        } label: {
+                            Text("NO ADS").gradientButton()
+                        }
+                    }
                     
                     Button {
                         withAnimation {
                             Configurations.feedback.impactOccurred()
                             // non-consumable product
+                            IAPService.instance.attemptPurchaseForItemWith(productIndex: .unlimited)
                         }
                     } label: {
                         Text("Unlimited access").gradientButton()
@@ -224,9 +277,22 @@ struct StoreView: View {
                         withAnimation {
                             Configurations.feedback.impactOccurred()
                             // restore
+                            showRestoreAlert.toggle()
                         }
                     } label: {
                         Text("Restore Purchase").gradientButton()
+                    }
+                    .actionSheet(isPresented: $showRestoreAlert) {
+                        ActionSheet(
+                            title: Text("Restore Purchases?"),
+                            message: Text("Do you want to restore any in-app purchases you've previously purchased?"),
+                            buttons: [
+                                .default(Text("Restore")) {
+                                    IAPService.instance.restorePurchases()
+                                },
+                                .cancel()
+                            ]
+                        )
                     }
                 }
                 .padding()
@@ -254,11 +320,19 @@ struct StoreView: View {
             NotificationCenter.default.addObserver(forName: NSNotification.Name(IAPServiceFailureNotification), object: nil, queue: .main) { notification in
                 self.handleFailed()
             }
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(IAPServiceRestoreNotification), object: nil, queue: .main) { notification in
+                self.handleRestore()
+            }
         }
         .onDisappear {
             // Удаление наблюдателя при уходе с экрана
             NotificationCenter.default.removeObserver(self)
             animatingAlert.toggle()
+        }
+        .alert("Success!", isPresented: $showSuccessRestoreAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Your purchases were successfully restored.")
         }
     }
     
@@ -273,6 +347,7 @@ struct StoreView: View {
         case IAP_HEART_PACK:
             debugPrint("Hearts successfully purchased.")
         case IAP_REMOVE_ADS:
+            buyNoAdsDisabled = hiddenStatus
             debugPrint("Ads removed successfully.")
         case IAP_UNLIMITED_ACCESS:
             debugPrint("Unlimited access granted.")
@@ -284,6 +359,11 @@ struct StoreView: View {
     func handleFailed() {
         buyButtonDisabled = false
         debugPrint("Purchase Failed")
+    }
+    
+    func handleRestore() {
+        showSuccessRestoreAlert.toggle()
+        debugPrint("Restore purchase successful.")
     }
 }
 
