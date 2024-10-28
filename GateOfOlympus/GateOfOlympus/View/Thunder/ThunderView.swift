@@ -22,86 +22,22 @@ struct ThunderView: View {
     var body: some View {
         VStack(spacing: 0) {
             HeaderView()
+            
             Spacer()
-            Image("NextLevel")
-                .scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
             
-            Image(thunderManager.score >= 1000 ? "win" : "lose")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 80)
-                .padding(.top, 8)
+            toolbarComponent
             
-            HStack {
-                MoveGuideButton(isGuide: false)
-                    .frame(width: 64, height: 74)
-                    .onTapGesture {
-                        withAnimation {
-                            Configurations.feedback.impactOccurred()
-                            extraMoves.toggle()
-                        }
-                    }
-                
-                Spacer()
-                
-                NavigationLink {
-                    GuideView().navigationBarBackButtonHidden()
-                } label: {
-                    MoveGuideButton(isGuide: true)
-                        .frame(width: 64, height: 74)
-                }
-            }.padding(.horizontal, 20)
-            
-            ZStack {
-                Image("God")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120)
-                    .padding(.top, -260)
-                
-                ThunderGridView()
-                    .environmentObject(thunderManager)
-                    .environmentObject(musicPlayer)
-                    .padding()
-                    .overlay {
-                        if thunderManager.combo != 0 {
-                            withAnimation(.linear(duration: 0.4)) {
-                                ZStack {
-                                    Image("greenShadow")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 172)
-                                    
-                                    Text("+\(thunderManager.combo) points")
-                                        .modifier(TitleModifier(size: 18, color: .white))
-                                        .shadow(radius: 10)
-                                }
-                                .onAppear {
-                                    musicPlayer.playSound(sound: "slot", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
-                                }
-                            }
-                        }
-                    }
-            }
+            thunderGridComponent
             
             Spacer()
         }
         .navigationBarTitle("")
-        .navigationBarHidden(true)
-        .background {
-            Image("backgroundThunder")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-                .frame(maxWidth: .infinity, alignment: .center)
-                .opacity(1.0)
-        }
+        .navigationBarBackButtonHidden()
+        .background(backgroundImage)
         .blur(radius: $extraMoves.wrappedValue || $extraTime.wrappedValue ? 5 : 0, opaque: false)
         .onAppear {
-            withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-                isAnimateNextLevel = true
-                NotificationManager.shared.timeNotification()
-            }
+            isAnimateNextLevel = true
+            NotificationManager.shared.timeNotification()
         }
         .overlay {
             if $extraMoves.wrappedValue || thunderManager.movesCount == 1 {
@@ -323,7 +259,7 @@ struct ThunderView: View {
                     }
                 }.padding(15)
             }
-            .textAreaConteiner(background: .accentColor, corner: 30)
+            .textAreaConteiner(background: .accent, corner: 30)
             .shadow(color: isWin ? .green : .red, radius: 50)
             .padding(.horizontal, 70)
             .onAppear(perform: {
@@ -353,5 +289,80 @@ struct ThunderView: View {
                 }
             }.modifier(BodyModifier(size: 12, color: .white))
         }.textAreaConteiner(background: Color.black.opacity(0.9), corner: 10)
+    }
+}
+
+extension ThunderView {
+    var backgroundImage: some View {
+        Image("backgroundThunder")
+            .resizable()
+            .scaledToFill()
+            .ignoresSafeArea()
+            .opacity(1.0)
+    }
+    
+    var toolbarComponent: some View {
+        VStack(spacing: 8) {
+            Image("NextLevel").scaleEffect(isAnimateNextLevel ? 1.2 : 1.0)
+            
+            Image(thunderManager.score >= 1000 ? "win" : "lose")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80)
+            
+            HStack {
+                MoveGuideButton(isGuide: false)
+                    .frame(width: 64, height: 74)
+                    .onTapGesture {
+                        withAnimation {
+                            Configurations.feedback.impactOccurred()
+                            extraMoves.toggle()
+                        }
+                    }
+                
+                Spacer()
+                
+                NavigationLink {
+                    GuideView().navigationBarBackButtonHidden()
+                } label: {
+                    MoveGuideButton(isGuide: true)
+                        .frame(width: 64, height: 74)
+                }
+            }
+        }.padding(.horizontal, 20)
+    }
+    
+    var thunderGridComponent: some View {
+        ZStack {
+            Image("God")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 120)
+                .padding(.top, -260)
+            
+            ThunderGridView()
+                .environmentObject(thunderManager)
+                .environmentObject(musicPlayer)
+                .padding()
+                .overlay {
+                    if thunderManager.combo != 0 {
+                        withAnimation(.linear(duration: 0.4)) {
+                            ZStack {
+                                Image("greenShadow")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 172)
+                                
+                                Text("+\(thunderManager.combo) points")
+                                    .modifier(TitleModifier(size: 18, color: .white))
+                                    .shadow(radius: 10)
+                            }
+                            .onAppear {
+                                musicPlayer.playSound(sound: "slot", type: "mp3", isSoundOn: musicPlayer.isSoundOn)
+                            }
+                        }
+                    }
+                }
+        }
     }
 }

@@ -20,18 +20,28 @@ struct SettingsView: View {
             VStack(spacing: 0) {
                 HeaderView(image: "back", title: "Settings") {
                     dismiss()
-                }.padding(.bottom, 34)
+                }.padding(.bottom, 24)
                 
-                VStack(alignment: .leading, spacing: 20) {
+                ScrollView(.vertical, showsIndicators: false) {
                     ParameterView(isOn: $musicPlayer.isMusicOn, image: musicPlayer.isMusicOn ? "music" : "musicOff", name: "Lock Sound")
                     
                     ParameterView(isOn: $musicPlayer.isSoundOn, image: musicPlayer.isSoundOn ? "sound" : "soundOff", name: "System Haptics")
                     
+//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "paycoin", name: "Buy Coins")
+//                    
+//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "heartpay", name: "Buy Hearts")
+//                    
+//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "ads", name: "No ads")
+//                    
+//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "unlim", name: "Unlimited access")
+//                    
+//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "restore", name: "Restore Purchase")
+                    
                     ParameterView(isOn: $showNotification, image: "bell", name: "Allow Notifications")
                     
                     ParameterView(isOn: $thunderManager.isUserLogin, image: "menu", name: "Delete Account")
-                }
-                .padding(20)
+                }.padding(.horizontal, 20)
+                
                 Spacer()
             }
             .onAppear {

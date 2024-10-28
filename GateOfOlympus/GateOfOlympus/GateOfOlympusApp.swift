@@ -6,33 +6,39 @@
 //
 
 import SwiftUI
+import RevenueCat
 import GoogleMobileAds
 import AppTrackingTransparency
 
 @main
 struct GateOfOlympusApp: App {
+    // MARK: - Properties
     @Environment(\.scenePhase) var scenePhase
     @StateObject private var thunderManager = ThunderViewModel()
     @StateObject private var musicPlayer = AudioPlayer()
     @StateObject private var interstitialAdManager = InterstitialAdsManager()
     
+    private let purchaseProvider = PurchaseManager()
+    
     init() {
         GADMobileAds.sharedInstance().start()
         NotificationManager.shared.requestAuthorization()
-        //        NonConsumableManager.instance.fetchProducts()
+        
+//        Purchases.configure(withAPIKey: Configurations.revenuecatApiKey)
+//        Purchases.shared.delegate = purchaseProvider
     }
     
     var body: some Scene {
         WindowGroup {
-//            LaunchScreenView()
-//                .environmentObject(interstitialAdManager)
-//                .environmentObject(thunderManager)
-//                .environmentObject(musicPlayer)
-//                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-//                    ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
-//                }
-            //            MainView()
-                        StoreView()
+            LaunchScreenView()
+                .environmentObject(interstitialAdManager)
+                .environmentObject(thunderManager)
+                .environmentObject(musicPlayer)
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                    ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
+                }
+//            ExampleView()
+//            PurchaseListView(viewModel: .init(purchaseProvider: purchaseProvider))
         }
         .onChange(of: scenePhase) { newScenePhase in
             processScenePhaseChange(to: newScenePhase)
@@ -51,6 +57,9 @@ struct GateOfOlympusApp: App {
             if thunderManager.isNotifyEnabled {
                 NotificationManager.shared.scheduleDailyNotification()
                 NotificationManager.shared.timeNotification()
+            }
+            interstitialAdManager.displayInterstitialAd {
+                print("Some action after interstitial ad is displayed")
             }
         @unknown default:
             break
