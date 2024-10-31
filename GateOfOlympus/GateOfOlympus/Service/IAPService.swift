@@ -11,12 +11,12 @@ protocol IAPServiceDelegate {
     func iapProductsLoaded()
 }
 
-class IAPService: NSObject, SKProductsRequestDelegate {
+class IAPService: NSObject, ObservableObject, SKProductsRequestDelegate {
     static let instance = IAPService()
     
     var delegate: IAPServiceDelegate?
-    
-    var products = [SKProduct]()
+    @Published var products = [SKProduct]()
+//    var products = [SKProduct]()
     var productIds = Set<String>()
     var productRequest = SKProductsRequest()
     

@@ -11,6 +11,13 @@
 		<string>Montserrat-Black.ttf</string>
 		<string>Montserrat-Regular.ttf</string>
 	</array>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-4744463005672993~9486489342</string>
 	<key>SKAdNetworkItems</key>

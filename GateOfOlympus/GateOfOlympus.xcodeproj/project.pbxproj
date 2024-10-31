@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6A0FEC0F2CBD85D70060073A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0FEC0E2CBD85D70060073A /* StoreKit.framework */; };
-		6A1184D92CCD116C006ED80E /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 6A1184D82CCD116C006ED80E /* RevenueCat */; };
+		6A1185A82CD2A37F006ED80E /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1185A72CD2A37F006ED80E /* PaywallView.swift */; };
 		6A275FE32CB78C390021735C /* RotateWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A275FE22CB78C390021735C /* RotateWheelView.swift */; };
 		6A2C3D292C04D0E7008B8FCE /* drop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6A2C3D282C04D0E7008B8FCE /* drop.mp3 */; };
 		6A2C3D2B2C04D1BB008B8FCE /* win.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6A2C3D2A2C04D1BB008B8FCE /* win.mp3 */; };
@@ -66,6 +66,7 @@
 
 /* Begin PBXFileReference section */
 		6A0FEC0E2CBD85D70060073A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		6A1185A72CD2A37F006ED80E /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		6A275FE22CB78C390021735C /* RotateWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotateWheelView.swift; sourceTree = "<group>"; };
 		6A2C3D282C04D0E7008B8FCE /* drop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drop.mp3; sourceTree = "<group>"; };
 		6A2C3D2A2C04D1BB008B8FCE /* win.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = win.mp3; sourceTree = "<group>"; };
@@ -115,7 +116,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6A1184CF2CCCFA98006ED80E /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
 		6A1184D22CCCFE26006ED80E /* Service */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Service; sourceTree = "<group>"; };
-		6A1184DC2CCD1349006ED80E /* RevenueCat */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = RevenueCat; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +125,6 @@
 			files = (
 				6A9850A22C924F4D00D8EBC6 /* GoogleMobileAds in Frameworks */,
 				6A0FEC0F2CBD85D70060073A /* StoreKit.framework in Frameworks */,
-				6A1184D92CCD116C006ED80E /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +218,7 @@
 				6AF42CBE2C0BC393005BE5F8 /* GateOfOlympus.entitlements */,
 				6AD693B62BFCA69200F6493D /* Info.plist */,
 				6AB6762A2C9238DB006E1B01 /* ExampleView.swift */,
-				6A1184DC2CCD1349006ED80E /* RevenueCat */,
+				6A1185A72CD2A37F006ED80E /* PaywallView.swift */,
 				6ADD16BF2BFBA58C00C76D08 /* GateOfOlympusApp.swift */,
 				6A1184D22CCCFE26006ED80E /* Service */,
 				6A1184CF2CCCFA98006ED80E /* Models */,
@@ -325,12 +324,10 @@
 			fileSystemSynchronizedGroups = (
 				6A1184CF2CCCFA98006ED80E /* Models */,
 				6A1184D22CCCFE26006ED80E /* Service */,
-				6A1184DC2CCD1349006ED80E /* RevenueCat */,
 			);
 			name = GateOfOlympus;
 			packageProductDependencies = (
 				6A9850A12C924F4D00D8EBC6 /* GoogleMobileAds */,
-				6A1184D82CCD116C006ED80E /* RevenueCat */,
 			);
 			productName = GateOfOlympus;
 			productReference = 6ADD16BC2BFBA58C00C76D08 /* GateOfOlympus.app */;
@@ -362,7 +359,6 @@
 			mainGroup = 6ADD16B32BFBA58C00C76D08;
 			packageReferences = (
 				6A9850A02C924F4D00D8EBC6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
-				6A1184D72CCD116C006ED80E /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 			);
 			productRefGroup = 6ADD16BD2BFBA58C00C76D08 /* Products */;
 			projectDirPath = "";
@@ -399,6 +395,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7294492C1348E20099268B /* SettingsView.swift in Sources */,
+				6A1185A82CD2A37F006ED80E /* PaywallView.swift in Sources */,
 				6A98509A2C92444900D8EBC6 /* PurchaseManager.swift in Sources */,
 				6A72944B2C134AC10099268B /* ParameterView.swift in Sources */,
 				6AD693C32BFCFE6400F6493D /* ThunderGridView.swift in Sources */,
@@ -560,7 +557,8 @@
 				CODE_SIGN_ENTITLEMENTS = GateOfOlympus/GateOfOlympus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"GateOfOlympus/Preview Content\"";
 				DEVELOPMENT_TEAM = 9PCQ5XC84W;
 				ENABLE_PREVIEWS = YES;
@@ -599,7 +597,7 @@
 				CODE_SIGN_ENTITLEMENTS = GateOfOlympus/GateOfOlympus.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"GateOfOlympus/Preview Content\"";
 				DEVELOPMENT_TEAM = 9PCQ5XC84W;
 				ENABLE_PREVIEWS = YES;
@@ -654,14 +652,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6A1184D72CCD116C006ED80E /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
 		6A9850A02C924F4D00D8EBC6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
@@ -673,11 +663,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6A1184D82CCD116C006ED80E /* RevenueCat */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6A1184D72CCD116C006ED80E /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
-			productName = RevenueCat;
-		};
 		6A9850A12C924F4D00D8EBC6 /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6A9850A02C924F4D00D8EBC6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;

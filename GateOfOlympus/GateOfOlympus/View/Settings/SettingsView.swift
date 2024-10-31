@@ -27,15 +27,7 @@ struct SettingsView: View {
                     
                     ParameterView(isOn: $musicPlayer.isSoundOn, image: musicPlayer.isSoundOn ? "sound" : "soundOff", name: "System Haptics")
                     
-//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "paycoin", name: "Buy Coins")
-//                    
-//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "heartpay", name: "Buy Hearts")
-//                    
-//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "ads", name: "No ads")
-//                    
-//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "unlim", name: "Unlimited access")
-//                    
-//                    ParameterView(isOn: $thunderManager.isUserLogin, image: "restore", name: "Restore Purchase")
+                    ParameterView(isOn: $thunderManager.isUserLogin, image: "restore", name: "Restore Purchase")
                     
                     ParameterView(isOn: $showNotification, image: "bell", name: "Allow Notifications")
                     

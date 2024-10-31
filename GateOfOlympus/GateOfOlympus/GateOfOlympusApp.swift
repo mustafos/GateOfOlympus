@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import RevenueCat
 import GoogleMobileAds
 import AppTrackingTransparency
 
@@ -23,9 +22,6 @@ struct GateOfOlympusApp: App {
     init() {
         GADMobileAds.sharedInstance().start()
         NotificationManager.shared.requestAuthorization()
-        
-//        Purchases.configure(withAPIKey: Configurations.revenuecatApiKey)
-//        Purchases.shared.delegate = purchaseProvider
     }
     
     var body: some Scene {
@@ -37,8 +33,6 @@ struct GateOfOlympusApp: App {
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                     ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
                 }
-//            ExampleView()
-//            PurchaseListView(viewModel: .init(purchaseProvider: purchaseProvider))
         }
         .onChange(of: scenePhase) { newScenePhase in
             processScenePhaseChange(to: newScenePhase)

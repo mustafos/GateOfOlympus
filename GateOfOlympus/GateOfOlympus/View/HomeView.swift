@@ -41,7 +41,7 @@ struct HomeView: View {
                                     .environmentObject(musicPlayer)
                                     .navigationBarBackButtonHidden()
                             } label: {
-                                GameCellContainer(isWheel: false)
+                                GameCellContainer(isWheel: false, isShop: false)
                             }
                             
                             NavigationLink {
@@ -50,13 +50,16 @@ struct HomeView: View {
                                     .environmentObject(musicPlayer)
                                     .navigationBarBackButtonHidden()
                             } label: {
-                                GameCellContainer(isWheel: true)
+                                GameCellContainer(isWheel: true, isShop: false)
                             }
                             
                             NavigationLink {
-                                ExampleView()
+                                PaywallView()
+                                    .environmentObject(thunderManager)
+                                    .environmentObject(musicPlayer)
+                                    .navigationBarBackButtonHidden()
                             } label: {
-                                Text("In-app purchase")
+                                GameCellContainer(isWheel: false, isShop: true)
                             }
                         }
                         .refreshable {
@@ -112,7 +115,7 @@ struct HomeView: View {
     @ViewBuilder
     func CombinationesView() -> some View {
         VStack(alignment: .leading) {
-            Text("Last Combinationes")
+            Text("Your VIP Pass to Big Wins!")
                 .modifier(TitleModifier(size: 18, color: .white))
             HStack(spacing: 38) {
                 Image("rubin").badge {
