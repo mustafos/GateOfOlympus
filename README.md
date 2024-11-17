@@ -1,35 +1,40 @@
-# Gate of Olympus: God of Thunder
+# Olympus Gold
 
-Unleash your inner deity as you navigate through the Gates of Olympus, a celestial battleground where only the mightiest will prevail. Engage in epic battles, harness the power of the gods, and spin the Magic Wheel to unlock divine rewards.
+**Olympus Gold** is a mobile game developed using **SwiftUI** with integrated **Google Mobile Ads** for monetization. The app consists of a main game section and a mini-game called **SpinWheel** (Wheel of Fortune). It features a modern, dynamic user interface and ad integration to generate revenue.
 
-## Key Features:
-### 1. Mythical Setting:
+## Features
 
-Immerse yourself in a stunningly detailed world inspired by Greek mythology. From the thundering skies of Zeus to the mysterious depths of Hades, every environment is richly designed to bring the ancient myths to life.
+- **Game Section**: A fun and interactive gameplay experience with various levels, objectives, and mechanics such as character control, object collection, and task completion.
+- **SpinWheel Mini-Game**: A Wheel of Fortune feature where users spin a wheel to randomly win prizes or bonuses.
+- **Ad Monetization**: Integrated with **Google Mobile Ads** for displaying banner ads, interstitial ads, and video ads. Ads are shown strategically between levels or during waiting times, ensuring minimal disruption to gameplay.
 
-### 2. Epic Battles:
+## Technical Details
 
-Engage in real-time combat against legendary creatures and rival gods. Utilize a dynamic combat system that requires skill, strategy, and quick reflexes. Master the unique abilities of the gods, from Zeus's thunderbolts to Athena's wisdom, to dominate your foes.
+### 1. **Core Components**
 
-### 3. Magic Wheel:
+#### 1.1 **Game Section**
+- **SwiftUI**: The user interface is built using SwiftUI, allowing for easy adaptation to different iOS devices and ensuring a smooth user experience with animations and dynamic layout adjustments.
+- **Gameplay Mechanics**: Features various levels, character controls, and object collection tasks. Each level has its own unique design and objectives.
+- **Data Storage**: **UserDefaults** and **Core Data** are used to save the player's progress, achievements, and game settings locally.
 
-Spin the Magic Wheel to gain powerful boosts and rare items. Each spin offers a chance to receive blessings from the gods, enhancing your abilities and providing crucial advantages in battles. Will fortune favor you?
+#### 1.2 **SpinWheel (Wheel of Fortune)**
+- **Graphics & Animations**: The SpinWheel is built using **SwiftUI** for smooth animations and interactive design. Users can spin the wheel to win random prizes or bonuses.
+- **Interaction**: The wheel's spin is controlled via SwiftUI's gesture and button handling, making the experience intuitive and responsive.
 
-### 4. Divine Powers:
+#### 1.3 **Google Mobile Ads Integration**
+- **Ad Formats**: **Google Mobile Ads SDK** is used to display banner ads, interstitial ads, and video ads within the app. Ads are strategically shown without disrupting gameplay.
+- **Event Handling**: The app includes logic for showing and interacting with ads, such as skipping video ads after watching them.
 
-Collect and upgrade an array of godly powers. Customize your character with a variety of divine abilities and artifacts. Strategically combine them to create the ultimate warrior, capable of facing even the greatest challenges Olympus has to offer.
+### 2. **Architecture**
+- **MVVM Pattern**: The app follows the **Model-View-ViewModel (MVVM)** architecture, ensuring a clean separation of concerns between the game logic, data management, and user interface. This pattern simplifies testing and maintains the flexibility of the app.
+- **SwiftUI Animations**: SwiftUI's animation system is extensively used to create smooth transitions and engaging user interactions.
 
-### 5. Stunning Graphics:
+### 3. **Technical Features**
+- **SwiftUI**: The app leverages **SwiftUI** for building a responsive and dynamic user interface. It integrates smoothly with UIKit for advanced UI components and animations.
+- **Google Mobile Ads SDK**: Integrated via **CocoaPods**, enabling easy installation and management of ad services.
+- **Core Data & UserDefaults**: Used for managing local data, such as player progress, settings, and achievements.
 
-Experience the grandeur of Olympus with high-definition graphics and smooth animations, all brought to life using SwiftUI's advanced capabilities. Every detail, from the shimmering armor to the crackling energy of magical spells, is meticulously crafted.
-
-### 6. Multiplayer Mode:
-
-Test your mettle against players from around the world. Join alliances, compete in global tournaments, and rise through the ranks to become the supreme god of Olympus.
-
-## Gameplay:
-Embark on a quest to prove your divinity. As you advance, face increasingly powerful opponents and uncover the secrets of Olympus. Balance your strategy between offense and defense, and make each spin of the Magic Wheel count to stay ahead of your rivals.
-
-Gate of Olympus: God of Thunder and Magic Wheel is more than just a game; it’s an odyssey where your skills and fate intertwine. Are you ready to claim your place among the gods? Download now and begin your ascent to glory!
-
-Available on iOS. Requires iOS 15.0 or later. Compatible with iPhone.
+### 4. **Key Features**
+- **iOS Device Support**: The app supports iPhones and iPads, adapting its UI to various screen sizes and resolutions.
+- **Multilingual Support**: The app is available in multiple languages to reach a global audience.
+- **Smooth Animations**: The app features smooth and interactive animations, built using **SwiftUI** for a high-quality visual experience.
