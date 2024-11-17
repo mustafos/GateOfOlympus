@@ -16,7 +16,6 @@ class IAPService: NSObject, ObservableObject, SKProductsRequestDelegate {
     
     var delegate: IAPServiceDelegate?
     @Published var products = [SKProduct]()
-//    var products = [SKProduct]()
     var productIds = Set<String>()
     var productRequest = SKProductsRequest()
     
