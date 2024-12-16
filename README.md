@@ -2,6 +2,10 @@
 
 **Olympus Gold** is a mobile game developed using **SwiftUI** with integrated **Google Mobile Ads** for monetization. The app consists of a main game section and a mini-game called **SpinWheel** (Wheel of Fortune). It features a modern, dynamic user interface and ad integration to generate revenue.
 
+<p align="center">
+<a href="https://github.com/mustafos/GateOfOlympus" target="_blank"><img src="https://github.com/mustafos/mustafos/blob/master/assets/olympus.png" title="Olympus Gold"></a>
+</p>
+
 ## Features
 
 - **Game Section**: A fun and interactive gameplay experience with various levels, objectives, and mechanics such as character control, object collection, and task completion.
