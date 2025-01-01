@@ -2,24 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSUserNotificationsUsageDescription</key>
-	<string>Your privacy is our top priority. All notifications are managed securely to protect your personal information.</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>We use your data to deliver personalized ads and improve your experience.</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Montserrat-Black.ttf</string>
-		<string>Montserrat-Regular.ttf</string>
-	</array>
-    <key>UISupportedInterfaceOrientations</key>
-    <array>
-        <string>UIInterfaceOrientationPortrait</string>
-        <string>UIInterfaceOrientationPortraitUpsideDown</string>
-        <string>UIInterfaceOrientationLandscapeLeft</string>
-        <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-4744463005672993~9486489342</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Your privacy is our top priority. All notifications are managed securely to protect your personal information.</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -190,6 +176,11 @@
 			<key>SKAdNetworkIdentifier</key>
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Montserrat-Black.ttf</string>
+		<string>Montserrat-Regular.ttf</string>
 	</array>
 </dict>
 </plist>
